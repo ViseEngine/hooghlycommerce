@@ -1,0 +1,93 @@
+server:
+  port: 80
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/commerce?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: false
+
+logging:
+  file: c:/EDMT_WORK/commerce.log
+  level:
+   # org.elasticsearch: DEBUG  
+    org.springframework.data.elasticsearch : WARN      
+    org.springframework.security : WARN   
+                
+
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false                
+
+secretKey: 7070200000000007
+
+mailSender: 
+  protocol: smtps
+  host: smtp.gmail.com
+  port: 465
+  username: youremail@gmail.com
+  password: yourpassword
+  mail:
+    smtp:
+      auth: true
+mail:
+  smtp:
+    starttls:
+      enable: true
+
+commerce:
+  theme: zap
+  
+## Control controller start stop
+shop:
+  controller:
+    ContactController:
+      enabled: false   
+    CustomerAccountController:
+      enabled: false    
+    CustomerDashboardController:
+      enabled: false
+    CustomerLoginController:
+      enabled: false
+    CustomerOrdersController:
+      enabled : false
+    CustomerProductReviewController:
+      enabled: false
+    CustomerRegistrationController:
+      enabled: false
+    ListItemsController:
+      enabled: false
+    MiniCartController:
+      enabled: false
+    OrderManagementController:
+      enabled: false
+    ProductController:
+      enabled: false
+    ProductImageController:
+      enabled: false
+    ShopContentController:
+      enabled: false
+    ShopHomeController:
+      enabled: true
+    ShoppingCartController:
+      enabled: false
+    ShoppingCategoryController:
+      enabled: false
+    ShoppingOrderConfirmationController:
+      enabled: false
+    ShoppingOrderController:
+      enabled: false
+    ShoppingOrderDownloadController:
+      enabled: false
+    ShoppingOrderPaymentController:
+      enabled: false

@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<div th:replace="admin/header"></div>
+</head>
+<body>
+	<div class="page home-page">
+		<!-- Main Navbar-->
+		<header class="header">
+			<nav class="navbar">
+				<!-- Search Box-->
+				<div class="search-box">
+					<button class="dismiss">
+						<i class="icon-close"></i>
+					</button>
+					<form id="searchForm" action="#" role="search">
+						<input type="search" placeholder="What are you looking for..."
+							class="form-control" />
+					</form>
+				</div>
+				<div class="container-fluid">
+					<div
+						class="navbar-holder d-flex align-items-center justify-content-between">
+						<!-- Navbar Header-->
+						<div class="navbar-header">
+							<!-- Navbar Brand -->
+							<a href="index.html" class="navbar-brand">
+								<div class="brand-text brand-big hidden-lg-down">
+									<span>Hooghly </span><strong>CockPIT</strong>
+								</div>
+								<div class="brand-text brand-small">
+									<strong>HC</strong>
+								</div>
+							</a>
+							<!-- Toggle Button-->
+							<a id="toggle-btn" href="#" class="menu-btn active"><span></span><span></span><span></span></a>
+						</div>
+						<!-- Navbar Menu -->
+						<ul
+							class="nav-menu list-unstyled d-flex flex-md-row align-items-md-center">
+							<!-- Search-->
+							<li class="nav-item d-flex align-items-center"><a
+								id="search" href="#"><i class="icon-search"></i></a></li>
+							<!-- Notifications-->
+							<li class="nav-item dropdown"><a id="notifications"
+								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
+									class="fa fa-bell-o"></i><span class="badge bg-red">12</span></a>
+								<ul aria-labelledby="notifications" class="dropdown-menu">
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-envelope bg-green"></i>You have 6 new
+													messages
+												</div>
+												<div class="notification-time">
+													<small>4 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
+												</div>
+												<div class="notification-time">
+													<small>4 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-upload bg-orange"></i>Server Rebooted
+												</div>
+												<div class="notification-time">
+													<small>4 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#" class="dropdown-item">
+											<div class="notification">
+												<div class="notification-content">
+													<i class="fa fa-twitter bg-blue"></i>You have 2 followers
+												</div>
+												<div class="notification-time">
+													<small>10 minutes ago</small>
+												</div>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item all-notifications text-center"> <strong>view
+												all notifications </strong></a></li>
+								</ul></li>
+							<!-- Messages                        -->
+							<li class="nav-item dropdown"><a id="messages"
+								rel="nofollow" data-target="#" href="#" data-toggle="dropdown"
+								aria-haspopup="true" aria-expanded="false" class="nav-link"><i
+									class="fa fa-envelope-o"></i><span class="badge bg-orange">10</span></a>
+								<ul aria-labelledby="notifications" class="dropdown-menu">
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img th:src="@{/webjars/commerce/admin/images/avatar-1.jpg}"
+													alt="..." class="img-fluid rounded-circle" />
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Jason Doe</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img th:src="@{/webjars/commerce/admin/images/avatar-2.jpg}"
+													alt="..." class="img-fluid rounded-circle" />
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Frank Williams</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item d-flex">
+											<div class="msg-profile">
+												<img th:src="@{/webjars/commerce/admin/images/avatar-3.jpg}"
+													alt="..." class="img-fluid rounded-circle" />
+											</div>
+											<div class="msg-body">
+												<h3 class="h5">Ashley Wood</h3>
+												<span>Sent You Message</span>
+											</div>
+									</a></li>
+									<li><a rel="nofollow" href="#"
+										class="dropdown-item all-notifications text-center"> <strong>Read
+												all messages </strong></a></li>
+								</ul></li>
+							<!-- Logout    -->
+							<li class="nav-item"><a href="login.html"
+								class="nav-link logout">Logout<i class="fa fa-sign-out"></i></a></li>
+						</ul>
+					</div>
+				</div>
+			</nav>
+		</header>
+		<div class="page-content d-flex align-items-stretch">
+			<div th:replace="admin/navbar"></div>
+			<div class="content-inner">
+				<!-- Page Header-->
+				<header class="page-header">
+					<div class="container-fluid">
+						<h2 class="no-margin-bottom">Categories</h2>
+					</div>
+				</header>
+				<!-- Breadcrumb-->
+				<ul class="breadcrumb">
+					<div class="container-fluid">
+						<li class="breadcrumb-item"><a href="index.html">Home</a></li>
+						<li class="breadcrumb-item active">Layouts</li>
+					</div>
+				</ul>
+
+				<!-- Forms Section-->
+				<section class="forms">
+					<div class="container-fluid">
+						<div class="row">
+							<!-- Basic Form-->
+							<!-- Form Elements -->
+							<div class="col-lg-12">
+								<div class="card">
+
+									<div class="card-header d-flex align-items-center">
+										<h3 class="h4">New Layout Page</h3>
+									</div>
+									<div class="card-body">
+										<form class="form-horizontal" action="save" method="post"
+											enctype="multipart/form-data" id="formLayoutUpload">
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Code</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control" name="code"/><span
+														class="help-block-none">This will be used by CMS to
+														map to an URL</span>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Name</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="name"/><span
+														class="help-block-none">Name of the page</span>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Search
+													Engine Friendly Url</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="seUrl"/><span
+														class="help-block-none">Required for Search Engine
+														Optimization</span>
+												</div>
+											</div>
+
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Template
+													File</label>
+												<div class="col-sm-9">
+													<input type="file" class="form-control-file" name="file" accept=".html"
+														value="" required="required" /> <span
+														class="help-block-none">Mandatory Thymeleaf
+														template file</span>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Title
+													Message Key</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="messageKey"/><span
+														class="help-block-none">Key to message to show in
+														different languages</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Meta Tag Title</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="metatagTitle"/><span
+														class="help-block-none">Title that shows in search result</span>
+												</div>
+											</div>
+											
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Keywords</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="metatagKeywords"/><span
+														class="help-block-none">Comma separated list of
+														keywords</span>
+												</div>
+											</div>
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Meta Tag
+													Description</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="metatagDescription"/><span
+														class="help-block-none">Meta information for search
+														engines</span>
+												</div>
+											</div>
+
+
+
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Enabled</label>
+												<div class="col-sm-9">
+
+													<div class="i-checks">
+														<input id="checkboxCustom2" type="checkbox" value="true"
+															checked="" class="checkbox-template"  name="enabled" /> <label
+															for="checkboxCustom2">Checking makes it available
+															for use.</label>
+													</div>
+
+												</div>
+											</div>
+
+											<div class="line"></div>
+											<div class="form-group row">
+												<div class="col-sm-4 offset-sm-3">
+													<button type="submit" class="btn btn-secondary">Cancel</button>
+													<button type="submit" class="btn btn-primary">Save</button>
+												</div>
+											</div>
+
+										</form>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</section>
+
+
+				<!-- Page Footer-->
+				<footer class="main-footer">
+					<div class="container-fluid">
+						<div class="row">
+							<div class="col-sm-6">
+								<p>Hooghly Commerce &copy; 2017-2019</p>
+							</div>
+							<div class="col-sm-6 text-right">
+								<p>
+									Design by <a href="https://bootstrapious.com/admin-templates"
+										class="external">Bootstrapious</a>
+								</p>
+
+							</div>
+						</div>
+					</div>
+				</footer>
+			</div>
+		</div>
+	</div>
+	<!-- Javascript files-->
+	<script
+		src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script th:src="@{/webjars/commerce/admin/js/tether.min.js}"></script>
+	<script th:src="@{/webjars/commerce/admin/js/bootstrap.min.js}"></script>
+	<script th:src="@{/webjars/commerce/admin/js/jquery.cookie.js}">
+		
+	</script>
+	<script th:src="@{/webjars/commerce/admin/js/jquery.validate.min.js}"></script>
+
+	<script th:src="@{/webjars/commerce/admin/js/front.js}"></script>
+
+
+
+</body>
+</html>
