@@ -1,0 +1,14 @@
+include ':commerce-domain'
+project(':commerce-domain').projectDir = new File(settingsDir, '../commerce-domain')
+
+
+
+include ':commerce-data'
+project(':commerce-data').projectDir = new File(settingsDir, '../commerce-data')
+
+
+include ':mod-email-starter'
+project(':mod-email-starter').projectDir = new File(settingsDir, '../mod-email-starter')
+
+include ':mod-cms'
+project(':mod-cms').projectDir = new File(settingsDir, '../mod-cms')
