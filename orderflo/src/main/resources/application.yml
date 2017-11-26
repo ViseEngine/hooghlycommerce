@@ -1,0 +1,26 @@
+server:
+  port: 8080
+spring:
+  datasource:
+    username: root
+    password: root
+    url: jdbc:mysql://localhost:3306/orderflo?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false
+    driver-class-name: com.mysql.jdbc.Driver
+  
+
+logging:
+  file: c:/EDMT_WORK/orderflo.log
+  level:
+    co.hooghly.commerce.orderflo.business: info
+                
+
+security:
+  basic:
+    enabled: false
+management:
+  security:
+    enabled: false                
+
+
+  
+  
