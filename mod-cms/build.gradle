@@ -1,0 +1,46 @@
+buildscript {
+	ext { springBootVersion = '1.5.8.RELEASE' }
+	repositories { mavenCentral() }
+	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+
+ext { springBootVersion = '1.5.8.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+
+group = 'co.hooghly.common'
+
+jar {
+	
+	baseName = 'mod-cms'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+ext["thymeleaf.version"] = "3.0.9.RELEASE"
+ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compileOnly('org.projectlombok:lombok')
+	implementation 'com.google.guava:guava:21.0'
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile project (':commerce-domain')
+}
+
+task zapZip(type: Zip) {
+	from 'src/main/resources/zap/'
+	include '**'
+	archiveName 'zap.zip'
+	destinationDir(file('../commerce/src/main/resources'))
+ }

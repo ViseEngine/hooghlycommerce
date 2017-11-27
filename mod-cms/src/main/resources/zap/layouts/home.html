@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<!--[if IE 7]> <html class="no-js ie7 oldie" lang="en-US"> <![endif]-->
+<!--[if IE 8]> <html class="no-js ie8 oldie" lang="en-US"> <![endif]-->
+<!--[if gt IE 8]><!-->
+<html lang="en">
+    <head>
+        <!-- TITLE OF SITE -->
+        <title>ZapKart::Welcome</title>
+        
+        <!-- Meta -->
+        <meta charset="utf-8" />
+        <meta name="description" content="app landing page template" />
+        <meta name="keywords" content="app, landing page, gradient background, image background, video background, template, responsive, bootstrap" />
+        <meta name="developer" content="" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+        
+        <style th:replace="${ MERCHANT_STORE.id +'/cssresources.cms'}"></style>
+
+        
+
+        <!--[if lt IE 9]>
+            <script src="js/plagin-js/html5shiv.js"></script>
+            <script src="js/plagin-js/respond.min.js"></script>
+        <![endif]-->
+		
+		
+		<style th:replace="${ MERCHANT_STORE.id +'/jsviewtpls.cms'}"></style>
+    </head>
+    <body>
+        <!--
+        |========================
+        |  HEADER
+        |========================
+        -->
+        <header id="xt-home" class="xt-header">
+            
+            <div th:replace="${ MERCHANT_STORE.id +'/headertop.cms'}"></div>
+            <div th:replace="${ MERCHANT_STORE.id +'/navbartop.cms'}"></div>
+            <div th:replace="${ MERCHANT_STORE.id +'/deptmenu.cms'}"></div>
+            
+        </header>
+        <!--
+        |========================
+        |  MOBILE MENU
+        |========================
+        -->
+        
+        <div th:replace="${ MERCHANT_STORE.id +'/mobilemenu.cms'}"></div>
+		 
+        <!--
+        |========================
+        |  SLIDER
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/slideshow.cms'}"></div>
+        <!--
+        |========================
+        |  FEATURED SECTION
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/deals.cms'}"></div>
+        <!--
+        |========================
+        |  PRODUCT
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/featured.cms'}"></div>
+        <!--
+        |========================
+        |  BY CATEGORY 
+        |========================
+        -->
+        
+        
+        
+     
+        <!--
+        |========================
+        |  SUBSCRIBE
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/subscribe.cms'}"></div>
+        
+        <!--
+        |========================
+        |  FOOTER
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/footer.cms'}"></div>
+        <!--
+        |========================
+        |      Script
+        |========================
+        -->
+        <div th:replace="${ MERCHANT_STORE.id +'/jsresources.cms'}"></div>
+    </body>
+</html>
