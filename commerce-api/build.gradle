@@ -1,0 +1,41 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.8.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'co.hooghly.commerce'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+jar {
+	baseName = 'commerce-api'
+	version = '0.0.1-SNAPSHOT'
+}
+
+repositories {
+	mavenCentral()
+}
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-cache')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	runtime('org.springframework.boot:spring-boot-devtools')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	
+	compile project (':commerce-business')
+}
