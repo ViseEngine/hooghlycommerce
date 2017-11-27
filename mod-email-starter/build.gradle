@@ -1,0 +1,42 @@
+buildscript {
+	ext { springBootVersion = '1.5.8.RELEASE' }
+	repositories { mavenCentral() }
+	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+
+ext { springBootVersion = '1.5.8.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+
+group = 'co.hooghly.common'
+
+jar {
+	
+	baseName = 'mod-email-starter'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+ext["thymeleaf.version"] = "3.0.9.RELEASE"
+ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-mail')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compileOnly('org.projectlombok:lombok')
+	
+	runtime('mysql:mysql-connector-java')
+	compile group: 'org.camunda.bpm.springboot', name: 'camunda-bpm-spring-boot-starter', version: '2.3.0-alpha2'
+	compile('org.springframework.boot:spring-boot-starter-mail')
+}
+
+
