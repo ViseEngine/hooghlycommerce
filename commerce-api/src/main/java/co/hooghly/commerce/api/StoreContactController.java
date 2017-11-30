@@ -41,7 +41,7 @@ import co.hooghly.commerce.web.ui.ContactForm;
  */
 @Controller
 @RequestMapping("/services")
-public class StoreContactRESTController {
+public class StoreContactController {
 	
 	@Inject
 	private LanguageService languageService;
@@ -60,7 +60,7 @@ public class StoreContactRESTController {
 	
 
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(StoreContactRESTController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(StoreContactController.class);
 	
 
 	

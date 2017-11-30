@@ -24,12 +24,12 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
-
-
+import lombok.Data;
 
 @Entity
 @Table(name="CUSTOMER_OPTION_VALUE",  indexes = { @Index(name="CUST_OPT_VAL_CODE_IDX",columnList = "CUSTOMER_OPT_VAL_CODE")}, uniqueConstraints=
 	@UniqueConstraint(columnNames = {"MERCHANT_ID", "CUSTOMER_OPT_VAL_CODE"}))
+@Data
 public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOptionValue> {
 	private static final long serialVersionUID = 3736085877929910891L;
 
@@ -61,43 +61,6 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
 	private MerchantStore merchantStore;
 
-	public CustomerOptionValue() {
-	}
-
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-	public Set<CustomerOptionValueDescription> getDescriptions() {
-		return descriptions;
-	}
-
-	public void setDescriptions(Set<CustomerOptionValueDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-	public MerchantStore getMerchantStore() {
-		return merchantStore;
-	}
-
-	public void setMerchantStore(MerchantStore merchantStore) {
-		this.merchantStore = merchantStore;
-	}
-
-	public void setDescriptionsList(List<CustomerOptionValueDescription> descriptionsList) {
-		this.descriptionsList = descriptionsList;
-	}
-
-	public List<CustomerOptionValueDescription> getDescriptionsList() {
-		return descriptionsList; 
-	}
 	
 	public List<CustomerOptionValueDescription> getDescriptionsSettoList() {
 		if(descriptionsList==null || descriptionsList.size()==0) {
@@ -105,42 +68,6 @@ public class CustomerOptionValue extends SalesManagerEntity<Long, CustomerOption
 		} 
 		return descriptionsList;
 	}
-
-	//public void setImage(MultipartFile image) {
-	//	this.image = image;
-	//}
-
-	//public MultipartFile getImage() {
-	//	return image;
-	//}
-
-
-	public String getCustomerOptionValueImage() {
-		return customerOptionValueImage;
-	}
-
-	public void setCustomerOptionValueImage(String customerOptionValueImage) {
-		this.customerOptionValueImage = customerOptionValueImage;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-
-	public void setSortOrder(Integer sortOrder) {
-		this.sortOrder = sortOrder;
-	}
-
-	public Integer getSortOrder() {
-		return sortOrder;
-	}
-	
-
 
 
 }

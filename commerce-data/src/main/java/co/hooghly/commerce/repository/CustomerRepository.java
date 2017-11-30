@@ -24,4 +24,8 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Custo
 	
 	@Query("select c from Customer c join fetch c.merchantStore cm left join fetch c.defaultLanguage cl left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions  left join fetch c.groups  where cm.id = ?1")
 	List<Customer> findByStore(int storeId);
+	
+	Customer findByMerchantStoreIdAndId(int merchantStoreId, Long id);
+	
+	void deletedByMerchantStoreIdAndId(int merchantStoreId, Long id);
 }

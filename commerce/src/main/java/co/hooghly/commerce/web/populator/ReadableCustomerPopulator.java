@@ -14,6 +14,7 @@ import co.hooghly.commerce.web.ui.ReadableCustomerAttribute;
 import co.hooghly.commerce.web.ui.ReadableCustomerOption;
 import co.hooghly.commerce.web.ui.ReadableCustomerOptionValue;
 
+@Deprecated
 public class ReadableCustomerPopulator extends
 		AbstractDataPopulator<Customer, ReadableCustomer> {
 

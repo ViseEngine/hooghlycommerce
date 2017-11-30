@@ -36,8 +36,8 @@ public abstract class SalesManagerEntityServiceImpl<K extends Serializable & Com
 	}
 
 	
-	public void save(E entity)  {
-		repository.save(entity);
+	public E save(E entity)  {
+		return repository.save(entity);
 	}
 	
 	

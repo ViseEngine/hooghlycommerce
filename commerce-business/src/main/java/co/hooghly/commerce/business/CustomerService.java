@@ -4,8 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.apache.commons.lang3.NotImplementedException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +16,11 @@ import co.hooghly.commerce.domain.CustomerList;
 import co.hooghly.commerce.domain.MerchantStore;
 //import co.hooghly.commerce.modules.GeoLocation;
 import co.hooghly.commerce.repository.CustomerRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
+@Slf4j
 public class CustomerService extends SalesManagerEntityServiceImpl<Long, Customer> {
-
-	private static final Logger LOGGER = LoggerFactory.getLogger(CustomerService.class);
 
 	private CustomerRepository customerRepository;
 
@@ -36,7 +35,11 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 		super(customerRepository);
 		this.customerRepository = customerRepository;
 	}
-
+	
+	public Customer findByMerchantStoreIdAndId(int merchantStoreId, Long id) {
+		return customerRepository.findByMerchantStoreIdAndId(merchantStoreId, id);
+	}
+	
 	public List<Customer> getByName(String firstName) {
 		return customerRepository.findByName(firstName);
 	}
@@ -70,18 +73,11 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 
 	public void saveOrUpdate(Customer customer) throws ServiceException {
 
-		LOGGER.debug("Creating Customer");
-
-		if (customer.getId() != null && customer.getId() > 0) {
-			super.update(customer);
-		} else {
-
-			super.create(customer);
-
-		}
+		log.debug("Creating Customer");
+		super.create(customer);
 	}
 
-	public void delete(Customer customer) throws ServiceException {
+	public void delete(Customer customer)  {
 		customer = getById(customer.getId());
 
 		// delete attributes
@@ -94,6 +90,10 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 		}
 		customerRepository.delete(customer);
 
+	}
+	
+	public void deletedByMerchantStoreIdAndId(int merchantStoreId, Long id) {
+		customerRepository.deletedByMerchantStoreIdAndId(merchantStoreId, id);
 	}
 
 }

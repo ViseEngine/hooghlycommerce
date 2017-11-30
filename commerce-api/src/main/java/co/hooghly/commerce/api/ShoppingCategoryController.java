@@ -34,7 +34,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api")
-public class ShoppingCategoryRESTController {
+public class ShoppingCategoryController {
 	
 	@Inject
 	private LanguageService languageService;
@@ -53,7 +53,7 @@ public class ShoppingCategoryRESTController {
 	
 
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCategoryRESTController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ShoppingCategoryController.class);
 	
 
 	

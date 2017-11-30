@@ -3,21 +3,15 @@ package co.hooghly.commerce.web.ui;
 import java.io.Serializable;
 import java.util.List;
 
+import lombok.Data;
+
+@Data
 public class PersistableCustomerOptionValue extends CustomerOptionValueEntity
 		implements Serializable {
 	
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = 1L;
+	
 	private List<CustomerOptionValueDescription> descriptions;
 
-	public void setDescriptions(List<CustomerOptionValueDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-	public List<CustomerOptionValueDescription> getDescriptions() {
-		return descriptions;
-	}
+	
 
 }

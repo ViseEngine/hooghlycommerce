@@ -62,7 +62,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/api")
-public class ShopProductRESTController {
+public class ShopProductController {
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
@@ -109,7 +109,7 @@ public class ShopProductRESTController {
 	
 
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ShopProductRESTController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ShopProductController.class);
 	
 	
 	/**

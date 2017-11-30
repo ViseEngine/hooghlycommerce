@@ -11,7 +11,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
-
 import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.UserService;
 import co.hooghly.commerce.constants.Constants;
@@ -30,8 +29,7 @@ public class AdminHomeController {
 	UserService userService;
 
 	@GetMapping("/admin/secure/home")
-	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response)
-			 {
+	public String displayDashboard(Model model, HttpServletRequest request, HttpServletResponse response) {
 		Language language = (Language) request.getAttribute("LANGUAGE");
 
 		// display menu

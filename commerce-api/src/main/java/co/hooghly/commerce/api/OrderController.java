@@ -12,6 +12,7 @@ import co.hooghly.commerce.domain.Customer;
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Order;
+import co.hooghly.commerce.domain.OrderCriteria;
 import co.hooghly.commerce.facade.OrderFacade;
 import co.hooghly.commerce.web.populator.CustomerPopulator;
 import co.hooghly.commerce.web.populator.PersistableOrderPopulator;
@@ -22,6 +23,7 @@ import co.hooghly.commerce.web.ui.ReadableOrderList;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
@@ -32,82 +34,46 @@ import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/services/private")
+@RequestMapping("/api/{store}/orders")
 public class OrderController {
 	
 	private static final Logger LOGGER = LoggerFactory.getLogger(OrderController.class);
 	
 	
-	@Inject
+	@Autowired
 	private MerchantStoreService merchantStoreService;
 	
-	@Inject
+	@Autowired
 	private ProductService productService;
 	
-	@Inject
+	@Autowired
 	private ProductAttributeService productAttributeService;
 	
-	@Inject
+	@Autowired
 	private DigitalProductService digitalProductService;
 	
-	@Inject
+	@Autowired
 	private OrderFacade orderFacade;
 	
-	@Inject
+	@Autowired
 	private OrderService orderService;
 	
-	@Inject
+	@Autowired
 	private CustomerService customerService;
 	
-	@Inject
+	@Autowired
 	private LanguageService languageService;
 
 	
-	@RequestMapping( value="/{store}/orders", method=RequestMethod.POST)
+	@PostMapping
 	@ResponseStatus(HttpStatus.CREATED)
 	@ResponseBody
-	public PersistableOrder createOrder(@PathVariable final String store, @Valid @RequestBody PersistableOrder order, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		if(merchantStore!=null) {
-			if(!merchantStore.getCode().equals(store)) {
-				merchantStore = null;
-			}
-		}
-		
-		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
-		}
-		
-		if(merchantStore==null) {
-			LOGGER.error("Merchant store is null for code " + store);
-			response.sendError(503, "Merchant store is null for code " + store);
-			return null;
-		}
-		
-		
-		PersistableCustomer cust = order.getCustomer();
-		if(cust!=null) {
-			CustomerPopulator customerPopulator = new CustomerPopulator();
-			Customer customer = new Customer();
-			customerPopulator.populate(cust, customer, merchantStore, merchantStore.getDefaultLanguage());
-			customerService.save(customer);
-			cust.setId(customer.getId());
-		}
-		
-		
-		Order modelOrder = new Order();
-		PersistableOrderPopulator populator = new PersistableOrderPopulator();
-		//populator.setDigitalProductService(digitalProductService);
-		populator.setProductAttributeService(productAttributeService);
-		populator.setProductService(productService);
-		
-		populator.populate(order, modelOrder, merchantStore, merchantStore.getDefaultLanguage());
-		
+	public Order createOrder(@PathVariable final String store, @Valid @RequestBody Order order, HttpServletRequest request, HttpServletResponse response) {
+		MerchantStore merchantStore = merchantStoreService.getByCode(store);
+		//Saving order should be able to save customer if not new. need to test
 	
-		orderService.save(modelOrder);
-		order.setId(modelOrder.getId());
+		return orderService.save(order);
 		
-		return order;
 	}
 	
 	
@@ -123,65 +89,29 @@ public class OrderController {
 	 * @return
 	 * @throws Exception
 	 */
-	@RequestMapping( value="/{store}/orders/", method=RequestMethod.GET)
+	@RequestMapping( value="/{store}/orders/")
 	@ResponseStatus(HttpStatus.ACCEPTED)
 	@ResponseBody
-	public ReadableOrderList listOrders(@PathVariable final String store, HttpServletRequest request, HttpServletResponse response) throws Exception {
-		MerchantStore merchantStore = (MerchantStore)request.getAttribute(Constants.MERCHANT_STORE);
-		if(merchantStore!=null) {
-			if(!merchantStore.getCode().equals(store)) {
-				merchantStore = null;
-			}
-		}
+	public Order listOrders(@PathVariable final String store, @RequestParam("lang") String lang, @RequestParam("start") int start, @RequestParam("max") int max)  {
+		//Need to handle pagination
+		MerchantStore merchantStore = merchantStoreService.getByCode(store);
 		
-		if(merchantStore== null) {
-			merchantStore = merchantStoreService.getByCode(store);
-		}
 		
-		if(merchantStore==null) {
-			LOGGER.error("Merchant store is null for code " + store);
-			response.sendError(503, "Merchant store is null for code " + store);
-			return null;
-		}
-		
-		//get additional request parameters for orders
-		String lang = request.getParameter(Constants.LANG);		
-		String start = request.getParameter(Constants.START);
-		String max = request.getParameter(Constants.MAX);
-		
-		int startCount = 0;
-		int maxCount = 0;
-		
-		if(StringUtils.isBlank(lang)) {
+		/*if(StringUtils.isBlank(lang)) {
 			lang = merchantStore.getDefaultLanguage().getCode();
-		}
+		}*/
 		
 		
 		Language language = languageService.getByCode(lang);
 		
-		if(language==null) {
-			LOGGER.error("Language is null for code " + lang);
-			response.sendError(503, "Language is null for code " + lang);
-			return null;
-		}
-		
-		try {
-			startCount = Integer.parseInt(start);
-		} catch (Exception e) {
-			LOGGER.info("Invalid value for start " + start);
-		}
-		
-		try {
-			maxCount = Integer.parseInt(max);
-		} catch (Exception e) {
-			LOGGER.info("Invalid value for max " + max);
-		}
 		
 		
 		
-		ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, startCount, maxCount, language);
+		
+		
+		//ReadableOrderList returnList = orderFacade.getReadableOrderList(merchantStore, startCount, maxCount, language);
 
-		return returnList;
+		return null;
 	}
 	
 	/**

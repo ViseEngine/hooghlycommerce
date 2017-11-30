@@ -226,7 +226,7 @@ public class CustomerOptionsValueController {
 		}
 		
 
-		customerOptionValueService.saveOrUpdate(optionValue);
+		//customerOptionValueService.saveOrUpdate(optionValue);
 
 		model.addAttribute("success","success");
 		return ControllerConstants.Tiles.Customer.optionsValueDetails;

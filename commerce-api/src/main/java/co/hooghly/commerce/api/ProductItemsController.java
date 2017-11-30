@@ -50,7 +50,7 @@ import java.util.Map;
  */
 @Controller
 @RequestMapping("/services")
-public class ProductItemsRESTController {
+public class ProductItemsController {
 	
 	@Inject
 	private MerchantStoreService merchantStoreService;
@@ -103,7 +103,7 @@ public class ProductItemsRESTController {
 	
 
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(ProductItemsRESTController.class);
+	private static final Logger LOGGER = LoggerFactory.getLogger(ProductItemsController.class);
 	
 	
 	

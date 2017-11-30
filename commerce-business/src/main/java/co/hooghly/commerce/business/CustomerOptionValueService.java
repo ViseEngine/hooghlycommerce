@@ -33,22 +33,9 @@ public class CustomerOptionValueService extends SalesManagerEntityServiceImpl<Lo
 		return customerOptionValueRepository.findByStore(store.getId(), language.getId());
 	}
 
-	public void saveOrUpdate(CustomerOptionValue entity) throws ServiceException {
+	
 
-		// save or update (persist and attach entities
-		if (entity.getId() != null && entity.getId() > 0) {
-
-			super.update(entity);
-
-		} else {
-
-			super.save(entity);
-
-		}
-
-	}
-
-	public void delete(CustomerOptionValue customerOptionValue)  {
+	public void delete(CustomerOptionValue customerOptionValue) {
 
 		// remove all attributes having this option
 		List<CustomerAttribute> attributes = customerAttributeService
