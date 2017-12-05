@@ -19,7 +19,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class CountryService extends SalesManagerEntityServiceImpl<Integer, Country> {
+public class CountryService extends SalesManagerEntityServiceImpl<Long, Country> {
 
 
 	private CountryRepository countryRepository;

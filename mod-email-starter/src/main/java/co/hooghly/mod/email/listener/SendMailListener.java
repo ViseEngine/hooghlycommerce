@@ -29,7 +29,7 @@ public class SendMailListener<T> {
 	@Async
 	@EventListener
 	public void handleMailEvent(EmailEvent<T> event) {
-		log.info("A new mail event received." );
+		log.debug("A new mail event received." );
 		prepareAndSend(event);
 	}
 	

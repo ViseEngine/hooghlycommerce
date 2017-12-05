@@ -1,123 +1,117 @@
 package co.hooghly.commerce.constants;
 
-public class Constants {
-	
-	public final static String SLASH = "/";
-	public final static String BLANK = "";
-	public final static String EQUALS = "=";
+public interface Constants {
 
-    public final static String RESPONSE_STATUS = "STATUS";
-    public final static String RESPONSE_SUCCESS = "SUCCESS";
-    public final static String DEFAULT_LANGUAGE = "en";
-	public final static String LANGUAGE = "LANGUAGE";
-	public final static String LANG = "lang";
-	public final static String BREADCRUMB = "BREADCRUMB";
+	String SLASH = "/";
+	String BLANK = "";
+	String EQUALS = "=";
 
-	public final static String HOME_MENU_KEY = "menu.home";
-	public final static String HOME_URL = "/shop";
-	public final static String ADMIN_URI = "/admin";
-	public final static String SHOP_URI = "/shop";
-	public final static String SHOP = "shop";
-	public final static String REF = "ref";
-	public final static String REF_C = "c:";
-	public final static String REF_SPLITTER = ":";
-	
-	public final static String FILE_NOT_FOUND = "File not found";
-	
+	String RESPONSE_STATUS = "STATUS";
+	String RESPONSE_SUCCESS = "SUCCESS";
+	String DEFAULT_LANGUAGE = "en";
+	String LANGUAGE = "LANGUAGE";
+	String LANG = "lang";
+	String BREADCRUMB = "BREADCRUMB";
 
+	String HOME_MENU_KEY = "menu.home";
+	String HOME_URL = "/shop";
+	String ADMIN_URI = "/admin";
+	String SHOP_URI = "/shop";
+	String SHOP = "shop";
+	String REF = "ref";
+	String REF_C = "c:";
+	String REF_SPLITTER = ":";
 
-	public final static String DEFAULT_DOMAIN_NAME = "localhost:8080";
+	String FILE_NOT_FOUND = "File not found";
 
-	public final static String ADMIN_STORE = "ADMIN_STORE";
-	public final static String ADMIN_USER = "ADMIN_USER";
-	public final static String MERCHANT_STORE = "MERCHANT_STORE";
-	public final static String SHOPPING_CART = "SHOPPING_CART";
-	public final static String CUSTOMER = "CUSTOMER";
-	public final static String ORDER = "ORDER";
-	public final static String ORDER_ID = "ORDER_ID";
-	public final static String ORDER_ID_TOKEN = "ORDER_ID_TOKEN";
-	public final static String SHIPPING_SUMMARY = "SHIPPING_SUMMARY";
-	public final static String SHIPPING_OPTIONS = "SHIPPING_OPTIONS";
-	public final static String ORDER_SUMMARY = "ORDER_SIMMARY";
+	String DEFAULT_DOMAIN_NAME = "localhost:8080";
 
+	String ADMIN_STORE = "ADMIN_STORE";
+	String ADMIN_USER = "ADMIN_USER";
+	String MERCHANT_STORE = "MERCHANT_STORE";
+	String MERCHANT_STORE_VIEW = "MERCHANT_STORE_VIEW";
+	String SHOPPING_CART = "SHOPPING_CART";
+	String CUSTOMER = "CUSTOMER";
+	String ORDER = "ORDER";
+	String ORDER_ID = "ORDER_ID";
+	String ORDER_ID_TOKEN = "ORDER_ID_TOKEN";
+	String SHIPPING_SUMMARY = "SHIPPING_SUMMARY";
+	String SHIPPING_OPTIONS = "SHIPPING_OPTIONS";
+	String ORDER_SUMMARY = "ORDER_SIMMARY";
 
-	public final static String GROUP_ADMIN = "ADMIN";
-	public final static String PERMISSION_AUTHENTICATED = "AUTH";
-	public final static String PERMISSION_CUSTOMER_AUTHENTICATED = "AUTH_CUSTOMER";
-	public final static String GROUP_SUPERADMIN = "SUPERADMIN";
-	public final static String GROUP_CUSTOMER = "CUSTOMER";
-	public final static String ANONYMOUS_CUSTOMER = "ANONYMOUS_CUSTOMER";
+	String GROUP_ADMIN = "ADMIN";
+	String PERMISSION_AUTHENTICATED = "AUTH";
+	String PERMISSION_CUSTOMER_AUTHENTICATED = "AUTH_CUSTOMER";
+	String GROUP_SUPERADMIN = "SUPERADMIN";
+	String GROUP_CUSTOMER = "CUSTOMER";
+	String ANONYMOUS_CUSTOMER = "ANONYMOUS_CUSTOMER";
 
+	String CONTENT_IMAGE = "CONTENT";
+	String CONTENT_LANDING_PAGE = "LANDING_PAGE";
+	String CONTENT_CONTACT_US = "contact";
 
-	public final static String CONTENT_IMAGE = "CONTENT";
-	public final static String CONTENT_LANDING_PAGE = "LANDING_PAGE";
-	public final static String CONTENT_CONTACT_US = "contact";
+	String STATIC_URI = "/static";
+	String FILES_URI = "/files";
+	String PRODUCT_URI = "/product";
+	String CATEGORY_URI = "/category";
+	String PRODUCT_ID_URI = "/productid";
+	String ORDER_DOWNLOAD_URI = "/order/download";
 
-	public final static String STATIC_URI = "/static";
-	public final static String FILES_URI = "/files";
-	public final static String PRODUCT_URI= "/product";
-	public final static String CATEGORY_URI = "/category";
-	public final static String PRODUCT_ID_URI= "/productid";
-	public final static String ORDER_DOWNLOAD_URI= "/order/download";
+	String URL_EXTENSION = ".html";
+	String REDIRECT_PREFIX = "redirect:";
 
-	public final static String URL_EXTENSION= ".html";
-	public final static String REDIRECT_PREFIX ="redirect:";
+	String STORE_CONFIGURATION = "STORECONFIGURATION";
 
+	String HTTP_SCHEME = "http";
 
+	String SHOP_SCHEME = "SHOP_SCHEME";
+	String FACEBOOK_APP_ID = "hooghly.facebook-appid";
 
+	String MISSED_CACHE_KEY = "MISSED";
+	String CONTENT_CACHE_KEY = "CONTENT";
+	String CONTENT_PAGE_CACHE_KEY = "CONTENT_PAGE";
+	String CATEGORIES_CACHE_KEY = "CATALOG_CATEGORIES";
+	String PRODUCTS_GROUP_CACHE_KEY = "CATALOG_GROUP";
+	String SUBCATEGORIES_CACHE_KEY = "CATALOG_SUBCATEGORIES";
+	String RELATEDITEMS_CACHE_KEY = "CATALOG_RELATEDITEMS";
+	String MANUFACTURERS_BY_PRODUCTS_CACHE_KEY = "CATALOG_BRANDS_BY_PRODUCTS";
+	String CONFIG_CACHE_KEY = "CONFIG";
 
-	public final static String STORE_CONFIGURATION = "STORECONFIGURATION";
+	String REQUEST_CONTENT_OBJECTS = "CONTENT";
+	String REQUEST_CONTENT_PAGE_OBJECTS = "CONTENT_PAGE";
+	String REQUEST_TOP_CATEGORIES = "TOP_CATEGORIES";
+	String REQUEST_PAGE_INFORMATION = "PAGE_INFORMATION";
+	String REQUEST_SHOPPING_CART = "SHOPPING_CART";
+	String REQUEST_CONFIGS = "CONFIGS";
 
-	public final static String HTTP_SCHEME= "http";
-	
-	public final static String SHOP_SCHEME = "SHOP_SCHEME";
-	public final static String FACEBOOK_APP_ID = "hooghly.facebook-appid";
+	String KEY_FACEBOOK_PAGE_URL = "facebook_page_url";
+	String KEY_PINTEREST_PAGE_URL = "pinterest";
+	String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
+	String KEY_INSTAGRAM_URL = "instagram";
+	String KEY_GOOGLE_API_KEY = "google_api_key";
+	String KEY_TWITTER_HANDLE = "twitter_handle";
+	String KEY_SESSION_ADDRESS = "readableDelivery";
 
-	public final static String MISSED_CACHE_KEY = "MISSED";
-	public final static String CONTENT_CACHE_KEY = "CONTENT";
-	public final static String CONTENT_PAGE_CACHE_KEY = "CONTENT_PAGE";
-	public final static String CATEGORIES_CACHE_KEY = "CATALOG_CATEGORIES";
-	public final static String PRODUCTS_GROUP_CACHE_KEY = "CATALOG_GROUP";
-	public final static String SUBCATEGORIES_CACHE_KEY = "CATALOG_SUBCATEGORIES";
-	public final static String RELATEDITEMS_CACHE_KEY = "CATALOG_RELATEDITEMS";
-	public final static String MANUFACTURERS_BY_PRODUCTS_CACHE_KEY = "CATALOG_BRANDS_BY_PRODUCTS";
-	public final static String CONFIG_CACHE_KEY = "CONFIG";
+	String CATEGORY_LINEAGE_DELIMITER = "/";
+	int MAX_REVIEW_RATING_SCORE = 5;
+	int MAX_ORDERS_PAGE = 5;
+	String SUCCESS = "success";
+	String CANCEL = "cancel";
 
-	public final static String REQUEST_CONTENT_OBJECTS = "CONTENT";
-	public final static String REQUEST_CONTENT_PAGE_OBJECTS = "CONTENT_PAGE";
-	public final static String REQUEST_TOP_CATEGORIES = "TOP_CATEGORIES";
-	public final static String REQUEST_PAGE_INFORMATION = "PAGE_INFORMATION";
-	public final static String REQUEST_SHOPPING_CART = "SHOPPING_CART";
-	public final static String REQUEST_CONFIGS = "CONFIGS";
+	String START = "start";
+	String MAX = "max";
 
-	public final static String KEY_FACEBOOK_PAGE_URL = "facebook_page_url";
-	public final static String KEY_PINTEREST_PAGE_URL = "pinterest";
-	public final static String KEY_GOOGLE_ANALYTICS_URL = "google_analytics_url";
-	public final static String KEY_INSTAGRAM_URL = "instagram";
-	public final static String KEY_GOOGLE_API_KEY = "google_api_key";
-	public final static String KEY_TWITTER_HANDLE = "twitter_handle";
-	public final static String KEY_SESSION_ADDRESS = "readableDelivery";
+	String CREDIT_CARD_YEARS_CACHE_KEY = "CREDIT_CARD_YEARS_CACHE_KEY";
+	String MONTHS_OF_YEAR_CACHE_KEY = "MONTHS_OF_YEAR_CACHE_KEY";
 
-	public final static String CATEGORY_LINEAGE_DELIMITER = "/";
-	public final static int MAX_REVIEW_RATING_SCORE = 5;
-	public final static int MAX_ORDERS_PAGE = 5;
-	public final static String SUCCESS = "success";
-	public final static String CANCEL = "cancel";
-	
-	public final static String START = "start";
-	public final static String MAX = "max";
-	
-	public final static String CREDIT_CARD_YEARS_CACHE_KEY = "CREDIT_CARD_YEARS_CACHE_KEY";
-	public final static String MONTHS_OF_YEAR_CACHE_KEY = "MONTHS_OF_YEAR_CACHE_KEY";
-	
-	public final static String INIT_TRANSACTION_KEY = "init_transaction";
+	String INIT_TRANSACTION_KEY = "init_transaction";
 
-    public final static String LINK_CODE = "LINK_CODE";
-    
-    public final static String COOKIE_NAME_USER = "user";
-    public final static String COOKIE_NAME_CART = "cart";
-    public final static String RESPONSE_KEY_USERNAME = "userName";
-    
-    public final static String DEBUG_MODE = "debugMode";
+	String LINK_CODE = "LINK_CODE";
+
+	String COOKIE_NAME_USER = "user";
+	String COOKIE_NAME_CART = "cart";
+	String RESPONSE_KEY_USERNAME = "userName";
+
+	String DEBUG_MODE = "debugMode";
 
 }

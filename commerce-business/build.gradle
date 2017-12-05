@@ -1,15 +1,19 @@
 buildscript {
-	ext { springBootVersion = '1.5.8.RELEASE' }
+	ext { springBootVersion = '1.5.9.RELEASE' }
 	repositories { mavenCentral() }
 	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
 }
 
 
-ext { springBootVersion = '1.5.8.RELEASE' }
+ext { springBootVersion = '1.5.9.RELEASE' }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+
+bootRepackage {
+	enabled = false
+}
 
 jar {
 	baseName = 'commerce-business'
@@ -39,7 +43,7 @@ dependencies {
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.7.4'
 	
-	// https://mvnrepository.com/artifact/com.fasterxml.jackson.core/jackson-databind
+	
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-databind', version: '2.7.4'
 	compile group: 'org.freemarker', name: 'freemarker', version: '2.3.23'
 	compile('org.springframework.boot:spring-boot-starter-mail')
@@ -53,10 +57,9 @@ dependencies {
 	compile group: 'commons-validator', name: 'commons-validator', version: '1.6'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	
-	// https://mvnrepository.com/artifact/com.paypal.sdk/merchantsdk
 	compile group: 'com.paypal.sdk', name: 'merchantsdk', version: '2.15.122'
 
-	// https://mvnrepository.com/artifact/com.stripe/stripe-java
+	
 	compile group: 'com.stripe', name: 'stripe-java', version: '5.9.0'
 	compile group: 'com.google.maps', name: 'google-maps-services', version: '0.2.4'
 	

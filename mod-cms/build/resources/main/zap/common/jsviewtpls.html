@@ -1,0 +1,64 @@
+<!-- Important variables -->
+<script th:inline="javascript">
+	var merchatStoreCode = /*[[${MERCHANT_STORE.id}]]*/null;
+</script>
+
+<!-- Mini shopping cart JS template -->
+<script type="text/html" id="miniCartTemplate">
+							<li>
+								
+							</li>
+</script>
+
+<!-- Mini shopping cart JS template -->
+<script type="text/html" id="miniCartSummary">
+							<li>
+								{{#code}}
+								<table class="minicart table table-hover">
+									<thead>
+										<tr>
+											<!-- not responsive -->
+											<th class="no-responsive">&nbsp;</th>
+											<!-- responsive -->
+											<th class="cart-product"><s:message code="label.generic.name" text="Name"/></th>
+											<th class="cart-amount"><s:message code="label.order.total" text="Total"/></th>
+											<th>&nbsp;</th>
+										</tr>
+									</thead>
+									
+									<tbody>
+										{{#shoppingCartItems}}
+										<tr id="{{productId}}" class="cart-product">
+											<td class="cartImage no-responsive">
+											{{#image}}
+												<img width="40"  />{{image}}">
+											{{/image}}
+											{{^image}}
+												&nbsp;
+											{{/image}}
+											</td>
+											<td class="cart-product" width="50%">{{quantity}} {{name}}</td>
+											<td class="cart-amount">{{price}}</td>
+											<td><button productid="{{productId}}" class="close removeProductIcon" onclick="removeItemFromMinicart('{{id}}')">x</button></td>
+										</tr>
+										{{/shoppingCartItems}}
+									</tbody>
+								</table>
+								<div class="panel-body text-right">	
+									    <a href="#" onclick="viewShoppingCartPage();" class="btn btn-group btn-success btn-minicart"><s:message code="label.checkout" text="Checkout"/></a>
+								</div>
+								{{/code}}
+								{{^code}}
+								<h4 style="text-align: center;color:#666666"><s:message code="label.emptycart" text="Your Shopping cart is empty" /></h4>
+								{{/code}}
+							</li>
+</script>
+<!-- mini cart label button template -->
+<script type="text/html" id="miniCartSummaryTemplate">
+		
+		<a href="/shop/cart/{{code}}">
+           <span class="cart-amunt">{{total}}</span> 
+		   <i class="fa fa-shopping-cart"></i> 
+			<span class="product-count">{{quantity}}</span>
+		</a>
+</script>

@@ -27,5 +27,5 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Custo
 	
 	Customer findByMerchantStoreIdAndId(int merchantStoreId, Long id);
 	
-	void deletedByMerchantStoreIdAndId(int merchantStoreId, Long id);
+	void deleteByMerchantStoreIdAndId(int merchantStoreId, Long id);
 }

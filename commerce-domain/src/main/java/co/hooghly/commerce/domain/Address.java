@@ -9,6 +9,7 @@ public class Address implements Serializable {
 	
 
 	private static final long serialVersionUID = 1L;
+	private String street;
 	private String city;
 	private String postalCode;
 	private String stateProvince;

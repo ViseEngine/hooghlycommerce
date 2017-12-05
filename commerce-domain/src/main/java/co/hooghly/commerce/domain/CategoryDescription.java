@@ -1,12 +1,14 @@
 package co.hooghly.commerce.domain;
 
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 
 @Entity
@@ -17,6 +19,8 @@ import javax.persistence.UniqueConstraint;
 		})
 	}
 )
+@Data
+@EqualsAndHashCode(callSuper = false)
 public class CategoryDescription extends Description {
 	private static final long serialVersionUID = -3248423008455359301L;
 	
@@ -31,13 +35,6 @@ public class CategoryDescription extends Description {
 	@Column(name = "CATEGORY_HIGHLIGHT")
 	private String categoryHighlight;
 
-	public String getCategoryHighlight() {
-		return categoryHighlight;
-	}
-
-	public void setCategoryHighlight(String categoryHighlight) {
-		this.categoryHighlight = categoryHighlight;
-	}
 
 	@Column(name="META_TITLE", length=120)
 	private String metatagTitle;
@@ -57,43 +54,5 @@ public class CategoryDescription extends Description {
 		super.setId(0L);
 	}
 	
-	public String getSeUrl() {
-		return seUrl;
-	}
 
-	public void setSeUrl(String seUrl) {
-		this.seUrl = seUrl;
-	}
-
-	public String getMetatagTitle() {
-		return metatagTitle;
-	}
-
-	public void setMetatagTitle(String metatagTitle) {
-		this.metatagTitle = metatagTitle;
-	}
-
-	public String getMetatagKeywords() {
-		return metatagKeywords;
-	}
-
-	public void setMetatagKeywords(String metatagKeywords) {
-		this.metatagKeywords = metatagKeywords;
-	}
-
-	public String getMetatagDescription() {
-		return metatagDescription;
-	}
-
-	public void setMetatagDescription(String metatagDescription) {
-		this.metatagDescription = metatagDescription;
-	}
-
-	public Category getCategory() {
-		return category;
-	}
-
-	public void setCategory(Category category) {
-		this.category = category;
-	}
 }

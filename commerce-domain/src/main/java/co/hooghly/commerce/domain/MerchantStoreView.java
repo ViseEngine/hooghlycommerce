@@ -33,6 +33,8 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name = "STORE_VIEW_CODE", unique = true)
+	private String code;
 		
 	@Column(name = "WEIGHTUNITCODE", length=5)
 	private String weightunitcode = MeasureUnit.LB.name();
@@ -41,7 +43,7 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	private String seizeunitcode = MeasureUnit.IN.name();
 
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Language.class)
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language language;
 
@@ -50,9 +52,13 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	private String continueshoppingurl;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Currency.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Currency.class)
 	@JoinColumn(name = "CURRENCY_ID", nullable=false)
 	private Currency currency;
+	
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+	@JoinColumn(name = "COUNTRY_ID", nullable=false , referencedColumnName="COUNTRY_ID")
+	private Country country;
 	
 	@ManyToOne(fetch=FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_STORE_ID")

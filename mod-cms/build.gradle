@@ -1,16 +1,19 @@
 buildscript {
-	ext { springBootVersion = '1.5.8.RELEASE' }
+	ext { springBootVersion = '1.5.9.RELEASE' }
 	repositories { mavenCentral() }
 	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
 }
 
 
-ext { springBootVersion = '1.5.8.RELEASE' }
+ext { springBootVersion = '1.5.9.RELEASE' }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
 
+bootRepackage {
+	enabled = false
+}
 
 group = 'co.hooghly.common'
 
@@ -35,6 +38,7 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	implementation 'com.google.guava:guava:21.0'
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	compile project (':commerce-data')
 	compile project (':commerce-domain')
 }
 
