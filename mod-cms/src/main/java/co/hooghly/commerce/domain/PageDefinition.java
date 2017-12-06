@@ -33,4 +33,16 @@ public class PageDefinition {
     @CollectionTable(name="PAGE_fRAGMENTS", joinColumns=@JoinColumn(name="PAGE_DEFINITION_ID"))
 	private Map<String,String> fragments;
 	
+	@Column(name = "PAGE_TITLE")
+	private String pageTitle;
+	
+	@Column(name = "PAGE_DESCRIPTION")
+	private String description;
+	
+	@Column(name = "PAGE_KEYWORDS")
+	private String keywords;
+	
+	@Column(name = "PAGE_URL")
+	private String pageUrl;
+	
 }

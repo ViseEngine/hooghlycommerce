@@ -14,8 +14,8 @@
 								
 								<span class="fa fa-angle-down"></span>
 							</a>
-							<ul class="dropdown-menu xt-lang-dropdown" th:each="sv : ${MERCHANT_STORE.storeViews}">
-								<li><a href="" th:text="${sv.id}">USD</a></li>
+							<ul class="dropdown-menu xt-lang-dropdown" >
+								<li th:each="sv : ${MERCHANT_STORE.storeViews}"><a href="" th:text="${sv.language.code}" >USD</a></li>
 								
 								
 							</ul>

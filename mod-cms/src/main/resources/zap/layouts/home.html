@@ -5,13 +5,13 @@
 <html lang="en">
     <head>
         <!-- TITLE OF SITE -->
-        <title>ZapKart::Welcome</title>
+        <title th:text="${pgDef.pageTitle}"></title>
         
         <!-- Meta -->
         <meta charset="utf-8" />
-        <meta name="description" content="app landing page template" />
-        <meta name="keywords" content="app, landing page, gradient background, image background, video background, template, responsive, bootstrap" />
-        <meta name="developer" content="" />
+        <meta name="description" th:content="${pgDef.description}" />
+        <meta name="keywords" th:content="${pgDef.keywords}" />
+        <meta name="developer" content="Hooghly Commerce" />
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
         
         <style th:replace="${ MERCHANT_STORE.id +'/cssresources.cms'}"></style>

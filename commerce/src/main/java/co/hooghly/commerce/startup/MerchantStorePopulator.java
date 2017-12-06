@@ -116,7 +116,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		
 		merchantStoreViewRepository.save(msEn);
 		
-		/*MerchantStoreView msHi = new MerchantStoreView();
+		MerchantStoreView msHi = new MerchantStoreView();
 		msHi.setCountry(in);
 		msHi.setCurrency(currency);
 		msHi.setLanguage(hi);
@@ -141,7 +141,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		msTa.setTheme("zap");
 		msTa.setMerchantStore(store);
 		
-		merchantStoreViewRepository.save(msTa);*/
+		merchantStoreViewRepository.save(msTa);
 		
 		
 		log.info("7.2 Populating Tax Class - DEFAULT");

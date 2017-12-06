@@ -31,7 +31,6 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.BreadcrumbItem;
 import co.hooghly.commerce.web.ui.BreadcrumbItemType;
-import co.hooghly.commerce.web.ui.PageInformation;
 import co.hooghly.commerce.web.ui.ReadableProduct;
 import lombok.extern.slf4j.Slf4j;
 
@@ -69,8 +68,7 @@ public class ShopHomeController {
 
 		request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
 
-		// Content content = contentService.getByCode(LANDING_PAGE, store,
-		// language);
+		
 
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem item = new BreadcrumbItem();
@@ -87,26 +85,9 @@ public class ShopHomeController {
 		breadCrumb.setBreadCrumbs(items);
 		request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
 		request.setAttribute(Constants.BREADCRUMB, breadCrumb);
-		/** **/
+		
 
-		/*
-		 * if (content != null) {
-		 * 
-		 * ContentDescription description = content.getDescription();
-		 * 
-		 * model.addAttribute("page", description);
-		 * 
-		 * PageInformation pageInformation = new PageInformation();
-		 * pageInformation.setPageTitle(description.getName());
-		 * pageInformation.setPageDescription(description.getMetatagDescription(
-		 * ));
-		 * pageInformation.setPageKeywords(description.getMetatagKeywords());
-		 * 
-		 * request.setAttribute(Constants.REQUEST_PAGE_INFORMATION,
-		 * pageInformation);
-		 * 
-		 * }
-		 */
+		
 		return "landing";
 	}
 

@@ -173,6 +173,9 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 		}
 		request.setAttribute(MERCHANT_STORE, storeView.getMerchantStore());
+		
+		log.info("store view count -> {}", storeView.getMerchantStore().getStoreViews().size());
+		
 		request.setAttribute(MERCHANT_STORE_VIEW, storeView);
 
 		return storeView;

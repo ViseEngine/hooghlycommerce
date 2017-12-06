@@ -1,7 +1,7 @@
 defs:
   -
     name: landing
-    layout: home.cms
+    layout: home
     title: msg.page.title.home
     fragments: 
         featured : /shop/featured
