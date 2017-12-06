@@ -12,7 +12,7 @@ spring:
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
-        show_sql: false
+        show_sql: true
 
 logging:
   file: c:/EDMT_WORK/commerce.log
@@ -20,7 +20,9 @@ logging:
    # org.elasticsearch: DEBUG  
     org.springframework.data.elasticsearch : WARN      
     org.springframework.security : WARN   
-                
+    org.hibernate.SQL: DEBUG
+    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    org.hibernate.type: TRACE            
 
 security:
   basic:

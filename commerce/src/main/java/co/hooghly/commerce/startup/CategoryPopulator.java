@@ -52,7 +52,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 		
 		//2 languages by default
 		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
+		Language hi = languageService.getByCode("hi");
 		
 		
 		//create a merchant
@@ -72,7 +72,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	    CategoryDescription mobileFrenchDescription = new CategoryDescription();
 	    mobileFrenchDescription.setName("Mobile");
 	    mobileFrenchDescription.setCategory(mobile);
-	    mobileFrenchDescription.setLanguage(fr);
+	    mobileFrenchDescription.setLanguage(hi);
 	    mobileFrenchDescription.setSeUrl("mobile");
 
 	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
@@ -85,7 +85,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 	    categoryService.create(mobile);
 	    
-	    addChildren(mobile, store, en, fr);
+	    addChildren(mobile, store, en, hi);
 
 	    Category accessories = new Category();
 	    accessories.setMerchantStore(store);
@@ -101,7 +101,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	    CategoryDescription accessoriesFrenchDescription = new CategoryDescription();
 	    accessoriesFrenchDescription.setName("Accessoires");
 	    accessoriesFrenchDescription.setCategory(accessories);
-	    accessoriesFrenchDescription.setLanguage(fr);
+	    accessoriesFrenchDescription.setLanguage(hi);
 	    accessoriesFrenchDescription.setSeUrl("accessoires");
 
 	    List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
@@ -125,7 +125,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	    CategoryDescription handicraftsFrenchDescription = new CategoryDescription();
 	    handicraftsFrenchDescription.setName("Artisanats");
 	    handicraftsFrenchDescription.setCategory(handicrafts);
-	    handicraftsFrenchDescription.setLanguage(fr);
+	    handicraftsFrenchDescription.setLanguage(hi);
 	    handicraftsFrenchDescription.setSeUrl("artisanats");
 
 	    List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();

@@ -39,18 +39,16 @@ public class LanguageService extends SalesManagerEntityServiceImpl<Integer, Lang
 
 	public Language toLanguage(Locale locale) {
 
-		try {
-			Language lang = getLanguagesMap().get(locale.getLanguage());
-			return lang;
-		} catch (Exception e) {
-			LOGGER.error("Cannot convert locale " + locale.getLanguage() + " to language");
+		Language lang = getLanguagesMap().get(locale.getLanguage());
+		if (lang == null) {
+			lang = new Language();
+			lang.setCode(Constants.DEFAULT_LANGUAGE);
 		}
-
-		return new Language(Constants.DEFAULT_LANGUAGE);
+		return lang;
 
 	}
 
-	public Map<String, Language> getLanguagesMap() throws ServiceException {
+	public Map<String, Language> getLanguagesMap() {
 
 		List<Language> langs = this.getLanguages();
 		Map<String, Language> returnMap = new LinkedHashMap<String, Language>();
@@ -63,7 +61,7 @@ public class LanguageService extends SalesManagerEntityServiceImpl<Integer, Lang
 	}
 
 	@SuppressWarnings("unchecked")
-	public List<Language> getLanguages() throws ServiceException {
+	public List<Language> getLanguages() {
 
 		List<Language> langs = null;
 		try {

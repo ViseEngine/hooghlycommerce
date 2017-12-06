@@ -7,6 +7,7 @@ import co.hooghly.commerce.business.CustomerService;
 
 import co.hooghly.commerce.business.MerchantConfigurationService;
 import co.hooghly.commerce.business.MerchantStoreService;
+import co.hooghly.commerce.business.MerchantStoreViewService;
 import co.hooghly.commerce.business.ProductService;
 import co.hooghly.commerce.business.utils.CacheUtils;
 import co.hooghly.commerce.business.utils.CoreConfiguration;
@@ -19,12 +20,12 @@ import co.hooghly.commerce.domain.MerchantConfig;
 import co.hooghly.commerce.domain.MerchantConfiguration;
 import co.hooghly.commerce.domain.MerchantConfigurationType;
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.domain.MerchantStoreView;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.facade.CategoryFacade;
 import co.hooghly.commerce.util.GeoLocationUtils;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.util.LanguageUtils;
-import co.hooghly.commerce.util.WebApplicationCacheUtils;
 import co.hooghly.commerce.web.populator.ReadableCategoryPopulator;
 import co.hooghly.commerce.domain.Address;
 import co.hooghly.commerce.domain.Billing;
@@ -38,6 +39,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -47,11 +49,9 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.support.RequestContextUtils;
 import org.springframework.web.util.WebUtils;
 
-import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Spring MVC interceptor.
@@ -61,62 +61,37 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class StoreInterceptor extends HandlerInterceptorAdapter {
 
-	private static final String STORE_REQUEST_PARAMETER = "store";
+	private static final String STORE_VIEW_REQUEST_PARAMETER = "storeView";
 
-	@Inject
+	@Autowired
 	private CategoryService categoryService;
 
-	@Inject
+	@Autowired
 	private ProductService productService;
 
-	@Inject
+	@Autowired
 	private MerchantStoreService merchantService;
 
-	@Inject
+	@Autowired
 	private CustomerService customerService;
 
-	@Inject
+	@Autowired
 	private MerchantConfigurationService merchantConfigurationService;
 
-	@Inject
+	@Autowired
 	private LabelUtils messages;
 
-	
-	@Inject
+	@Autowired
 	private CacheUtils cache;
 
-	@Inject
-	private WebApplicationCacheUtils webApplicationCache;
-
-	@Inject
+	@Autowired
 	private CategoryFacade categoryFacade;
 
-	@Inject
+	@Autowired
 	private CoreConfiguration coreConfiguration;
 
-	public MerchantStore findAndSetMerchantStore(HttpServletRequest request) throws Exception {
-		/** merchant store **/
-		MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
-		String storeCode = ServletRequestUtils.getStringParameter(request, STORE_REQUEST_PARAMETER);
-
-		if (StringUtils.isNotBlank(storeCode) && store != null) {
-			// A store code found in request and session so handle the
-			// conflict by
-			// trying to use the request param store code.
-			// override the session store code with request store code.
-			store = setMerchantStoreInSession(request, storeCode);
-		}
-
-		if (store == null) {
-			// merchant store not found in session or override did not work, set
-			// default
-			store = setMerchantStoreInSession(request, MerchantStore.DEFAULT_STORE);
-		}
-
-		request.setAttribute(MERCHANT_STORE, store);
-
-		return store;
-	}
+	@Autowired
+	private MerchantStoreViewService merchantStoreViewService;
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -124,92 +99,130 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 		log.info("Pre handling request for store.");
 
-		try {
+		/** merchant store view **/
+		MerchantStoreView storeView = findAndSetMerchantStoreView(request);
 
-			/** merchant store **/
-			MerchantStore store = findAndSetMerchantStore(request);
+		/** customer **/
+		// findCustomer(request, storeView.getMerchantStore());
 
-			/** customer **/
-			findCustomer(request, store);
+		/** anonymous customer **/
+		// findAndSetAnonymousCustomer(request,
+		// storeView.getMerchantStore());
 
-			/** anonymous customer **/
-			findAndSetAnonymousCustomer(request, store);
-			
+		/** language & locale **/
+		// Locale locale = findAndStoreLanguageWithLocale(request,
+		// response,storeView.getMerchantStore());
 
-			/** language & locale **/
-			Locale locale = findAndStoreLanguageWithLocale(request, response,store);
+		/** Breadcrumbs **/
+		// TODO move to CMS page and controller
+		// setBreadcrumb(request, locale);
 
-			
+		/******* Top Categories ********/
+		// this.getTopCategories(store, language, request);
+		// this.setTopCategories(store, language, request);
 
-			/** Breadcrumbs **/
-			//TODO move to CMS page and controller
-			//setBreadcrumb(request, locale);
+		/******* Default metatags *******/
 
-			
+		/**
+		 * Title Description Keywords
+		 */
 
-			/******* Top Categories ********/
-			// this.getTopCategories(store, language, request);
-			//this.setTopCategories(store, language, request);
+		// all these will come from CMS view definition
 
-			/******* Default metatags *******/
+		/******* Configuration objects *******/
 
-			/**
-			 * Title Description Keywords
-			 */
+		/**
+		 * SHOP configuration type Should contain - Different configuration
+		 * flags - Google analytics - Facebook page - Twitter handle - Show
+		 * customer login - ...
+		 */
 
-			//all these will come from CMS view definition
+		// this.getMerchantConfigurations(store, request);
 
-			
-			
+		/******* Shopping Cart *********/
 
-			/******* Configuration objects *******/
-
-			/**
-			 * SHOP configuration type Should contain - Different configuration
-			 * flags - Google analytics - Facebook page - Twitter handle - Show
-			 * customer login - ...
-			 */
-
-			this.getMerchantConfigurations(store, request);
-
-			/******* Shopping Cart *********/
-
-			String shoppingCarCode = (String) request.getSession().getAttribute(SHOPPING_CART);
-			if (shoppingCarCode != null) {
-				request.setAttribute(REQUEST_SHOPPING_CART, shoppingCarCode);
-			}
-
-		} catch (Exception e) {
-			log.error("Error in StoreFilter", e);
+		String shoppingCartCode = (String) request.getSession().getAttribute(SHOPPING_CART);
+		if (StringUtils.isNotEmpty(shoppingCartCode)) {
+			request.setAttribute(REQUEST_SHOPPING_CART, shoppingCartCode);
 		}
 
 		return true;
 
 	}
-	
+
+	protected MerchantStoreView findAndSetMerchantStoreView(HttpServletRequest request) throws Exception {
+		/** merchant store **/
+		MerchantStoreView storeView = (MerchantStoreView) WebUtils.getSessionAttribute(request, MERCHANT_STORE_VIEW);
+		String storeViewCode = ServletRequestUtils.getStringParameter(request, STORE_VIEW_REQUEST_PARAMETER);
+
+		if (StringUtils.isNotBlank(storeViewCode) && storeView != null) {
+			// A store code found in request and session so handle the
+			// conflict by
+			// trying to use the request param store code.
+			// override the session store code with request store code.
+			// the user might have requested a change by selecting language or
+			// currency
+			storeView = setMerchantStoreViewInSession(request, storeViewCode);
+		}
+
+		if (storeView == null) {
+			// merchant store not found in session or override did not work, set
+			// default - this is for first time use
+			storeView = setMerchantStoreViewInSession(request, null);
+			// set default store view .
+
+		}
+		request.setAttribute(MERCHANT_STORE, storeView.getMerchantStore());
+		
+		log.info("store view count -> {}", storeView.getMerchantStore().getStoreViews().size());
+		
+		request.setAttribute(MERCHANT_STORE_VIEW, storeView);
+
+		return storeView;
+	}
+
+	private MerchantStoreView setMerchantStoreViewInSession(HttpServletRequest request, String storeViewCode) {
+		MerchantStoreView view = null;
+		MerchantStore store = null;
+		Optional<MerchantStoreView> mView = Optional.empty();
+		if (StringUtils.isNotBlank(storeViewCode)) {
+			mView = merchantStoreViewService.findByCode(storeViewCode);
+
+		} else {
+			// use default merchant store , first time request
+			store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
+			mView = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst();
+		}
+
+		if (mView.isPresent()) {
+			view = mView.get();
+			request.getSession().setAttribute(MERCHANT_STORE, view.getMerchantStore());
+			request.getSession().setAttribute(MERCHANT_STORE_VIEW, view);
+		}
+
+		return view;
+	}
+
 	/**
-	 * Rules
-	 * ==========
-	 * first time 
-	 * ==========
-	 *	1. Get browser locale
-	 *	2. check if language exists for the merchant
-	 *	3. if not use default langauge
-	 *  ======================
-	 * user selects a language
-	 *  ======================	
-	 *	1. check if the language exists for the merchant
-	 *	2. if not use default langauge
+	 * Rules ========== first time ========== 1. Get browser locale 2. check if
+	 * language exists for the merchant 3. if not use default langauge
+	 * ====================== user selects a language ====================== 1.
+	 * check if the language exists for the merchant 2. if not use default
+	 * langauge
+	 * 
 	 * @param request
 	 * @param response
 	 * @param store
 	 */
-	private Locale findAndStoreLanguageWithLocale(HttpServletRequest request, HttpServletResponse response, MerchantStore store) {
-		Locale locale = LocaleContextHolder.getLocale(); //browser locale.
-		
-		Optional<Language> language = store.getLanguages().stream().filter(lang -> StringUtils.equals(locale.getLanguage(), lang.getCode())).findFirst();
+	/*
+	private Locale findAndStoreLanguageWithLocale(HttpServletRequest request, HttpServletResponse response,
+			MerchantStore store) {
+		Locale locale = LocaleContextHolder.getLocale(); // browser locale.
+
+		Optional<Language> language = store.getLanguages().stream()
+				.filter(lang -> StringUtils.equals(locale.getLanguage(), lang.getCode())).findFirst();
 		Language lang = language.isPresent() ? language.get() : store.getDefaultLanguage();
-	
+
 		LocaleContextHolder.setLocale(locale);
 		WebUtils.setSessionAttribute(request, LANGUAGE, lang);
 		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
@@ -218,10 +231,10 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 		}
 		response.setLocale(locale);
 		request.setAttribute(LANGUAGE, lang);
-		
+
 		return locale;
-		
-	}
+
+	}*/
 
 	private void findAndSetAnonymousCustomer(HttpServletRequest request, MerchantStore store) {
 		Customer anonymousCustomer = (Customer) WebUtils.getSessionAttribute(request, ANONYMOUS_CUSTOMER);
@@ -310,10 +323,6 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 		}
 
 	}
-
-	
-
-	
 
 	@SuppressWarnings("unused")
 	private Map<String, Object> getConfigurations(MerchantStore store) {
@@ -448,24 +457,6 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 		item.setUrl(HOME_URL);
 		return item;
 
-	}
-
-	/**
-	 * Sets a MerchantStore with the given storeCode in the session.
-	 * 
-	 * @param request
-	 * @param storeCode
-	 *            The storeCode of the Merchant.
-	 * @return the MerchantStore inserted in the session.
-	 * @throws Exception
-	 */
-	private MerchantStore setMerchantStoreInSession(HttpServletRequest request, String storeCode) throws Exception {
-
-		MerchantStore store = merchantService.getByCode(storeCode);
-		if (store != null) {
-			request.getSession().setAttribute(MERCHANT_STORE, store);
-		}
-		return store;
 	}
 
 }

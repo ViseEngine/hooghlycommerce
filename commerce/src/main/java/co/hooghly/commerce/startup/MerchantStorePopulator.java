@@ -1,7 +1,8 @@
 package co.hooghly.commerce.startup;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +71,14 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		Date date = new Date(System.currentTimeMillis());
 
 		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
-		Country ca = countryService.getByCode("CA");
-		Currency currency = currencyService.getByCode("GBP");
-		Currency eur = currencyService.getByCode("EUR");
+		Language bn = languageService.getByCode("bn");
+		Language ta = languageService.getByCode("ta");
+		Language hi = languageService.getByCode("hi");
 		
-		log.info("EURO - {}", eur);
+		
+		Country in = countryService.getByCode("IN");
+		Currency currency = currencyService.getByCode("INR");
+		
 		
 		Zone qc = zoneService.getByCode("QC");
 
@@ -84,8 +87,8 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 
 		// create a merchant
 		MerchantStore store = new MerchantStore();
-		store.setCountry(ca);
-		store.setCurrency(currency);
+		store.setCountry(in);
+		store.setCurrency(currency); //todo remove
 		store.setDefaultLanguage(en);
 		store.setInBusinessSince(date);
 		store.setZone(qc);
@@ -98,32 +101,47 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		store.setStoreEmailAddress("test@test.com");
 		store.setDomainName("localhost:8080");
 		store.setStoreTemplate("bootstrap");
-		store.setLanguages(supportedLanguages);
+		store.setLanguages(supportedLanguages); //todo remove
 
 		merchantService.create(store);
 		
 		log.info("7.1 Populating store views along with store");
-		MerchantStoreView eng = new MerchantStoreView();
-		log.info("Curr 1 - {}", currency.getId());
-		eng.setCurrency(currency);
-		eng.setLanguage(en);
-		eng.setTheme("zap");
-		eng.setMerchantStore(store);
-		eng.setDefaultView(true);
+		MerchantStoreView msEn = new MerchantStoreView();
+		msEn.setCountry(in);
+		msEn.setCurrency(currency);
+		msEn.setLanguage(en);
+		msEn.setTheme("zap");
+		msEn.setMerchantStore(store);
+		msEn.setDefaultView(true);
 		
-		merchantStoreViewRepository.save(eng);
+		merchantStoreViewRepository.save(msEn);
 		
-		MerchantStoreView frStoreView = new MerchantStoreView();
-		log.info("Curr 2 - {}", eur.getId());
-		frStoreView.setCurrency(eur);
-		frStoreView.setLanguage(fr);
-		frStoreView.setTheme("zap");
-		frStoreView.setMerchantStore(store);
+		MerchantStoreView msHi = new MerchantStoreView();
+		msHi.setCountry(in);
+		msHi.setCurrency(currency);
+		msHi.setLanguage(hi);
+		msHi.setTheme("zap");
+		msHi.setMerchantStore(store);
 		
+		merchantStoreViewRepository.save(msHi);
 		
-		merchantStoreViewRepository.save(frStoreView);
+		MerchantStoreView msBen = new MerchantStoreView();
+		msBen.setCountry(in);
+		msBen.setCurrency(currency);
+		msBen.setLanguage(bn);
+		msBen.setTheme("zap");
+		msBen.setMerchantStore(store);
 		
+		merchantStoreViewRepository.save(msBen);
 		
+		MerchantStoreView msTa = new MerchantStoreView();
+		msTa.setCountry(in);
+		msTa.setCurrency(currency);
+		msTa.setLanguage(ta);
+		msTa.setTheme("zap");
+		msTa.setMerchantStore(store);
+		
+		merchantStoreViewRepository.save(msTa);
 		
 		
 		log.info("7.2 Populating Tax Class - DEFAULT");

@@ -26,7 +26,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "CMS_CONTENT",uniqueConstraints=
     @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
 @Data
-@EqualsAndHashCode(callSuper=true)
+@EqualsAndHashCode(callSuper=false)
 public class CmsContent extends SalesManagerEntity<Long, CmsContent> implements Serializable {
 
 

@@ -92,8 +92,8 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 
 	}
 	
-	public void deletedByMerchantStoreIdAndId(int merchantStoreId, Long id) {
-		customerRepository.deletedByMerchantStoreIdAndId(merchantStoreId, id);
+	public void deleteByMerchantStoreIdAndId(int merchantStoreId, Long id) {
+		customerRepository.deleteByMerchantStoreIdAndId(merchantStoreId, id);
 	}
 
 }
