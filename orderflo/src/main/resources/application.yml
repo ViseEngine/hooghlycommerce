@@ -4,8 +4,16 @@ spring:
   datasource:
     username: root
     password: root
-    url: jdbc:mysql://localhost:3306/orderflo?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false
+    url: jdbc:mysql://127.0.0.1:3306/orderflo?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+    
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5Dialect
+        show_sql: false
+        ddl-auto: create-drop
   
 
 logging:
@@ -19,7 +27,10 @@ security:
     enabled: false
 management:
   security:
-    enabled: false                
+    enabled: false 
+    
+orderflo:
+  mode: DEV               
 
 
   
