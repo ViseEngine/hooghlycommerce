@@ -1,5 +1,7 @@
 package co.hooghly.commerce.domain;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -33,7 +35,7 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	@Column(name = "STORE_VIEW_CODE", unique = true)
+	@Column(name = "STORE_VIEW_CODE", unique = true, nullable=false)
 	private String code;
 		
 	@Column(name = "WEIGHTUNITCODE", length=5)
@@ -60,7 +62,7 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@JoinColumn(name = "COUNTRY_ID", nullable=false , referencedColumnName="COUNTRY_ID")
 	private Country country;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="MERCHANT_STORE_ID")
 	private MerchantStore merchantStore;
 	
@@ -70,5 +72,8 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@Column(name = "IS_DEFAULT_STORE_VIEW")
 	private boolean defaultView = false;
 	
-
+	
+	public Locale computeLocale(){
+		return new Locale(language.getCode(), country.getIsoCode());
+	}
 }

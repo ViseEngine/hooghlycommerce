@@ -62,7 +62,7 @@ public class ShopHomeController {
 	@GetMapping("")
 	public String displayLanding(MerchantStore store, Language language , Model model, HttpServletRequest request,
 			HttpServletResponse response, Locale locale)  {
-		log.info("Shop landing page for store - {} , language - {} ", store.getCode(), language);
+		log.info("Shop landing page for storeveiew - {}", store.getCode());
 
 		
 

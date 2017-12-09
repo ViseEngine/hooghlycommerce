@@ -6,13 +6,16 @@ spring:
     password: root
     url: jdbc:mysql://localhost:3306/commerce?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false
     driver-class-name: com.mysql.jdbc.Driver
+    platform: mysql
+    continue-on-error: false
   jpa:
     hibernate:
       ddl-auto: update
     properties:
       hibernate:
         dialect: org.hibernate.dialect.MySQL5Dialect
-        show_sql: true
+        show_sql: false
+  
 
 logging:
   file: c:/EDMT_WORK/commerce.log
@@ -20,9 +23,9 @@ logging:
    # org.elasticsearch: DEBUG  
     org.springframework.data.elasticsearch : WARN      
     org.springframework.security : WARN   
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: TRACE
-    org.hibernate.type: TRACE            
+    #org.hibernate.SQL: DEBUG
+    #org.hibernate.type.descriptor.sql.BasicBinder: TRACE
+    #org.hibernate.type: TRACE            
 
 security:
   basic:

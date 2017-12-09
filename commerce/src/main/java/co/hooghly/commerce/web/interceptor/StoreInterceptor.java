@@ -110,8 +110,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 		// storeView.getMerchantStore());
 
 		/** language & locale **/
-		// Locale locale = findAndStoreLanguageWithLocale(request,
-		// response,storeView.getMerchantStore());
+		 Locale locale = findAndStoreLanguageWithLocale(request,response,storeView);
 
 		/** Breadcrumbs **/
 		// TODO move to CMS page and controller
@@ -162,6 +161,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 			// override the session store code with request store code.
 			// the user might have requested a change by selecting language or
 			// currency
+			log.info("Store view changed");
 			storeView = setMerchantStoreViewInSession(request, storeViewCode);
 		}
 
@@ -173,9 +173,6 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 		}
 		request.setAttribute(MERCHANT_STORE, storeView.getMerchantStore());
-		
-		log.info("store view count -> {}", storeView.getMerchantStore().getStoreViews().size());
-		
 		request.setAttribute(MERCHANT_STORE_VIEW, storeView);
 
 		return storeView;
@@ -186,6 +183,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 		MerchantStore store = null;
 		Optional<MerchantStoreView> mView = Optional.empty();
 		if (StringUtils.isNotBlank(storeViewCode)) {
+			log.info("Retrieve storeView - {}", storeViewCode);
 			mView = merchantStoreViewService.findByCode(storeViewCode);
 
 		} else {
@@ -204,37 +202,29 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 	}
 
 	/**
-	 * Rules ========== first time ========== 1. Get browser locale 2. check if
-	 * language exists for the merchant 3. if not use default langauge
-	 * ====================== user selects a language ====================== 1.
-	 * check if the language exists for the merchant 2. if not use default
-	 * langauge
-	 * 
+	 * Use the locale from the Merchant store view not browser, this will simplify things. 
 	 * @param request
 	 * @param response
 	 * @param store
 	 */
-	/*
+	
 	private Locale findAndStoreLanguageWithLocale(HttpServletRequest request, HttpServletResponse response,
-			MerchantStore store) {
-		Locale locale = LocaleContextHolder.getLocale(); // browser locale.
-
-		Optional<Language> language = store.getLanguages().stream()
-				.filter(lang -> StringUtils.equals(locale.getLanguage(), lang.getCode())).findFirst();
-		Language lang = language.isPresent() ? language.get() : store.getDefaultLanguage();
-
+			MerchantStoreView storeView) {
+		Locale locale = storeView.computeLocale(); 
+		log.info("Computed locale from store view - {}", locale);
+		
 		LocaleContextHolder.setLocale(locale);
-		WebUtils.setSessionAttribute(request, LANGUAGE, lang);
+		WebUtils.setSessionAttribute(request, LANGUAGE, storeView.getLanguage());
 		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 		if (localeResolver != null) {
 			localeResolver.setLocale(request, response, locale);
 		}
 		response.setLocale(locale);
-		request.setAttribute(LANGUAGE, lang);
+		request.setAttribute(LANGUAGE, storeView.getLanguage());
 
 		return locale;
 
-	}*/
+	}
 
 	private void findAndSetAnonymousCustomer(HttpServletRequest request, MerchantStore store) {
 		Customer anonymousCustomer = (Customer) WebUtils.getSessionAttribute(request, ANONYMOUS_CUSTOMER);

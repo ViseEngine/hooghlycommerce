@@ -1,7 +1,6 @@
 package co.hooghly.commerce.domain;
 
-import java.util.ArrayList;
-import java.util.List;
+
 
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
@@ -11,8 +10,7 @@ import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
+
 import javax.persistence.Table;
 
 import lombok.Data;
@@ -41,16 +39,12 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
 	@Column(name="CODE", nullable = false)
 	private String code;
 	
+	@Column(name="LANGUAGE_NAME", nullable = false)
+	private String name;
+	
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder;
 	
-	
-	@OneToMany(mappedBy = "defaultLanguage", targetEntity = MerchantStore.class)
-	private List<MerchantStore> storesDefaultLanguage;
-	
-	
-	@ManyToMany(mappedBy = "languages", targetEntity = MerchantStore.class)
-	private List<MerchantStore> stores = new ArrayList<MerchantStore>();
 	
 	
 }

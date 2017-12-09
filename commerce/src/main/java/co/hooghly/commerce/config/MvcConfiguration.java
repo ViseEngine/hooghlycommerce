@@ -27,11 +27,21 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.argument.CustomerMethodArgumentResolver;
 import co.hooghly.commerce.web.argument.MerchantStoreMethodArgumentResolver;
 import co.hooghly.commerce.web.interceptor.AdminInterceptor;
+import co.hooghly.commerce.business.MessageResourceBusinessDelegate;
 import co.hooghly.commerce.cms.interceptor.CmsInterceptor;
+import co.hooghly.commerce.i18n.DatabaseDrivenMessageSource;
 import co.hooghly.commerce.web.interceptor.StoreInterceptor;
 
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
+	
+	private MessageResourceBusinessDelegate messageResourceBusinessDelegate;
+	
+	/*@Bean
+	public DatabaseDrivenMessageSource messageSource() {
+		DatabaseDrivenMessageSource ms = new DatabaseDrivenMessageSource(messageResourceBusinessDelegate);
+		return ms;
+	}*/
 
 	@Bean
 	public StoreInterceptor storeFilter() {
@@ -84,7 +94,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		return sessionLocaleResolver;
 	}
 
-	@Bean
+	/*@Bean
 	public ReloadableResourceBundleMessageSource messageSource() {
 		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
 		source.setBasenames( "classpath:bundles/messages", "classpath:bundles/shipping",
@@ -92,7 +102,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 
 		source.setUseCodeAsDefaultMessage(true);
 		return source;
-	}
+	}*/
 
 	@Bean
 	public LabelUtils messages() {

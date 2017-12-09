@@ -27,18 +27,18 @@ public class CmsController {
 	
 	@GetMapping("/cms/css/{merchantId}/{file:.+}")
 	public ResponseEntity<?> getCss(@PathVariable Integer merchantId, @PathVariable String file,HttpServletResponse response) {
-		log.info("css request received - {}, {}  ", merchantId, file);
+		log.debug("css request received - {}, {}  ", merchantId, file);
 
 		// check file extension and redirect if required as css files can be
 		// embeded font, image requests
 		if (StringUtils.endsWithAny(file, "woff", "woff2")) {
 			// redirect for font
-			log.info("font request from internal css, redirecting - {}", file);
+			log.debug("font request from internal css, redirecting - {}", file);
 			return findFont(merchantId,file);
 			
 		} else if (StringUtils.endsWithAny(file, "png", "jpg", "jpeg","gif")) {
 			
-			log.info("font request from internal css, redirecting - {}", file);
+			log.debug("font request from internal css, redirecting - {}", file);
 			return findImage(merchantId , file);
 		}
 
@@ -47,7 +47,7 @@ public class CmsController {
 	
 	@GetMapping({ "/cms/css/images/{file:.+}" ,  "/cms/css/fonts/{file:.+}"})
 	public ResponseEntity<byte[]> getCssExtras(@PathVariable String file,HttpServletResponse response) {
-		log.info("css exrtra request received - {}  ",  file);
+		log.debug("css exrtra request received - {}  ",  file);
 		ResponseEntity<byte[]> responseEntity = null;
 		Optional<CmsContent> content = cmsContentService.findByCode(file);
 		HttpHeaders headers = new HttpHeaders();
@@ -103,7 +103,7 @@ public class CmsController {
 	@GetMapping(value = "/cms/js/{merchantId}/{file:.+}")
 	public ResponseEntity<String> getJs(@PathVariable Integer merchantId, @PathVariable String file,
 			HttpServletResponse response) {
-		log.info("js request received - {}, {}  ", merchantId, file);
+		log.debug("js request received - {}, {}  ", merchantId, file);
 
 		response.setBufferSize(1024 * 1024); // 1MB buffer
 		response.setContentType("text/javascript");
@@ -130,7 +130,7 @@ public class CmsController {
 	
 	private ResponseEntity<byte[]> findImage(Integer merchantId,  String file) {
 
-		log.info("image request received - {}, {}  ", merchantId, file);
+		log.debug("image request received - {}, {}  ", merchantId, file);
 		ResponseEntity<byte[]> responseEntity = null;
 		Optional<CmsContent> content = cmsContentService.findByMerchantStoreIdAndAndCode(merchantId,file);
 		HttpHeaders headers = new HttpHeaders();
