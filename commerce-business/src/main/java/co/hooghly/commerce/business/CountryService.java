@@ -5,12 +5,12 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
 import org.springframework.util.CollectionUtils;
 
-import co.hooghly.commerce.business.utils.CacheUtils;
+
 import co.hooghly.commerce.domain.Country;
 import co.hooghly.commerce.domain.CountryDescription;
 import co.hooghly.commerce.domain.Language;
@@ -21,19 +21,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class CountryService extends SalesManagerEntityServiceImpl<Long, Country> {
 
-
 	private CountryRepository countryRepository;
 
-	@Autowired
-	private CacheUtils cache;
+	
 
 	public CountryService(CountryRepository countryRepository) {
 		super(countryRepository);
 		this.countryRepository = countryRepository;
 	}
-	
+
 	@Cacheable("countryCache")
-	public Country getByCode(String code)  {
+	public Country getByCode(String code) {
 		return countryRepository.findByIsoCode(code);
 	}
 
@@ -43,7 +41,7 @@ public class CountryService extends SalesManagerEntityServiceImpl<Long, Country>
 		update(country);
 	}
 
-	public Map<String, Country> getCountriesMap(Language language)  {
+	public Map<String, Country> getCountriesMap(Language language) {
 
 		List<Country> countries = this.getCountries(language);
 
@@ -56,7 +54,7 @@ public class CountryService extends SalesManagerEntityServiceImpl<Long, Country>
 		return returnMap;
 	}
 
-	public List<Country> getCountries(final List<String> isoCodes, final Language language)  {
+	public List<Country> getCountries(final List<String> isoCodes, final Language language) {
 		List<Country> countryList = getCountries(language);
 		List<Country> requestedCountryList = new ArrayList<Country>();
 		if (!CollectionUtils.isEmpty(countryList)) {
@@ -68,33 +66,14 @@ public class CountryService extends SalesManagerEntityServiceImpl<Long, Country>
 		}
 		return requestedCountryList;
 	}
-
-	@SuppressWarnings("unchecked")
-
+	
+	@Cacheable("country-by-lang")
 	public List<Country> getCountries(Language language) {
 
-		List<Country> countries = null;
-		try {
-
-			countries = (List<Country>) cache.getFromCache("COUNTRIES_" + language.getCode());
-
-			if (countries == null) {
-
-				countries = countryRepository.listByLanguage(language.getId());
-
-				// set names
-				for (Country country : countries) {
-
-					CountryDescription description = country.getDescriptions().get(0);
-					country.setName(description.getName());
-
-				}
-
-				cache.putInCache(countries, "COUNTRIES_" + language.getCode());
-			}
-
-		} catch (Exception e) {
-			log.error("getCountries()", e);
+		List<Country> countries = countryRepository.listByLanguage(language.getId());
+		for (Country country : countries) {
+			CountryDescription description = country.getDescriptions().get(0);
+			country.setName(description.getName());
 		}
 
 		return countries;

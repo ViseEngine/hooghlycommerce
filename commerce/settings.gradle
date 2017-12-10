@@ -5,9 +5,6 @@ include ':commerce-business'
 project(':commerce-business').projectDir = new File(settingsDir, '../commerce-business')
 
 
-include ':commerce-data'
-project(':commerce-data').projectDir = new File(settingsDir, '../commerce-data')
-
 
 include ':mod-email-starter'
 project(':mod-email-starter').projectDir = new File(settingsDir, '../mod-email-starter')

@@ -38,7 +38,7 @@ dependencies {
 	compileOnly('org.projectlombok:lombok')
 	implementation 'com.google.guava:guava:21.0'
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
-	compile project (':commerce-data')
+	
 	compile project (':commerce-domain')
 }
 
