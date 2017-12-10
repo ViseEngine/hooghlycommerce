@@ -23,7 +23,8 @@ public class LanguagePopulator extends AbstractDataPopulator {
 	 * 
 	 */
 	protected static final String[] LANGUAGE_ISO_CODE = { "en", "bn", "ta", "hi" };
-
+	protected static final String[] LANGUAGE_NAME = { "English", "বাংলা", "தமிழ்", "हिंदी" };
+	
 	@Autowired
 	private LanguageService languageService;
 
@@ -34,11 +35,12 @@ public class LanguagePopulator extends AbstractDataPopulator {
 	}
 
 	protected void createLanguages()  {
-
+		int counter = 0;
 		for (String code : LANGUAGE_ISO_CODE) {
 			log.debug("Code - {}", code);
 			Language language = new Language();
 			language.setCode(code);
+			language.setName(LANGUAGE_NAME[counter++]);
 			languageService.create(language);
 		}
 	}

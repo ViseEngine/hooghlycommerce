@@ -14,6 +14,7 @@ import co.hooghly.commerce.domain.CustomerAttribute;
 import co.hooghly.commerce.domain.CustomerCriteria;
 import co.hooghly.commerce.domain.CustomerList;
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.modules.GeoLocation;
 //import co.hooghly.commerce.modules.GeoLocation;
 import co.hooghly.commerce.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -27,8 +28,8 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 	@Autowired
 	private CustomerAttributeService customerAttributeService;
 
-	//@Autowired
-	//private GeoLocation geoLocation;
+	@Autowired
+	private GeoLocation geoLocation;
 
 	
 	public CustomerService(CustomerRepository customerRepository) {
@@ -66,8 +67,8 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 
 	public Optional<Address> getCustomerAddress(MerchantStore store, String ipAddress) {
 
-		//return geoLocation.getAddress(ipAddress);
-		throw new NotImplementedException("Not yet implemented");
+		return geoLocation.getAddress(ipAddress);
+		
 
 	}
 

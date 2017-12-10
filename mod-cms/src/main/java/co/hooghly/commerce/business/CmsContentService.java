@@ -26,7 +26,7 @@ public class CmsContentService {
 
 	@Transactional(readOnly = true)
 	public List<CmsContent> findByFolder(String folder) {
-		log.info("Retrieving pages for folder - {}", folder);
+		log.debug("Retrieving pages for folder - {}", folder);
 		return cmsContentRepository.findByFolder(folder);
 	}
 
@@ -39,7 +39,7 @@ public class CmsContentService {
 	@Transactional(readOnly = true)
 	@Cacheable("content-merchantstore-code")
 	public Optional<CmsContent> findByMerchantStoreIdAndAndCode(Integer storeId, String code){
-		log.info("Finding with merchant store id - {} and code - {}", storeId, code);
+		log.debug("Finding with merchant store id - {} and code - {}", storeId, code);
 		return cmsContentRepository.findByMerchantStoreIdAndAndCode(storeId, code);
 	}
 	

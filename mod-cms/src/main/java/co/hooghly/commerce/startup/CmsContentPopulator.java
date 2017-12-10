@@ -32,7 +32,7 @@ public class CmsContentPopulator {
 	private Resource[] resources;
 
 	public void load(MerchantStore store) {
-		log.info("Loading default CMS contents");
+		log.debug("Loading default CMS contents");
 		for (Resource r : resources) {
 			unzipAndLoad(r, store);
 		}
@@ -42,17 +42,17 @@ public class CmsContentPopulator {
 		// Open the file
 		try (ZipFile file = new ZipFile(r.getFile())) {
 			String theme = r.getFile().getName().replaceAll(".zip", "");
-			log.info("file - {}", r.getFile().getName());
+			log.debug("file - {}", r.getFile().getName());
 			// Get file entries
 			Enumeration<? extends ZipEntry> entries = file.entries();
 
 			// Iterate over entries
 			while (entries.hasMoreElements()) {
 				ZipEntry entry = entries.nextElement();
-				log.info("Entry - {}", entry.getName());
+				log.debug("Entry - {}", entry.getName());
 				if (!entry.isDirectory() && !StringUtils.containsAny(entry.getName(), "less", "scss")) {
 					InputStream is = file.getInputStream(entry);
-					log.info("Code - {}", entry.getName());
+					log.debug("Code - {}", entry.getName());
 					File f = new File(entry.getName());
 					CmsContent content = new CmsContent();
 

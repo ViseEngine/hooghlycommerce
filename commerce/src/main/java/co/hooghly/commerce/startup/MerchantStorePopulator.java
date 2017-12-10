@@ -107,6 +107,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		
 		log.info("7.1 Populating store views along with store");
 		MerchantStoreView msEn = new MerchantStoreView();
+		msEn.setCode("enINR");
 		msEn.setCountry(in);
 		msEn.setCurrency(currency);
 		msEn.setLanguage(en);
@@ -117,6 +118,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		merchantStoreViewRepository.save(msEn);
 		
 		MerchantStoreView msHi = new MerchantStoreView();
+		msHi.setCode("hiINR");
 		msHi.setCountry(in);
 		msHi.setCurrency(currency);
 		msHi.setLanguage(hi);
@@ -126,6 +128,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		merchantStoreViewRepository.save(msHi);
 		
 		MerchantStoreView msBen = new MerchantStoreView();
+		msBen.setCode("benINR");
 		msBen.setCountry(in);
 		msBen.setCurrency(currency);
 		msBen.setLanguage(bn);
@@ -135,6 +138,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		merchantStoreViewRepository.save(msBen);
 		
 		MerchantStoreView msTa = new MerchantStoreView();
+		msTa.setCode("taINR");
 		msTa.setCountry(in);
 		msTa.setCurrency(currency);
 		msTa.setLanguage(ta);

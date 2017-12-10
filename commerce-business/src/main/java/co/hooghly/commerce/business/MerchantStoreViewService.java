@@ -4,6 +4,7 @@ import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.hooghly.commerce.domain.MerchantStoreView;
 
@@ -19,6 +20,7 @@ public class MerchantStoreViewService extends SalesManagerEntityServiceImpl<Inte
 		this.merchantStoreViewRepository = (MerchantStoreViewRepository)repository;
 	}
 	
+	@Transactional(readOnly=true)
 	public Optional<MerchantStoreView> findByCode(String code){
 		return merchantStoreViewRepository.findByCode(code);
 	}
