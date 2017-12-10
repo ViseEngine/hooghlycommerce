@@ -55,7 +55,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 
 		request.setCharacterEncoding("UTF-8");
 		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>) cache.getFromCache("MENUMAP");
+		//Map<String, Menu> menus = (Map<String, Menu>) cache.getFromCache("MENUMAP");
 
 		User user = (User) request.getSession().getAttribute(Constants.ADMIN_USER);
 
@@ -132,7 +132,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 
 		request.setAttribute(Constants.LANGUAGE, language);
 
-		if (menus == null) {
+		/*if (menus == null) {
 			InputStream in = null;
 			ObjectMapper mapper = new ObjectMapper(); // can reuse, share
 														// globally
@@ -174,7 +174,7 @@ public class AdminInterceptor extends HandlerInterceptorAdapter {
 
 		request.setAttribute("MENULIST", list);
 
-		request.setAttribute("MENUMAP", menus);
+		request.setAttribute("MENUMAP", menus);*/
 		response.setCharacterEncoding("UTF-8");
 
 		return true;

@@ -1,3 +1,0 @@
-include ':commerce-domain'
-project(':commerce-domain').projectDir = new File(settingsDir, '../commerce-domain')
-
