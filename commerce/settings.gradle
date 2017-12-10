@@ -11,3 +11,8 @@ project(':mod-email-starter').projectDir = new File(settingsDir, '../mod-email-s
 
 include ':mod-cms'
 project(':mod-cms').projectDir = new File(settingsDir, '../mod-cms')
+
+
+
+include ':mod-admin'
+project(':mod-admin').projectDir = new File(settingsDir, '../mod-admin')

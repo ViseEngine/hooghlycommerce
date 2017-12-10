@@ -7,6 +7,8 @@ import co.hooghly.commerce.domain.Category;
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Product;
+import co.hooghly.commerce.util.LabelUtils;
+import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.BreadcrumbItem;
 import co.hooghly.commerce.web.ui.BreadcrumbItemType;
@@ -14,9 +16,9 @@ import co.hooghly.commerce.web.ui.ReadableCategory;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import javax.inject.Inject;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.LinkedList;
@@ -25,13 +27,13 @@ import java.util.List;
 @Component
 public class BreadcrumbsUtils {
 	
-	@Inject
+	@Autowired
 	private LabelUtils messages;
 	
-	@Inject
+	@Autowired
 	private CategoryService categoryService;
 	
-	@Inject
+	@Autowired
 	private FilePathUtils filePathUtils;
 	
 	

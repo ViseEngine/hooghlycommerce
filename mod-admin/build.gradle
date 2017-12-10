@@ -1,0 +1,46 @@
+buildscript {
+	ext { springBootVersion = '1.5.9.RELEASE' }
+	repositories { mavenCentral() }
+	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
+}
+
+
+ext { springBootVersion = '1.5.9.RELEASE' }
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+bootRepackage {
+	enabled = false
+}
+
+group = 'co.hooghly.common'
+
+jar {
+	
+	baseName = 'mod-admin'
+	version = '0.0.1-SNAPSHOT'
+}
+sourceCompatibility = 1.8
+
+repositories { mavenCentral() }
+
+
+
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
+	compileOnly('org.projectlombok:lombok')
+	implementation 'com.google.guava:guava:21.0'
+	compile group: 'commons-io', name: 'commons-io', version: '2.5'
+	
+	compile project (':commerce-domain')
+	compile project (':commerce-business')
+	
+}
+
+
