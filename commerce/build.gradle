@@ -71,4 +71,5 @@ dependencies {
 	compile project (':commerce-domain')
 	compile project (':mod-email-starter')
 	compile project (':mod-cms')
+	compile project (':mod-admin')
 }
