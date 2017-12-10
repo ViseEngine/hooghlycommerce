@@ -21,6 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 
 
 @Service
+@Deprecated
 public class CategoryFacade  {
 	
 	@Inject

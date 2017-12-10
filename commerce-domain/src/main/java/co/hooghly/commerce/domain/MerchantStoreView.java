@@ -11,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import co.hooghly.commerce.constants.MeasureUnit;
@@ -72,8 +73,13 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@Column(name = "IS_DEFAULT_STORE_VIEW")
 	private boolean defaultView = false;
 	
+	@Transient
+	private Locale computedLocale;
 	
 	public Locale computeLocale(){
-		return new Locale(language.getCode(), country.getIsoCode());
+		if(computedLocale == null){
+			computedLocale = new Locale(language.getCode(), country.getIsoCode());
+		}
+		return computedLocale;
 	}
 }

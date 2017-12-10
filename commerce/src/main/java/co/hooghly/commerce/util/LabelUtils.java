@@ -6,6 +6,7 @@ import org.springframework.context.ApplicationContextAware;
 
 import java.util.Locale;
 
+@Deprecated
 public class LabelUtils implements ApplicationContextAware {
 
 	
