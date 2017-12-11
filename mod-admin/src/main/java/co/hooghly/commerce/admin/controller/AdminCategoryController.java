@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -23,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -41,13 +44,10 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.ui.AjaxResponse;
 import lombok.extern.slf4j.Slf4j;
 
-
-
 @Slf4j
 @Controller
+@RequestMapping(value = "/admin/categories/")
 public class AdminCategoryController {
-
-	
 
 	@Autowired
 	LanguageService languageService;
@@ -61,67 +61,53 @@ public class AdminCategoryController {
 	@Autowired
 	LabelUtils messages;
 
-	@RequestMapping(value = "/admin/categories/editCategory.html", method = RequestMethod.GET)
-	public String displayCategoryEdit(@RequestParam("id") long categoryId, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		return displayCategory(categoryId, model, request, response);
+	@GetMapping("/edit")
+	public String displayCategoryEdit(@RequestParam("id") long categoryId, MerchantStore store, Language language,
+			Model model) {
+		return displayCategory(categoryId, store, language, model);
 
 	}
 
-	@RequestMapping(value = "/admin/categories/createCategory.html", method = RequestMethod.GET)
-	public String displayCategoryCreate(Model model, HttpServletRequest request, HttpServletResponse response)
-			throws Exception {
-		return displayCategory(null, model, request, response);
+	@GetMapping("/create")
+	public String displayCategoryCreate(Model model, MerchantStore store, Language language) {
+		return displayCategory(null, store, language, model);
 
 	}
 
-	private String displayCategory(Long categoryId, Model model, HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-
-		
-
-		MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-		Language language = (Language) request.getAttribute("LANGUAGE");
+	private String displayCategory(Long categoryId, MerchantStore store, Language language, Model model) {
 
 		// get parent categories
 		List<Category> categories = categoryService.listByStore(store, language);
 
-		List<Language> languages = store.getLanguages();
-		Category category = new Category();
+		List<Language> languages = store.getStoreViews().stream().map(mv -> mv.getLanguage())
+				.collect(Collectors.toList());
 
-		if (categoryId != null && categoryId != 0) {// edit mode
-			category = categoryService.getById(categoryId);
+		Category category = null;
+
+		if (categoryId != null && categoryId != 0L) {// edit mode
+			category = categoryService.findOne(categoryId);
 
 			if (category == null || category.getMerchantStore().getId().intValue() != store.getId().intValue()) {
 				return "catalogue-categories";
 			}
 		} else {
-
+			category = new Category();
 			category.setVisible(true);
 
 		}
 
-		List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+		List<CategoryDescription> descriptions = new ArrayList<>();
 
 		for (Language l : languages) {
 
-			CategoryDescription description = null;
-			if (category != null) {
-				for (CategoryDescription desc : category.getDescriptions()) {
-
-					if (desc.getLanguage().getCode().equals(l.getCode())) {
-						description = desc;
-					}
-
-				}
+			Optional<CategoryDescription> description = category.getDescriptions().stream().filter(desc -> desc.getLanguage().getCode().equals(l.getCode())).findFirst();
+			CategoryDescription descr = null;
+			if (!description.isPresent()) {
+				descr = new CategoryDescription();
+				descr.setLanguage(l);
 			}
 
-			if (description == null) {
-				description = new CategoryDescription();
-				description.setLanguage(l);
-			}
-
-			descriptions.add(description);
+			descriptions.add(descr);
 
 		}
 
@@ -133,13 +119,11 @@ public class AdminCategoryController {
 		return "catalogue-categories-category";
 	}
 
-	@RequestMapping(value = "/admin/categories/save.html", method = RequestMethod.POST)
-	public String saveCategory(@Valid @ModelAttribute("category") Category category, BindingResult result, Model model,
-			HttpServletRequest request) throws Exception {
+	@PostMapping("")
+	public String saveCategory(@Valid Category category, BindingResult result, Model model,
+			HttpServletRequest request) {
 
 		Language language = (Language) request.getAttribute("LANGUAGE");
-
-		
 
 		MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
 
@@ -218,68 +202,66 @@ public class AdminCategoryController {
 	}
 
 	@GetMapping(value = "/admin/secure/category/list")
-	public @ResponseBody ResponseEntity<List<Map>> list(@RequestParam(name="parent",defaultValue="0") Long parentId, HttpServletRequest request
-			) {
-		
+	public @ResponseBody ResponseEntity<List<Map>> list(
+			@RequestParam(name = "parent", defaultValue = "0") Long parentId, HttpServletRequest request) {
+
 		log.info("Parent id - {}", parentId);
 		Language language = (Language) request.getAttribute("LANGUAGE");
 
-		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
-		
+		MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+
 		log.info("M Store = " + store);
 
 		List<Category> categories = null;
 
 		if (parentId != 0L) {
-			
+
 			Category parent = categoryService.findOne(parentId);
-			if(parent != null){			
+			if (parent != null) {
 				categories = parent.getCategories();
-			}	
+			}
 		} else {
-			
+
 			categories = categoryService.findByStoreAndParent(store, null);
 
 		}
 
 		List<Map> categoryList = new ArrayList<>();
 		for (Category category : categories) {
-			
+
 			categoryList.add(convert(category));
-			
+
 		}
 
 		return new ResponseEntity<List<Map>>(categoryList, HttpStatus.OK);
 	}
-	
+
 	private Map convert(Category category) {
 		Map entry = new HashMap();
-		
+
 		CategoryDescription description = category.getDescriptions().get(0);
 
 		entry.put("title", description.getName());
 		entry.put("key", category.getId() + "");
-		
-		
+
 		List<Category> children = category.getCategories();
-		//look only 1 level down for children
-		if(children != null && !children.isEmpty()) {
+		// look only 1 level down for children
+		if (children != null && !children.isEmpty()) {
 			List<Map> childrenList = new ArrayList<Map>();
-			for(Category c : children) {
+			for (Category c : children) {
 				Map childEntry = new HashMap();
-				
+
 				CategoryDescription childDescription = c.getDescriptions().get(0);
 
 				childEntry.put("title", childDescription.getName());
 				childEntry.put("key", c.getId() + "");
 				childEntry.put("lazy", true);
-				
+
 				childrenList.add(childEntry);
 			}
-			
+
 			entry.put("children", childrenList);
-		}
-		else{
+		} else {
 			entry.put("lazy", false);
 			entry.put("children", null);
 		}
@@ -351,8 +333,6 @@ public class AdminCategoryController {
 	@RequestMapping(value = "/admin/categories/hierarchy.html", method = RequestMethod.GET)
 	public String displayCategoryHierarchy(Model model, HttpServletRequest request, HttpServletResponse response)
 			throws Exception {
-
-	
 
 		// get the list of categories
 		Language language = (Language) request.getAttribute("LANGUAGE");
@@ -526,7 +506,5 @@ public class AdminCategoryController {
 
 		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
 	}
-
-
 
 }
