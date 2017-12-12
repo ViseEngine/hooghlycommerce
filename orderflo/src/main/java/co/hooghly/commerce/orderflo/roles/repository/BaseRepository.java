@@ -1,4 +1,4 @@
-package co.hooghly.commerce.orderflo.repository;
+package co.hooghly.commerce.orderflo.roles.repository;
 
 import java.io.Serializable;
 import java.util.List;

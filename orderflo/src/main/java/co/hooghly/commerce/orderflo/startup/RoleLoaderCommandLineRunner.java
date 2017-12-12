@@ -1,4 +1,6 @@
-package co.hooghly.commerce.orderflo.roles;
+package co.hooghly.commerce.orderflo.startup;
+
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -6,10 +8,9 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
 
-
 import co.hooghly.commerce.orderflo.business.OrderService;
-
-import java.util.Arrays;
+import co.hooghly.commerce.orderflo.domain.Role;
+import co.hooghly.commerce.orderflo.roles.repository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -25,12 +26,40 @@ public class RoleLoaderCommandLineRunner implements CommandLineRunner {
 	
 	@Value("${orderflo.mode}")
 	private String toolMode;
-
+	
+	//@Autowired
+	private Role role;
+	
+	@Autowired
+	private RoleRepository repository;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
-		log.info("orderflo.MODE = {}", toolMode);
+		/*Optional<Role> r1=repository.findByName("USER");
+		Role a=r1.get();
+		String user=a.getName();
 		
+		Optional<Role> r2=repository.findByName("ADMIN");
+		
+		String admin=((repository.findByName("ADMIN")).get()).getName();
+		
+		if(role.getName().equalsIgnoreCase("USER") || role.getName().equalsIgnoreCase("ADMIN"))
+		{
+			// do nothing
+		}	
+		else{
+			
+			// create role 
+			Role roles=new Role();
+			roles.setId(1L);
+			roles.setName("ADMIN");
+			
+			//save using roles service class
+		}*/
+		
+		log.info("orderflo.MODE = {}", toolMode);
+		System.out.println("...Rajiv Before Application started....");
 		/*if(StringUtil.equals("DEV", toolMode)) {
 			//drop everything except crx schema
 			//DbRefreshEvent dfe = new DbRefreshEvent(this);

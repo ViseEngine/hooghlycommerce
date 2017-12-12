@@ -14,7 +14,7 @@ import lombok.EqualsAndHashCode;
 
 
 @Entity
-@Table(name = "t_usersss")
+@Table(name = "t_user")
 @Data
 @EqualsAndHashCode
 public class User {
