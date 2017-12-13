@@ -51,7 +51,7 @@ public interface CategoryRepository extends JpaRepository<Category, Long>, Categ
 	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and c.depth >= ?2 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByDepth(Integer merchantId, int depth);
 	
-	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth >= ?2 order by c.lineage, c.sortOrder asc")
+	@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch cd.language cdl join fetch c.merchantStore cm where cm.id=?1 and cdl.id=?3 and c.depth = ?2 order by c.lineage, c.sortOrder asc")
 	public List<Category> findByDepth(Integer merchantId, int depth, Integer languageId);
 	
 	//@Query("select distinct c from Category c left join fetch c.descriptions cd join fetch c.merchantStore cm left join fetch c.parent cp where cm.id=?1 and cp.id=?2 and cd.language.id=?3 order by c.lineage, c.sortOrder asc")

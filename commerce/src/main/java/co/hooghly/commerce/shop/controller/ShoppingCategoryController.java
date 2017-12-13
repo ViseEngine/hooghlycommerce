@@ -54,7 +54,7 @@ import java.util.*;
  *
  */
 @Controller
-@ConditionalOnProperty(prefix="shop.controller.ShoppingCategoryController", name="enabled")
+@ConditionalOnProperty(prefix="hooghly.shop.controller", name="enabled")
 public class ShoppingCategoryController {
 
 	@Inject
@@ -221,7 +221,7 @@ public class ShoppingCategoryController {
 		ReadableCategory parentProxy = null;
 
 		if (category.getParent() != null) {
-			Category parent = categoryService.getById(category.getParent().getId());
+			Category parent = categoryService.findOne(category.getParent().getId());
 			parentProxy = populator.populate(parent, new ReadableCategory(), store, language);
 		}
 

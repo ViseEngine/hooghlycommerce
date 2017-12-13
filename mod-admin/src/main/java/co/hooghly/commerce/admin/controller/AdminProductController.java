@@ -679,7 +679,7 @@ public class AdminProductController {
 
 		Set<Category> categories = dbProduct.getCategories();
 		for (Category category : categories) {
-			Category categoryCopy = categoryService.getById(category.getId());
+			Category categoryCopy = categoryService.findOne(category.getId());
 			newProduct.getCategories().add(categoryCopy);
 			productService.update(newProduct);
 		}
@@ -879,7 +879,7 @@ public class AdminProductController {
 			Long categoryId = Long.parseLong(sCategoryid);
 			Long productId = Long.parseLong(sProductId);
 
-			Category category = categoryService.getById(categoryId);
+			Category category = categoryService.findOne(categoryId);
 			Product product = productService.getById(productId);
 
 			if (category == null || category.getMerchantStore().getId() != store.getId()) {
@@ -937,7 +937,7 @@ public class AdminProductController {
 		// get parent categories
 		List<Category> categories = categoryService.listByStore(store, language);
 
-		Category category = categoryService.getById(categoryId);
+		Category category = categoryService.findOne(categoryId);
 
 		if (category == null) {
 			return "redirect:/admin/products/products.html";

@@ -1,0 +1,110 @@
+<span th:text="${#lists.size(displayCategories)}"></span>
+<!--Mobile Menu-->
+<div class="main-color-bg">
+	<div class="container">
+		<div class="row">
+			<div class="col-md-3 left-menu-wrapper">
+				<div class="xt-sidenav hidden-xs hidden-sm">
+					<nav>
+						<ul class="xt-side-menu">
+							<li><a href="#">All Category</a>
+								<ul class="xt-dropdown">
+									<li th:each="c : ${displayCategories}">
+										<a class="xt-nav-link" href="single-shop.html">
+											<i class="fa flaticon-glasses"></i> <span th:text="${c.description.name}"></span>
+										</a>
+										<ul class="mega-menu">
+											<li>
+												<ul class="xt-single-mega">
+													<li><a href="single-shop.html">Bags</a></li>
+													<li><a href="single-shop.html">Funky</a></li>
+													<li><a href="single-shop.html">Ear Wear</a></li>
+													<li><a href="single-shop.html">Shoes</a></li>
+													<li><a href="single-shop.html">Cosmetic</a></li>
+												</ul>
+											</li>
+											<li>
+												<ul class="xt-single-mega">
+													<li><a href="single-shop.html">Shirt</a></li>
+													<li><a href="single-shop.html">Pant</a></li>
+													<li><a href="single-shop.html">Trousers</a></li>
+													<li><a href="single-shop.html">Jackets &amp;
+															sweater</a></li>
+													<li><a href="single-shop.html">T-Shirts</a></li>
+												</ul>
+											</li>
+										</ul>
+									</li>
+										
+								</ul></li>
+						</ul>
+					</nav>
+				</div>
+			</div>
+
+			<div class="col-md-8 col-sm-10 col-xs-12 xt-header-search">
+				<div
+					class="form-group xt-form search-bar  col-md-8 col-sm-8 col-xs-7 padding-right-o">
+					<input type="text" class="form-control"
+						placeholder="Search for snippets" />
+				</div>
+				<div
+					class="form-group xt-form xt-search-cat col-md-4 col-sm-4 col-xs-5 padding-left-o ">
+					<div class="xt-select xt-search-opt">
+						<select class="xt-dropdown-search select-beast">
+							<option>All Categories</option>
+							<option>Boutique</option>
+							<option>Shirt</option>
+							<option>Pants</option>
+							<option>Jeans</option>
+							<option>Bourkha</option>
+							<option>Hijab</option>
+							<option>T-Shirt</option>
+							<option>Coats</option>
+							<option>Blezzar</option>
+							<option>Gilets</option>
+							<option>3 Piece</option>
+							<option>Cosmetic</option>
+						</select>
+					</div>
+					<div class="xt-search-opt xt-search-btn">
+						<button type="button" class="btn btn-primary btn-search">
+							<i class="fa fa-search"></i>
+						</button>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-1 col-sm-2 col-xs-2">
+				<div class="xt-cart">
+					<ul>
+						<li class="dropdown"><a href="" class="dropdown-toggle"
+							data-toggle="dropdown" data-hover="dropdown"> <i
+								class="fa flaticon-shopping-cart"></i>
+						</a>
+							<ul class="dropdown-menu xt-cart-items">
+								<li><a href=""> <img
+										th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/4.jpg'}" alt="" />
+										<h3>Lipstick</h3> <span class="cart-price">$299</span>
+								</a></li>
+								<li><a href=""> <img
+										th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/1.jpg'}" alt="" />
+										<h3>T-Shirt</h3> <span class="cart-price">$499</span>
+								</a></li>
+								<li><a href=""> <img
+										th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/3.jpg'}" alt="" />
+										<h3>Shirt</h3> <span class="cart-price">$399</span>
+								</a></li>
+								<li><a href="" class="subtotal top-checkout">
+										<h3>Subtotal :</h3> <span class="total-price">$999</span>
+								</a></li>
+								<li><a href="cart.html" class="process top-checkout">
+										<h3>Process to Checkout</h3>
+								</a></li>
+							</ul></li>
+					</ul>
+					<span class="xt-item-count">8</span>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

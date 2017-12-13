@@ -54,45 +54,10 @@ commerce:
   theme: zap
   
 ## Control controller start stop
-shop:
-  controller:
-    ContactController:
-      enabled: false   
-    CustomerAccountController:
-      enabled: false    
-    CustomerDashboardController:
-      enabled: false
-    CustomerLoginController:
-      enabled: false
-    CustomerOrdersController:
-      enabled : false
-    CustomerProductReviewController:
-      enabled: false
-    CustomerRegistrationController:
-      enabled: false
-    ListItemsController:
-      enabled: false
-    MiniCartController:
-      enabled: false
-    OrderManagementController:
-      enabled: false
-    ProductController:
-      enabled: false
-    ProductImageController:
-      enabled: false
-    ShopContentController:
-      enabled: false
-    ShopHomeController:
-      enabled: true
-    ShoppingCartController:
-      enabled: false
-    ShoppingCategoryController:
-      enabled: false
-    ShoppingOrderConfirmationController:
-      enabled: false
-    ShoppingOrderController:
-      enabled: false
-    ShoppingOrderDownloadController:
-      enabled: false
-    ShoppingOrderPaymentController:
-      enabled: false
+hooghly:
+  shop:
+    controller:
+      enabled: true   
+  admin:
+    controller:
+      enabled : false  

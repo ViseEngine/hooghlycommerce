@@ -37,7 +37,7 @@ import lombok.extern.slf4j.Slf4j;
 @Controller
 @RequestMapping("/shop")
 @Slf4j
-@ConditionalOnProperty(prefix="shop.controller.ShopHomeController", name="enabled")
+@ConditionalOnProperty(prefix="hooghly.shop.controller", name="enabled")
 public class ShopHomeController {
 
 	private static final String LANDING_PAGE = "LANDING_PAGE";

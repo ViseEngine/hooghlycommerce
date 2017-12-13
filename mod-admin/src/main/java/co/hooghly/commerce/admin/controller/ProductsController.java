@@ -111,7 +111,7 @@ public class ProductsController {
 
 				if(lcategoryId>0) {
 				
-					Category category = categoryService.getById(lcategoryId);
+					Category category = categoryService.findOne(lcategoryId);
 	
 					if(category==null || category.getMerchantStore().getId()!=store.getId()) {
 						resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);

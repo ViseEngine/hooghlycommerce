@@ -1,34 +1,25 @@
 package co.hooghly.commerce.business;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
-import java.util.Set;
-
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.stereotype.Service;
-import org.springframework.util.Assert;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.hooghly.commerce.domain.Category;
 import co.hooghly.commerce.domain.CategoryDescription;
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.Product;
+
 import co.hooghly.commerce.repository.CategoryRepository;
+import lombok.extern.slf4j.Slf4j;
 
 @Service
-public class CategoryService extends SalesManagerEntityServiceImpl<Long, Category> {
+@Slf4j
+public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long> {
 
 	private CategoryRepository categoryRepository;
-
-	@PersistenceContext
-	private EntityManager em;
-
-	@Autowired
-	private ProductService productService;
 
 	@Autowired
 	public CategoryService(CategoryRepository categoryRepository) {
@@ -36,227 +27,113 @@ public class CategoryService extends SalesManagerEntityServiceImpl<Long, Categor
 		this.categoryRepository = categoryRepository;
 	}
 
-	public Category findOne(Long id) {
-
-		return categoryRepository.findOne(id);
-
-	}
-
 	public List<Category> findByStoreAndParent(MerchantStore store, Category parent) {
 		return categoryRepository.findByMerchantStoreAndParent(store, parent);
 	}
 
-	public void create(Category category) throws ServiceException {
-
-		super.create(category);
-
-		StringBuilder lineage = new StringBuilder();
+	@Transactional
+	public void create(Category category) {
+		String lineage = "";
 		Category parent = category.getParent();
-		if (parent != null && parent.getId() != null && parent.getId() != 0) {
-			lineage.append(parent.getLineage()).append("/").append(parent.getId());
+		
+		if (parent != null) {
+			log.info("parent depth - {}", parent.getLineage());
+			lineage = parent.getLineage() + "/" + parent.getId();
 			category.setDepth(parent.getDepth() + 1);
 		} else {
-			lineage.append("/");
+			lineage = "/";
 			category.setDepth(0);
 		}
-		category.setLineage(lineage.toString());
-		super.update(category);
+		category.setLineage(lineage);
+		
+		
+		//validate store
+		if(parent !=null && parent.getMerchantStore().getId().intValue()!=category.getMerchantStore().getId().intValue()) {
+			throw new RuntimeException("Store id does not belong to specified parent id");
+		}
+		
+		save(category);
 
 	}
 
-	public List<Object[]> countProductsByCategories(MerchantStore store, List<Long> categoryIds)
-			throws ServiceException {
-
+	@Transactional(readOnly = true)
+	public List<Object[]> countProductsByCategories(MerchantStore store, List<Long> categoryIds) {
 		return categoryRepository.countProductsByCategories(store, categoryIds);
-
 	}
 
+	@Transactional(readOnly = true)
 	public List<Category> listByCodes(MerchantStore store, List<String> codes, Language language) {
 		return categoryRepository.findByCodes(store.getId(), codes, language.getId());
 	}
 
+	@Transactional(readOnly = true)
 	public List<Category> listByIds(MerchantStore store, List<Long> ids, Language language) {
 		return categoryRepository.findByIds(store.getId(), ids, language.getId());
 	}
 
+	@Transactional(readOnly = true)
 	public Category getByLanguage(long categoryId, Language language) {
 		return categoryRepository.findById(categoryId, language.getId());
 	}
 
-	public void saveOrUpdate(Category category) throws ServiceException {
-
-		// save or update (persist and attach entities
-		if (category.getId() != null && category.getId() > 0) {
-
-			super.update(category);
-
-		} else {
-
-			super.save(category);
-
-		}
-
+	@Transactional(readOnly = true)
+	public List<Category> listByLineage(MerchantStore store, String lineage) {
+		return categoryRepository.findByLineage(store.getId(), lineage);
 	}
 
-	public List<Category> listByLineage(MerchantStore store, String lineage) throws ServiceException {
-		try {
-			return categoryRepository.findByLineage(store.getId(), lineage);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
+	@Transactional(readOnly = true)
+	public List<Category> listByLineage(String storeCode, String lineage) {
+		return categoryRepository.findByLineage(storeCode, lineage);
 	}
 
-	public List<Category> listByLineage(String storeCode, String lineage) throws ServiceException {
-		try {
-			return categoryRepository.findByLineage(storeCode, lineage);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
+	@Transactional(readOnly = true)
+	public List<Category> listBySeUrl(MerchantStore store, String seUrl) {
+		return categoryRepository.listByFriendlyUrl(store.getId(), seUrl);
 	}
 
-	public List<Category> listBySeUrl(MerchantStore store, String seUrl) throws ServiceException {
-
-		try {
-			return categoryRepository.listByFriendlyUrl(store.getId(), seUrl);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
-	}
-
+	@Transactional(readOnly = true)
 	public Category getBySeUrl(MerchantStore store, String seUrl) {
 		return categoryRepository.findByFriendlyUrl(store.getId(), seUrl);
 	}
 
-	public Category getByCode(MerchantStore store, String code) throws ServiceException {
+	@Transactional(readOnly = true)
+	public Category getByCode(MerchantStore store, String code) {
+		return categoryRepository.findByCode(store.getId(), code);
+	}
 
-		try {
-			return categoryRepository.findByCode(store.getId(), code);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+	@Transactional(readOnly = true)
+	public Category getByCode(String storeCode, String code) {
+		return categoryRepository.findByCode(storeCode, code);
+	}
+
+	@Transactional(readOnly = true)
+	public List<Category> listByParent(Category category) {
+
+		return categoryRepository.listByStoreAndParent(null, category);
 
 	}
 
-	public Category getByCode(String storeCode, String code) throws ServiceException {
+	public List<Category> listByStoreAndParent(MerchantStore store, Category category) {
 
-		try {
-			return categoryRepository.findByCode(storeCode, code);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
-	}
-
-	@Deprecated
-	public Category getById(Long id) {
-
-		return categoryRepository.findOne(id);
-
-	}
-
-	public List<Category> listByParent(Category category) throws ServiceException {
-
-		try {
-			return categoryRepository.listByStoreAndParent(null, category);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
-
-	}
-
-	public List<Category> listByStoreAndParent(MerchantStore store, Category category) throws ServiceException {
-
-		try {
-			return categoryRepository.listByStoreAndParent(store, category);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		return categoryRepository.listByStoreAndParent(store, category);
 
 	}
 
 	public List<Category> listByParent(Category category, Language language) {
-		Assert.notNull(category, "Category cannot be null");
-		Assert.notNull(language, "Language cannot be null");
-		Assert.notNull(category.getMerchantStore(), "category.merchantStore cannot be null");
-
 		return categoryRepository.findByParent(category.getId(), language.getId());
 	}
 
-	public void addCategoryDescription(Category category, CategoryDescription description) throws ServiceException {
+	public void addCategoryDescription(Category category, CategoryDescription description) {
 
-		try {
-			category.getDescriptions().add(description);
-			description.setCategory(category);
-			update(category);
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		category.getDescriptions().add(description);
+		description.setCategory(category);
+		save(category);
 
 	}
 
 	//
-	public void delete(Category category) throws ServiceException {
-
-		// get category with lineage (subcategories)
-		StringBuilder lineage = new StringBuilder();
-		lineage.append(category.getLineage()).append(category.getId()).append(Constants.SLASH);
-		List<Category> categories = this.listByLineage(category.getMerchantStore(), lineage.toString());
-
-		Category dbCategory = this.getById(category.getId());
-
-		if (dbCategory != null && dbCategory.getId().longValue() == category.getId().longValue()) {
-
-			categories.add(dbCategory);
-
-			Collections.reverse(categories);
-
-			List<Long> categoryIds = new ArrayList<Long>();
-
-			for (Category c : categories) {
-				categoryIds.add(c.getId());
-			}
-
-			List<Product> products = productService.getProducts(categoryIds);
-			org.hibernate.Session session = em.unwrap(org.hibernate.Session.class);// need
-																					// to
-																					// refresh
-																					// the
-																					// session
-																					// to
-																					// update
-																					// all
-																					// product
-																					// categories
-
-			for (Product product : products) {
-				session.evict(product);// refresh product so we get all product
-										// categories
-				Product dbProduct = productService.getById(product.getId());
-				Set<Category> productCategories = dbProduct.getCategories();
-				if (productCategories.size() > 1) {
-					for (Category c : categories) {
-						productCategories.remove(c);
-						productService.update(dbProduct);
-					}
-
-					if (product.getCategories() == null || product.getCategories().size() == 0) {
-						productService.delete(dbProduct);
-					}
-
-				} else {
-					productService.delete(dbProduct);
-				}
-
-			}
-
-			Category categ = this.getById(category.getId());
-			categoryRepository.delete(categ);
-
-		}
-
+	public void delete(Category category) {
+		categoryRepository.delete(category);
 	}
 
 	public CategoryDescription getDescription(Category category, Language language) {
@@ -288,7 +165,7 @@ public class CategoryService extends SalesManagerEntityServiceImpl<Long, Categor
 
 			} else {
 
-				Category p = this.getById(parent.getId());// parent
+				Category p = findOne(parent.getId());// parent
 
 				String lineage = p.getLineage();
 				int depth = p.getDepth();// TODO sometimes null
@@ -299,7 +176,7 @@ public class CategoryService extends SalesManagerEntityServiceImpl<Long, Categor
 
 			}
 
-			update(child);
+			save(child);
 			StringBuilder childLineage = new StringBuilder();
 			childLineage.append(child.getLineage()).append(child.getId()).append("/");
 			List<Category> subCategories = listByLineage(child.getMerchantStore(), childLineage.toString());
@@ -323,27 +200,22 @@ public class CategoryService extends SalesManagerEntityServiceImpl<Long, Categor
 		return categoryRepository.findByDepth(store.getId(), depth);
 	}
 
-	public List<Category> listByDepth(MerchantStore store, int depth, Language language) {
+	@Cacheable("category-cache-store-depth-lang")
+	@Transactional(readOnly = true)
+	public List<Category> findByDepth(MerchantStore store, int depth, Language language) {
 		return categoryRepository.findByDepth(store.getId(), depth, language.getId());
 	}
 
-	public List<Category> getByName(MerchantStore store, String name, Language language) throws ServiceException {
+	public List<Category> getByName(MerchantStore store, String name, Language language) {
 
-		try {
-			return categoryRepository.findByName(store.getId(), name, language.getId());
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		return categoryRepository.findByName(store.getId(), name, language.getId());
 
 	}
 
-	public List<Category> listByStore(MerchantStore store) throws ServiceException {
+	public List<Category> listByStore(MerchantStore store) {
 
-		try {
-			return categoryRepository.findByStore(store.getId());
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		return categoryRepository.findByStore(store.getId());
+
 	}
 
 	public List<Category> listByStore(MerchantStore store, Language language) {

@@ -130,7 +130,7 @@ public class AdminCategoryController {
 		if (category.getId() != null && category.getId() > 0) { // edit entry
 
 			// get from DB
-			Category currentCategory = categoryService.getById(category.getId());
+			Category currentCategory = categoryService.findOne(category.getId());
 
 			if (currentCategory == null
 					|| currentCategory.getMerchantStore().getId().intValue() != store.getId().intValue()) {
@@ -173,7 +173,7 @@ public class AdminCategoryController {
 		}
 
 		category.getAuditSection().setModifiedBy(request.getRemoteUser());
-		categoryService.saveOrUpdate(category);
+		categoryService.save(category);
 
 		// ajust lineage and depth
 		if (category.getParent() != null && category.getParent().getId() != -1) {
@@ -359,7 +359,7 @@ public class AdminCategoryController {
 
 			Long id = Long.parseLong(sid);
 
-			Category category = categoryService.getById(id);
+			Category category = categoryService.findOne(id);
 
 			if (category == null || category.getMerchantStore().getId().intValue() != store.getId().intValue()) {
 
@@ -403,8 +403,8 @@ public class AdminCategoryController {
 			Long parentId = Long.parseLong(parentid);
 			Long childId = Long.parseLong(childid);
 
-			Category child = categoryService.getById(childId);
-			Category parent = categoryService.getById(parentId);
+			Category child = categoryService.findOne(childId);
+			Category parent = categoryService.findOne(parentId);
 
 			if (child.getParent().getId() == parentId) {
 				resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);

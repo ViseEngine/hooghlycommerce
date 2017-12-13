@@ -1,25 +1,13 @@
 package co.hooghly.commerce.web.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-
 import co.hooghly.commerce.business.MerchantConfigurationService;
 import co.hooghly.commerce.business.utils.CoreConfiguration;
 import static co.hooghly.commerce.constants.Constants.*;
-
-import co.hooghly.commerce.domain.MerchantConfig;
-import co.hooghly.commerce.domain.MerchantConfiguration;
-import co.hooghly.commerce.domain.MerchantConfigurationType;
-import co.hooghly.commerce.domain.MerchantStore;
-
-
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-
-
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 
@@ -51,6 +39,21 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 	@Autowired
 	private CoreConfiguration coreConfiguration;
+	
+	
+
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		log.info("Post handling request for store.");
+		for(WebInterceptorProcessingStrategy strategy : processingStrategies) {
+			if(strategy.canHandle("StoreInterceptor")) {
+				strategy.postHandle(request, response, handler,modelAndView);
+			}
+		}
+	}
+
+
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
@@ -64,9 +67,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 			}
 		}
 
-		/******* Top Categories ********/
-		// this.getTopCategories(store, language, request);
-		// this.setTopCategories(store, language, request);
+		
 
 		
 		/******* Configuration objects *******/
