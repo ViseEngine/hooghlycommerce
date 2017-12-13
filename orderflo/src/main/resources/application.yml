@@ -9,12 +9,11 @@ spring:
     platform: mysql
     
   jpa:
-    properties:
-      hibernate:
+     hibernate:
+      ddl-auto: update
+     properties:
         dialect: org.hibernate.dialect.MySQL5Dialect
         show_sql: false
-        ddl-auto: create-drop
-  
 
 logging:
   file: c:/EDMT_WORK/orderflo.log
