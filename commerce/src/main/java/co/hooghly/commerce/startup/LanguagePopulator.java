@@ -22,8 +22,8 @@ public class LanguagePopulator extends AbstractDataPopulator {
 	 * Languages iso codes
 	 * 
 	 */
-	protected static final String[] LANGUAGE_ISO_CODE = { "en", "bn", "ta", "hi" };
-	protected static final String[] LANGUAGE_NAME = { "English", "বাংলা", "தமிழ்", "हिंदी" };
+	protected static final String[] LANGUAGE_ISO_CODE = { "en", "hi" };
+	protected static final String[] LANGUAGE_NAME = { "English", "हिंदी" };
 	
 	@Autowired
 	private LanguageService languageService;

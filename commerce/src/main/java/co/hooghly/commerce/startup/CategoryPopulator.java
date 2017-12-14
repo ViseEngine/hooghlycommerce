@@ -63,7 +63,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
 
-			list = stream.filter(StringUtils::isNotBlank).collect(Collectors.toList());
+			list = stream.filter(i -> StringUtils.isNotBlank(i) && !StringUtils.startsWith(i, "#")).collect(Collectors.toList());
 
 		} catch (Exception e) {
 			log.error("Error ", e);
@@ -76,6 +76,8 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	@Override
 	public void runInternal(String... args) throws Exception {
 		log.info("10. Populating categories.");
+		
+		
 
 		// 2 languages by default
 		Language en = languageService.getByCode("en");

@@ -200,7 +200,7 @@ public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long
 		return categoryRepository.findByDepth(store.getId(), depth);
 	}
 
-	@Cacheable("category-cache-store-depth-lang")
+	//@Cacheable(cacheNames = "category-cache-store-depth-lang", key="#store.id + '.' + depth + '.' + #language.id")
 	@Transactional(readOnly = true)
 	public List<Category> findByDepth(MerchantStore store, int depth, Language language) {
 		return categoryRepository.findByDepth(store.getId(), depth, language.getId());

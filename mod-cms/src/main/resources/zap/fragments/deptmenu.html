@@ -1,4 +1,4 @@
-<span th:text="${#lists.size(displayCategories)}"></span>
+
 <!--Mobile Menu-->
 <div class="main-color-bg">
 	<div class="container">
@@ -14,25 +14,13 @@
 											<i class="fa flaticon-glasses"></i> <span th:text="${c.description.name}"></span>
 										</a>
 										<ul class="mega-menu">
-											<li>
-												<ul class="xt-single-mega">
-													<li><a href="single-shop.html">Bags</a></li>
-													<li><a href="single-shop.html">Funky</a></li>
-													<li><a href="single-shop.html">Ear Wear</a></li>
-													<li><a href="single-shop.html">Shoes</a></li>
-													<li><a href="single-shop.html">Cosmetic</a></li>
+											<li th:each="childCats : ${T(com.google.common.collect.Lists).partition(c.categories, 4)}">
+												<ul class="xt-single-mega" >
+													<li th:each="cc : ${childCats}"><a href="single-shop.html" th:text="${cc.description.name}">Bags</a></li>
+											
 												</ul>
 											</li>
-											<li>
-												<ul class="xt-single-mega">
-													<li><a href="single-shop.html">Shirt</a></li>
-													<li><a href="single-shop.html">Pant</a></li>
-													<li><a href="single-shop.html">Trousers</a></li>
-													<li><a href="single-shop.html">Jackets &amp;
-															sweater</a></li>
-													<li><a href="single-shop.html">T-Shirts</a></li>
-												</ul>
-											</li>
+											
 										</ul>
 									</li>
 										
