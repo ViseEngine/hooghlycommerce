@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 import org.springframework.web.bind.ServletRequestUtils;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import co.hooghly.commerce.business.MerchantStoreService;
@@ -43,7 +44,8 @@ public class MerchantStoreProcessingStrategy implements WebInterceptorProcessing
 	}
 
 	@Override
-	public void postHandle() {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) {
 		
 		
 	}

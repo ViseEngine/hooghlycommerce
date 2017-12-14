@@ -71,8 +71,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		Date date = new Date(System.currentTimeMillis());
 
 		Language en = languageService.getByCode("en");
-		Language bn = languageService.getByCode("bn");
-		Language ta = languageService.getByCode("ta");
+		
 		Language hi = languageService.getByCode("hi");
 		
 		
@@ -127,25 +126,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		
 		merchantStoreViewRepository.save(msHi);
 		
-		MerchantStoreView msBen = new MerchantStoreView();
-		msBen.setCode("benINR");
-		msBen.setCountry(in);
-		msBen.setCurrency(currency);
-		msBen.setLanguage(bn);
-		msBen.setTheme("zap");
-		msBen.setMerchantStore(store);
 		
-		merchantStoreViewRepository.save(msBen);
-		
-		MerchantStoreView msTa = new MerchantStoreView();
-		msTa.setCode("taINR");
-		msTa.setCountry(in);
-		msTa.setCurrency(currency);
-		msTa.setLanguage(ta);
-		msTa.setTheme("zap");
-		msTa.setMerchantStore(store);
-		
-		merchantStoreViewRepository.save(msTa);
 		
 		
 		log.info("7.2 Populating Tax Class - DEFAULT");

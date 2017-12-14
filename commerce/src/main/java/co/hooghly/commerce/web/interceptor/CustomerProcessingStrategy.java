@@ -14,7 +14,7 @@ import org.springframework.core.annotation.Order;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import co.hooghly.commerce.business.CustomerService;
@@ -49,7 +49,8 @@ public class CustomerProcessingStrategy implements WebInterceptorProcessingStrat
 	}
 
 	@Override
-	public void postHandle() {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) {
 		// TODO Auto-generated method stub
 
 	}

@@ -13,7 +13,7 @@ import lombok.Data;
 
 @Embeddable
 @Data
-//@org.hibernate.annotations.Entity(dynamicUpdate = true, dynamicInsert = true)
+
 public class AuditSection implements Serializable {
 
 

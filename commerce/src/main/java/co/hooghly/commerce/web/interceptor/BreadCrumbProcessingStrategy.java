@@ -14,7 +14,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.MessageSource;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-
+import org.springframework.web.servlet.ModelAndView;
 
 import co.hooghly.commerce.business.CategoryService;
 import co.hooghly.commerce.business.ProductService;
@@ -56,7 +56,8 @@ public class BreadCrumbProcessingStrategy implements WebInterceptorProcessingStr
 	}
 
 	@Override
-	public void postHandle() {
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) {
 		// TODO Auto-generated method stub
 
 	}

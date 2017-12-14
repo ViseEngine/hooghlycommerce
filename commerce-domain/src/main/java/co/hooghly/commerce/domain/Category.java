@@ -5,13 +5,10 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
-import javax.persistence.Embedded;
+
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -28,23 +25,15 @@ import lombok.EqualsAndHashCode;
 @EntityListeners(value = AuditListener.class)
 @Table(name = "CATEGORY", uniqueConstraints = @UniqueConstraint(columnNames = { "MERCHANT_ID", "CODE" }))
 @Data
-@EqualsAndHashCode(callSuper = false)
-public class Category extends SalesManagerEntity<Long, Category> implements Auditable {
-	private static final long serialVersionUID = -846291242449186747L;
-
-	@Id
-	@Column(name = "CATEGORY_ID", unique = true, nullable = false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Embedded
-	private AuditSection auditSection = new AuditSection();
+@EqualsAndHashCode(callSuper = true)
+public class Category extends AbstractBaseEntity  {
+	
 
 	@Valid
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
 	private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MERCHANT_ID", nullable = false)
 	private MerchantStore merchantStore;
 

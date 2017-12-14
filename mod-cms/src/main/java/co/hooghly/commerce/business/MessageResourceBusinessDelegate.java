@@ -12,17 +12,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Component
 public class MessageResourceBusinessDelegate extends AbstractBaseBusinessDelegate<MessageResource, String>{
-	
+	private MessageResourceRepository messageResourceRepository;
 	
 	public MessageResourceBusinessDelegate(MessageResourceRepository repository) {
 		super(repository);
+		this.messageResourceRepository = messageResourceRepository;
 	}
 	
 	@Cacheable("msg-key-locale")
 	public MessageResource findByMessageKeyAndLocale(String messageKey, Locale locale) {
 		MessageResource mr = null;
 		try {
-			mr = ((MessageResourceRepository)getRepository()).findByMessageKeyAndLocale(messageKey, locale + "");
+			mr = messageResourceRepository.findByMessageKeyAndLocale(messageKey, locale + "");
 		}
 		catch(Exception e) {
 			log.warn("Error retrieving msg key - {} , error : {}", messageKey, e.getLocalizedMessage());
