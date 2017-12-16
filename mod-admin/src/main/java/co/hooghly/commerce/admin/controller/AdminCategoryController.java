@@ -24,7 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
+
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -36,7 +36,7 @@ import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.LanguageService;
 import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
+
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 
@@ -96,9 +96,9 @@ public class AdminCategoryController {
 
 		}
 
-		List<CategoryDescription> descriptions = new ArrayList<>();
+		
 
-		for (Language l : languages) {
+		/*for (Language l : languages) {
 
 			Optional<CategoryDescription> description = category.getDescriptions().stream().filter(desc -> desc.getLanguage().getCode().equals(l.getCode())).findFirst();
 			CategoryDescription descr = null;
@@ -111,7 +111,7 @@ public class AdminCategoryController {
 
 		}
 
-		category.setDescriptions(descriptions);
+		category.setDescriptions(descriptions);*/
 
 		model.addAttribute("category", category);
 		model.addAttribute("categories", categories);
@@ -141,7 +141,7 @@ public class AdminCategoryController {
 
 		Map<String, Language> langs = languageService.getLanguagesMap();
 
-		List<CategoryDescription> descriptions = category.getDescriptions();
+		/*List<CategoryDescription> descriptions = category.getDescriptions();
 		if (descriptions != null) {
 
 			for (CategoryDescription description : descriptions) {
@@ -154,7 +154,7 @@ public class AdminCategoryController {
 			}
 
 		}
-
+*/
 		// save to DB
 		category.setMerchantStore(store);
 		// }
@@ -239,7 +239,7 @@ public class AdminCategoryController {
 	private Map convert(Category category) {
 		Map entry = new HashMap();
 
-		CategoryDescription description = category.getDescriptions().get(0);
+		/*CategoryDescription description = category.getDescriptions().get(0);
 
 		entry.put("title", description.getName());
 		entry.put("key", category.getId() + "");
@@ -264,7 +264,7 @@ public class AdminCategoryController {
 		} else {
 			entry.put("lazy", false);
 			entry.put("children", null);
-		}
+		}*/
 		return entry;
 	}
 
@@ -306,9 +306,9 @@ public class AdminCategoryController {
 				Map entry = new HashMap();
 				entry.put("categoryId", category.getId());
 
-				CategoryDescription description = category.getDescriptions().get(0);
+				//CategoryDescription description = category.getDescriptions().get(0);
 
-				entry.put("name", description.getName());
+				//entry.put("name", description.getName());
 				entry.put("code", category.getCode());
 				entry.put("visible", category.isVisible());
 				resp.addDataEntry(entry);

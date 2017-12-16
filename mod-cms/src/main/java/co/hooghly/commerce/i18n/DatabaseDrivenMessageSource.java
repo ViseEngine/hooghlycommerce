@@ -5,7 +5,7 @@ import java.util.Locale;
 import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.stereotype.Component;
 
-import co.hooghly.commerce.business.MessageResourceBusinessDelegate;
+import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -13,9 +13,9 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class DatabaseDrivenMessageSource extends AbstractMessageSource {
 
-	private MessageResourceBusinessDelegate messageResourceBusinessDelegate;
+	private MessageResourceService messageResourceBusinessDelegate;
 
-	public DatabaseDrivenMessageSource(MessageResourceBusinessDelegate messageResourceBusinessDelegate) {
+	public DatabaseDrivenMessageSource(MessageResourceService messageResourceBusinessDelegate) {
 		log.info("=== DB backed message source created ===");
 		this.messageResourceBusinessDelegate = messageResourceBusinessDelegate;
 

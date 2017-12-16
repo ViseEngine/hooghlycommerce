@@ -11,12 +11,12 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Component
-public class MessageResourceBusinessDelegate extends AbstractBaseBusinessDelegate<MessageResource, String>{
+public class MessageResourceService extends AbstractBaseBusinessDelegate<MessageResource, String>{
 	private MessageResourceRepository messageResourceRepository;
 	
-	public MessageResourceBusinessDelegate(MessageResourceRepository repository) {
+	public MessageResourceService(MessageResourceRepository repository) {
 		super(repository);
-		this.messageResourceRepository = messageResourceRepository;
+		this.messageResourceRepository = repository;
 	}
 	
 	@Cacheable("msg-key-locale")

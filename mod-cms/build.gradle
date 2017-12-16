@@ -40,6 +40,7 @@ dependencies {
 	compile group: 'commons-io', name: 'commons-io', version: '2.5'
 	
 	compile project (':commerce-domain')
+	compile project (':commerce-business')
 }
 
 task zapZip(type: Zip) {

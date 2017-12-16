@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Table(name = "t_message_resource")
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class MessageResource extends BaseEntity{
+public class MessageResource extends AbstractBaseEntity{
 
 	
 	@Column(name = "message_key")
@@ -24,6 +24,7 @@ public class MessageResource extends BaseEntity{
 	@Column(name = "locale")
 	private String locale;
 	
-	
+	@Column(name = "domain")
+	private String domain;
 	
 }

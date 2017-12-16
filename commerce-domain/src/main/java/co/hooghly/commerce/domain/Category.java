@@ -10,11 +10,12 @@ import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
+import javax.persistence.Lob;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import javax.validation.Valid;
+
 
 import org.hibernate.validator.constraints.NotEmpty;
 
@@ -29,9 +30,7 @@ import lombok.EqualsAndHashCode;
 public class Category extends AbstractBaseEntity  {
 	
 
-	@Valid
-	@OneToMany(mappedBy = "category", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
-	private List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
+	
 
 	@ManyToOne(fetch = FetchType.EAGER)
 	@JoinColumn(name = "MERCHANT_ID", nullable = false)
@@ -65,6 +64,38 @@ public class Category extends AbstractBaseEntity  {
 	@NotEmpty
 	@Column(name = "CODE", length = 100, nullable = false)
 	private String code;
+	
+	
+	@Column(name="SEF_URL", length=120)
+	private String seUrl;
+	
+	@Column(name = "CATEGORY_HIGHLIGHT")
+	private String categoryHighlight;
+
+
+	@Column(name="META_TITLE", length=120)
+	private String metatagTitle;
+	
+	@Column(name="META_KEYWORDS")
+	private String metatagKeywords;
+	
+	@Column(name="META_DESCRIPTION")
+	private String metatagDescription;
+	
+	@NotEmpty
+	@Column(name="NAME", nullable = false, length=120)
+	private String name;
+	
+	@Column(name="TITLE", length=100)
+	private String title;
+	
+	@Column(name="SUB_TITLE", length=100)
+	private String subtitle;
+	
+	@Column(name="DESCRIPTION")
+	@Lob
+	private String description;
+	
 
 	public Category() {
 	}
@@ -74,11 +105,5 @@ public class Category extends AbstractBaseEntity  {
 
 	}
 
-	public CategoryDescription getDescription() {
-		if (descriptions != null && descriptions.size() > 0) {
-			return descriptions.iterator().next();
-		}
 
-		return null;
-	}
 }

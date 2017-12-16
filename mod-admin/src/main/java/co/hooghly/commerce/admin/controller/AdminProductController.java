@@ -10,7 +10,7 @@ import co.hooghly.commerce.business.utils.CoreConfiguration;
 import co.hooghly.commerce.business.utils.ProductPriceUtils;
 import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
+
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.Manufacturer;
 import co.hooghly.commerce.domain.MerchantStore;
@@ -835,7 +835,7 @@ public class AdminProductController {
 			for (Category category : categories) {
 				Map entry = new HashMap();
 				entry.put("categoryId", category.getId());
-
+				/*
 				List<CategoryDescription> descriptions = category.getDescriptions();
 				String categoryName = category.getDescriptions().get(0).getName();
 				for (CategoryDescription description : descriptions) {
@@ -843,7 +843,7 @@ public class AdminProductController {
 						categoryName = description.getName();
 					}
 				}
-				entry.put("name", categoryName);
+				entry.put("name", categoryName);*/
 				resp.addDataEntry(entry);
 			}
 

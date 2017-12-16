@@ -105,8 +105,8 @@ public class BreadCrumbProcessingStrategy implements WebInterceptorProcessingStr
 								BreadcrumbItem categoryItem = new BreadcrumbItem();
 								categoryItem.setId(category.getId());
 								categoryItem.setItemType(BreadcrumbItemType.CATEGORY);
-								categoryItem.setLabel(category.getDescription().getName());
-								categoryItem.setUrl(category.getDescription().getSeUrl());
+								categoryItem.setLabel(category.getName());
+								categoryItem.setUrl(category.getSeUrl());
 								items.add(categoryItem);
 							}
 						} else if (item.getItemType().name().equals(BreadcrumbItemType.PAGE)) {

@@ -1,3 +1,6 @@
 
 include ':commerce-domain'
 project(':commerce-domain').projectDir = new File(settingsDir, '../commerce-domain')
+
+include ':commerce-business'
+project(':commerce-business').projectDir = new File(settingsDir, '../commerce-business')
