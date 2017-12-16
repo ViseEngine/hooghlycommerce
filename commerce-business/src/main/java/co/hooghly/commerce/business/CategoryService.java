@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
+
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 
@@ -63,47 +63,47 @@ public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long
 
 	@Transactional(readOnly = true)
 	public List<Category> listByCodes(MerchantStore store, List<String> codes, Language language) {
-		return categoryRepository.findByCodes(store.getId(), codes, language.getId());
+		return categoryRepository.findByMerchantStoreIdAndCodeInOrderBySortOrderAsc(store.getId(), codes);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Category> listByIds(MerchantStore store, List<Long> ids, Language language) {
-		return categoryRepository.findByIds(store.getId(), ids, language.getId());
+		return categoryRepository.findByMerchantStoreIdAndIdInOrderBySortOrderAsc(store.getId(), ids);
 	}
 
 	@Transactional(readOnly = true)
 	public Category getByLanguage(long categoryId, Language language) {
-		return categoryRepository.findById(categoryId, language.getId());
+		return categoryRepository.findOne(categoryId);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Category> listByLineage(MerchantStore store, String lineage) {
-		return categoryRepository.findByLineage(store.getId(), lineage);
+		return categoryRepository.findByMerchantStoreIdAndLineageLikeOrderByLineageAscSortOrderAsc(store.getId(), lineage);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Category> listByLineage(String storeCode, String lineage) {
-		return categoryRepository.findByLineage(storeCode, lineage);
+		return categoryRepository.findByMerchantStoreCodeAndLineageLikeOrderByLineageAscSortOrderAsc(storeCode, lineage);
 	}
 
 	@Transactional(readOnly = true)
 	public List<Category> listBySeUrl(MerchantStore store, String seUrl) {
-		return categoryRepository.listByFriendlyUrl(store.getId(), seUrl);
+		return categoryRepository.findByMerchantStoreIdAndSeUrlLikeOrderBySortOrderAsc(store.getId(), seUrl);
 	}
 
 	@Transactional(readOnly = true)
 	public Category getBySeUrl(MerchantStore store, String seUrl) {
-		return categoryRepository.findByFriendlyUrl(store.getId(), seUrl);
+		return categoryRepository.findByMerchantStoreIdAndSeUrl(store.getId(), seUrl);
 	}
 
 	@Transactional(readOnly = true)
 	public Category getByCode(MerchantStore store, String code) {
-		return categoryRepository.findByCode(store.getId(), code);
+		return categoryRepository.findByMerchantStoreIdAndCode(store.getId(), code);
 	}
 
 	@Transactional(readOnly = true)
 	public Category getByCode(String storeCode, String code) {
-		return categoryRepository.findByCode(storeCode, code);
+		return categoryRepository.findByMerchantStoreCodeAndCode(storeCode, code);
 	}
 
 	@Transactional(readOnly = true)
@@ -120,31 +120,17 @@ public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long
 	}
 
 	public List<Category> listByParent(Category category, Language language) {
-		return categoryRepository.findByParent(category.getId(), language.getId());
+		return categoryRepository.findByParentOrderByLineageAscSortOrderAsc(category);
 	}
-
-	public void addCategoryDescription(Category category, CategoryDescription description) {
-
-		category.getDescriptions().add(description);
-		description.setCategory(category);
-		save(category);
-
-	}
+	
+	
 
 	//
 	public void delete(Category category) {
 		categoryRepository.delete(category);
 	}
-
-	public CategoryDescription getDescription(Category category, Language language) {
-
-		for (CategoryDescription description : category.getDescriptions()) {
-			if (description.getLanguage().equals(language)) {
-				return description;
-			}
-		}
-		return null;
-	}
+	
+	
 
 	public void addChild(Category parent, Category child) throws ServiceException {
 
@@ -197,30 +183,30 @@ public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long
 	}
 
 	public List<Category> listByDepth(MerchantStore store, int depth) {
-		return categoryRepository.findByDepth(store.getId(), depth);
+		return categoryRepository.findByMerchantStoreIdAndDepthGreaterThanOrderByLineageAscSortOrderAsc(store.getId(), depth);
 	}
 
 	//@Cacheable(cacheNames = "category-cache-store-depth-lang", key="#store.id + '.' + depth + '.' + #language.id")
 	@Transactional(readOnly = true)
 	public List<Category> findByDepth(MerchantStore store, int depth, Language language) {
-		return categoryRepository.findByDepth(store.getId(), depth, language.getId());
+		return categoryRepository.findByMerchantStoreIdAndDepthOrderByLineageAscSortOrderAsc(store.getId(), depth);
 	}
 
 	public List<Category> getByName(MerchantStore store, String name, Language language) {
 
-		return categoryRepository.findByName(store.getId(), name, language.getId());
+		return categoryRepository.findByMerchantStoreIdAndNameLikeOrderBySortOrderAsc(store.getId(), name);
 
 	}
 
 	public List<Category> listByStore(MerchantStore store) {
 
-		return categoryRepository.findByStore(store.getId());
+		return categoryRepository.findByMerchantStoreOrderByLineageAscSortOrderAsc(store);
 
 	}
 
 	public List<Category> listByStore(MerchantStore store, Language language) {
 
-		return categoryRepository.findByStore(store.getId(), language.getId());
+		return categoryRepository.findByMerchantStoreOrderByLineageAscSortOrderAsc(store);
 
 	}
 

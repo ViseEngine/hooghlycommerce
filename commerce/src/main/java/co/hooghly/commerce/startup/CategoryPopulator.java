@@ -19,12 +19,14 @@ import co.hooghly.commerce.business.CategoryService;
 import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.LanguageService;
 import co.hooghly.commerce.business.MerchantStoreService;
+import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.business.ProductTypeService;
 import co.hooghly.commerce.business.ZoneService;
 import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
-import co.hooghly.commerce.domain.Language;
+
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.domain.MerchantStoreView;
+import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -57,6 +59,11 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 	@Autowired
 	protected MerchantStoreService merchantService;
+	
+	@Autowired
+	private MessageResourceService messageResourceService;
+	
+	
 
 	public List<String> getFileContent(URI fileName) {
 		List<String> list = new ArrayList<>();
@@ -78,14 +85,11 @@ public class CategoryPopulator extends AbstractDataPopulator {
 		log.info("10. Populating categories.");
 		
 		
-
-		// 2 languages by default
-		Language en = languageService.getByCode("en");
-		Language hi = languageService.getByCode("hi");
-
 		// create a merchant
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
-
+		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst().orElse(null);
+		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst().orElse(null);
+		
 		for (Resource r : resources) {
 			log.debug("Found resource - {}", r.getFilename());
 
@@ -115,18 +119,38 @@ public class CategoryPopulator extends AbstractDataPopulator {
 					category.setVisible(true);
 					category.setSortOrder(childSortOrder++);
 					category.setParent(parent);
-					addDescriptions(en, hi, category, engPart, hiPart, code);
+					category.setSeUrl("/categories/"+code);
+					category.setName("msg.category."+code);
+					
 					categoryService.create(category);
 				} else {
 					category.setMerchantStore(store);
 					category.setCode(code);
 					category.setVisible(true);
 					category.setSortOrder(parentSortOder++);
-					addDescriptions(en, hi, category, engPart, hiPart, code);
+					category.setName("msg.category."+code);
+					category.setSeUrl("/categories/"+code);
+					
 					categoryService.create(category);
 					parent = category;
 					childSortOrder = 0;
 				}
+				
+				//will create message resources as these are throw-away demo data.
+				MessageResource mr = new MessageResource();
+				mr.setDomain("Category");
+				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
+				mr.setMessageKey(category.getName());
+				mr.setMessageText(engPart);
+				
+				MessageResource mrHi = new MessageResource();
+				mrHi.setDomain("Category");
+				mrHi.setLocale(storeView.computeLocale().toString());
+				mrHi.setMessageKey(category.getName());
+				mrHi.setMessageText(hiPart);
+				
+				messageResourceService.save(mr);
+				messageResourceService.save(mrHi);
 				
 			}
 		}
@@ -134,33 +158,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 	}
 
-	/**
-	 * @param en
-	 * @param hi
-	 * @param category
-	 * @param engPart
-	 * @param hiPart
-	 * @param code
-	 */
-	private void addDescriptions(Language en, Language hi, Category category, String engPart, String hiPart,
-			String code) {
-		CategoryDescription enDesc = new CategoryDescription(); 
-		enDesc.setName(engPart);
-		enDesc.setCategory(category);
-		enDesc.setLanguage(en);
-		enDesc.setSeUrl("/categories/"+code);
-		 
-		CategoryDescription hiDesc = new CategoryDescription(); 
-		hiDesc.setName(hiPart);
-		hiDesc.setCategory(category);
-		hiDesc.setLanguage(hi);
-		hiDesc.setSeUrl("/categories/"+code);
-		 
-		List<CategoryDescription> descriptions = new ArrayList<>();
-		descriptions.add(enDesc);
-		descriptions.add(hiDesc);
-		category.setDescriptions(descriptions);
-	}
+	
 
 	
 

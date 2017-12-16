@@ -2,17 +2,12 @@ package co.hooghly.commerce.domain;
 
 import javax.persistence.*;
 
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.data.annotation.CreatedBy;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedBy;
-import org.springframework.data.annotation.LastModifiedDate;
 
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
-import java.util.*;
+
 
 @MappedSuperclass
 @Data

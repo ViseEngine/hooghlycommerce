@@ -11,12 +11,12 @@
 								<ul class="xt-dropdown">
 									<li th:each="c : ${displayCategories}">
 										<a class="xt-nav-link" href="single-shop.html">
-											<i class="fa flaticon-glasses"></i> <span th:text="${c.description.name}"></span>
+											<i class="fa flaticon-glasses"></i> <span th:text="#{__${c.name}__}"></span>
 										</a>
 										<ul class="mega-menu">
 											<li th:each="childCats : ${T(com.google.common.collect.Lists).partition(c.categories, 4)}">
 												<ul class="xt-single-mega" >
-													<li th:each="cc : ${childCats}"><a href="single-shop.html" th:text="${cc.description.name}">Bags</a></li>
+													<li th:each="cc : ${childCats}"><a href="single-shop.html" th:text="#{__${cc.name}__}">Bags</a></li>
 											
 												</ul>
 											</li>

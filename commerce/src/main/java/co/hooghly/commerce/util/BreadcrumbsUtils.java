@@ -17,6 +17,7 @@ import co.hooghly.commerce.web.ui.ReadableCategory;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -28,7 +29,7 @@ import java.util.List;
 public class BreadcrumbsUtils {
 	
 	@Autowired
-	private LabelUtils messages;
+	private MessageSource messageSource;
 	
 	@Autowired
 	private CategoryService categoryService;
@@ -42,7 +43,7 @@ public class BreadcrumbsUtils {
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
-		home.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, LocaleUtils.getLocale(language)));
+		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, LocaleUtils.getLocale(language)));
 		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
@@ -69,8 +70,8 @@ public class BreadcrumbsUtils {
 			for(Category c : categories) {
 				BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
 				categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
-				categoryBreadcrump.setLabel(c.getDescription().getName());
-				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
+				categoryBreadcrump.setLabel(messageSource.getMessage(c.getName(),null,LocaleUtils.getLocale(language)));
+				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getSeUrl()));
 				items.add(categoryBreadcrump);
 			}
 			
@@ -93,7 +94,7 @@ public class BreadcrumbsUtils {
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
-		home.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, LocaleUtils.getLocale(language)));
+		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, LocaleUtils.getLocale(language)));
 		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
@@ -117,8 +118,8 @@ public class BreadcrumbsUtils {
 			for(Category c : categories) {
 				BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
 				categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
-				categoryBreadcrump.setLabel(c.getDescription().getName());
-				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getDescription().getSeUrl()));
+				categoryBreadcrump.setLabel(c.getName());
+				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getSeUrl()));
 				items.add(categoryBreadcrump);
 			}
 			
