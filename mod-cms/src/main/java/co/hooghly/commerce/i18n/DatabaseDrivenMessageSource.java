@@ -16,16 +16,16 @@ public class DatabaseDrivenMessageSource extends AbstractMessageSource {
 	private MessageResourceService messageResourceBusinessDelegate;
 
 	public DatabaseDrivenMessageSource(MessageResourceService messageResourceBusinessDelegate) {
-		log.info("=== DB backed message source created ===");
+		log.debug("DB backed message source created.");
 		this.messageResourceBusinessDelegate = messageResourceBusinessDelegate;
 
 	}
 
 	@Override
 	protected MessageFormat resolveCode(String code, Locale locale) {
-		log.info("Code - {} , Locale - {}", code, locale);
+		log.debug("Code - {} , Locale - {}", code, locale);
 		String msg = getText(code, locale);
-		log.info("Retrieved message - {}", msg);
+		log.debug("Retrieved message - {}", msg);
 		return createMessageFormat(msg, locale);
 
 	}
@@ -38,9 +38,8 @@ public class DatabaseDrivenMessageSource extends AbstractMessageSource {
 
 		if (mr != null) {
 
-			log.info("Retrieved message - {}", mr);
 			msg = mr.getMessageText();
-			log.info("Retrieved message - {}", mr);
+
 		}
 
 		return msg;

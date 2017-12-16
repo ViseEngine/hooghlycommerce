@@ -57,12 +57,7 @@ public class CmsContentPopulator {
 					CmsContent content = new CmsContent();
 
 					content.setCode(f.getName());
-
-					if (StringUtils.endsWithAny(f.getName(), "html",  "css", "js")) {
-						content.setTemplateContent(new String(IOUtils.toByteArray(is)));
-					} else {
-						content.setContent(IOUtils.toByteArray(is));
-					}
+					content.setContent(IOUtils.toByteArray(is));
 
 					content.setMerchantStore(store);
 					content.setOriginalFileName(entry.getName());
@@ -123,6 +118,7 @@ public class CmsContentPopulator {
 		try {
 			cmsStaticContentRepository.save(content);
 		} catch (Exception e) {
+			log.error("Error", e);
 			log.warn("Failed to load - {}, error : {}", content.getOriginalFileName(), e.getMessage());
 		}
 	}

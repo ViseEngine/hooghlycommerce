@@ -2,8 +2,6 @@ package co.hooghly.commerce.web.interceptor;
 
 
 import static co.hooghly.commerce.constants.Constants.*;
-import static org.mockito.Mockito.ignoreStubs;
-
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -49,8 +47,7 @@ public class CategoryProcessingStrategy implements WebInterceptorProcessingStrat
 		MerchantStore merchantStore = (MerchantStore) request.getAttribute(MERCHANT_STORE);
 		List<Category> categories = categoryService.findByDepth(merchantStore, 0, language);
 		
-		categories.forEach(i -> log.info("Children - {}",i.getCategories().size() ) );
-		
+			
 		modelAndView.addObject("displayCategories", categories);
 	}
 	

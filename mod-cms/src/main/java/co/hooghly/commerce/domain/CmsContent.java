@@ -78,7 +78,6 @@ public class CmsContent extends SalesManagerEntity<Long, CmsContent> implements 
 	@Column(name = "SORT_ORDER")
 	private Integer sortOrder = 0;
 	
-	@Column(name="TEMPLATE_CONTENT")
 	@Lob
 	private String templateContent;
 	
