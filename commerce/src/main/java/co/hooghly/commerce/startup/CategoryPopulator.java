@@ -104,7 +104,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 				Category category = new Category();
 				
 				String engPart = s.substring(0, i);
-				String hiPart = s.substring(i);
+				String hiPart = s.substring(i+1);
 				
 				String code = StringUtils.lowerCase(StringUtils.replace(StringUtils.trim(engPart), " ", "-"));
 				

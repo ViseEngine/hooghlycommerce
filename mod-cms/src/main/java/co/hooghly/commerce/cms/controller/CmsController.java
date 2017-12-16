@@ -73,7 +73,7 @@ public class CmsController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		if (content.isPresent()) {
-			String css = content.get().getTemplateContent();
+			String css = new String(content.get().getContent());
 
 			responseEntity = new ResponseEntity<>(css, headers, HttpStatus.OK);
 		} else {
@@ -105,7 +105,7 @@ public class CmsController {
 			HttpServletResponse response) {
 		log.debug("js request received - {}, {}  ", merchantId, file);
 
-		response.setBufferSize(1024 * 1024); // 1MB buffer
+		response.setBufferSize(2048 * 1024); // 1MB buffer
 		response.setContentType("text/javascript");
 
 		ResponseEntity<String> responseEntity = null;
@@ -113,7 +113,7 @@ public class CmsController {
 		HttpHeaders headers = new HttpHeaders();
 		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
 		if (content.isPresent()) {
-			String js = content.get().getTemplateContent();
+			String js = new String(content.get().getContent());
 
 			responseEntity = new ResponseEntity<>(js, headers, HttpStatus.OK);
 		} else {

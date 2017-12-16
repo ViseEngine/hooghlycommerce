@@ -47,7 +47,7 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 		if (content.isPresent()) {
 			log.debug("Resource found");
 			try{
-			resource = super.computeTemplateResource(configuration, ownerTemplate,content.get().getTemplateContent(),
+			resource = super.computeTemplateResource(configuration, ownerTemplate,new String(content.get().getContent()),
 					templateResolutionAttributes);
 			}
 			catch(Exception e) {
@@ -55,7 +55,7 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 			}
 		}
 		
-		log.info("Final resource state - {}", resource);
+		
 		return resource;
 
 	}
