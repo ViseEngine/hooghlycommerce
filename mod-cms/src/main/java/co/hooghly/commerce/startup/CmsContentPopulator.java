@@ -3,8 +3,13 @@ package co.hooghly.commerce.startup;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.Charset;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
@@ -16,8 +21,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.domain.CmsContent;
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.domain.MessageResource;
 import co.hooghly.commerce.repository.CmsContentRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -27,15 +34,63 @@ public class CmsContentPopulator {
 
 	@Autowired
 	private CmsContentRepository cmsStaticContentRepository;
-
+	@Autowired
+	private MessageResourceService messageResourceService;
+	
 	@Value("classpath:*.zip")
 	private Resource[] resources;
+	
+	@Value("classpath:messages/messages_*.properties")
+	private Resource[] propResources;
 
 	public void load(MerchantStore store) {
 		log.debug("Loading default CMS contents");
 		for (Resource r : resources) {
 			unzipAndLoad(r, store);
 		}
+		
+		populateMessageResources();
+	}
+
+	private void populateMessageResources() {
+		log.info("=== Loading message resource ====");
+		for(Resource r : propResources){
+			log.info("Properties files - {}", r.getFilename());
+			int indexStart = StringUtils.indexOf(r.getFilename(), "_") + 1;
+			int endIndex = StringUtils.indexOf(r.getFilename(), ".");
+			String locale = StringUtils.substring(r.getFilename(), indexStart, endIndex);
+			log.info("Locale - {}", locale);
+			Properties prop = new Properties();
+			try {
+				prop.load(new InputStreamReader(r.getInputStream(),Charset.forName("UTF-8")));
+				
+				List<MessageResource> messageResourceList = new ArrayList<>();
+				Enumeration<?> e = prop.propertyNames();
+				while (e.hasMoreElements()) {
+					String key = (String) e.nextElement();
+					String value = prop.getProperty(key);
+					log.info("Key : " + key + ", Value : " + value);
+					
+					int idxStart = StringUtils.indexOf(key, ".") + 1;
+					int idxEnd = StringUtils.lastIndexOf(key, ".");
+					
+					MessageResource mr = new MessageResource();
+					mr.setDomain(StringUtils.capitalize(StringUtils.substring(key,idxStart, idxEnd)));
+					mr.setLocale(locale);
+					mr.setMessageKey(key);
+					mr.setMessageText(value);
+					
+					messageResourceList.add(mr);
+				}
+				
+				messageResourceService.save(messageResourceList);
+				
+			} catch (Exception e) {
+				log.info("Error processing properties file - {}", r.getFilename());
+				log.error("Error", e);
+			}
+		}
+		
 	}
 
 	private void unzipAndLoad(Resource r, MerchantStore store) {
