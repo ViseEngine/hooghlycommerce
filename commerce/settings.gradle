@@ -14,5 +14,5 @@ project(':mod-cms').projectDir = new File(settingsDir, '../mod-cms')
 
 
 
-include ':mod-admin'
-project(':mod-admin').projectDir = new File(settingsDir, '../mod-admin')
+//include ':mod-admin'
+//project(':mod-admin').projectDir = new File(settingsDir, '../mod-admin')

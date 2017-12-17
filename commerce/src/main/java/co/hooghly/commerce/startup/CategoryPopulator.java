@@ -35,7 +35,6 @@ import lombok.extern.slf4j.Slf4j;
 public class CategoryPopulator extends AbstractDataPopulator {
 
 	@Value("classpath:demo-data/category_*.txt")
-
 	private Resource[] resources;
 
 	public CategoryPopulator() {

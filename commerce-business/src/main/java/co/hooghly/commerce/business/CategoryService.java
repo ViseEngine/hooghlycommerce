@@ -37,7 +37,7 @@ public class CategoryService extends AbstractBaseBusinessDelegate<Category, Long
 		Category parent = category.getParent();
 		
 		if (parent != null) {
-			log.info("parent depth - {}", parent.getLineage());
+			
 			lineage = parent.getLineage() + "/" + parent.getId();
 			category.setDepth(parent.getDepth() + 1);
 		} else {

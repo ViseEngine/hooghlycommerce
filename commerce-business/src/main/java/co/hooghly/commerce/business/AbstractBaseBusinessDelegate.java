@@ -1,7 +1,7 @@
 package co.hooghly.commerce.business;
 
 import java.io.Serializable;
-
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
@@ -37,11 +37,16 @@ public abstract class AbstractBaseBusinessDelegate<T extends AbstractBaseEntity,
 		return repository.findOne(id);
 	}
 
-	
+	@Transactional
+	public List<T> save(List<T> ts) {
+		return repository.save(ts);
+	}
 
 	@Transactional
 	public T save(T t) {
 		return repository.save(t);
+		
+		
 	}
 
 	
