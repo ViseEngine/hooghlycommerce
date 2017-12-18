@@ -39,7 +39,7 @@ public class CmsInterceptor extends HandlerInterceptorAdapter {
 		} else {
 			if (modelAndView != null) {
 				String viewName = modelAndView.getViewName();
-				log.info("Loading page definition. View Name set in controller - {}", viewName);
+				log.debug("Loading page definition. View Name set in controller - {}", viewName);
 
 				Optional<PageDefinition> pageDef = pageDefinitionService.findByName(viewName);
 
@@ -49,6 +49,8 @@ public class CmsInterceptor extends HandlerInterceptorAdapter {
 					
 					modelAndView.setViewName(storeView.getMerchantStore().getId() + "/" + pageDef.get().getLayout() + ".cms");
 					modelAndView.addObject("pgDef", pageDef.get());
+					
+					log.info("Page title - {}", pageDef.get().getTitle());
 					
 					modelAndView.addObject("theme", storeView.getTheme());
 				} else {

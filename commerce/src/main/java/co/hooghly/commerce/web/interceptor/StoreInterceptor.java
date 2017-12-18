@@ -45,7 +45,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) throws Exception {
-		log.info("Post handling request for store.");
+		log.debug("Post handling request for store.");
 		for(WebInterceptorProcessingStrategy strategy : processingStrategies) {
 			if(strategy.canHandle("StoreInterceptor")) {
 				strategy.postHandle(request, response, handler,modelAndView);
@@ -59,7 +59,7 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		log.info("Pre handling request for store.");
+		log.debug("Pre handling request for store.");
 
 		for(WebInterceptorProcessingStrategy strategy : processingStrategies) {
 			if(strategy.canHandle("StoreInterceptor")) {

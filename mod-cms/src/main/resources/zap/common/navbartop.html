@@ -15,32 +15,32 @@
 				<div class="collapse navbar-collapse" id="js-navbar-menu">
 					<ul class="nav navbar-nav navbar-right ep-mobile-menu"
 						id="navbar-nav">
-						<li class="active"><a href="/shop">Home</a></li>
+						<li class="active"><a href="/shop" th:text="#{msg.general.home}">Home</a></li>
 						<li class="dropdown xt-drop-nav">
 							<a href="" class="dropdown-toggle" data-toggle="dropdown"
-							data-hover="dropdown">New <span class="caret"></span>
+							data-hover="dropdown"><span th:text="#{msg.general.new}"></span> <span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">New Arrivals</a></li>
-								<li><a href="#">Presale</a></li>
+								<li><a href="#" th:text="#{msg.general.newarrivals}">New Arrivals</a></li>
+								<li><a href="#" th:text="#{msg.general.presale}">Presale</a></li>
 								
 								
 							</ul></li>
 						
 						<li class="dropdown xt-drop-nav">
 							<a href="" class="dropdown-toggle" data-toggle="dropdown"
-							data-hover="dropdown"> Flash Sale <span class="caret"></span>
+							data-hover="dropdown"> <span th:text="#{msg.general.flashsale}"></span> <span class="caret"></span>
 						</a>
 							<ul class="dropdown-menu">
-								<li><a href="#">Daily Deals</a></li>
-								<li><a href="#">Clearance</a></li>
+								<li><a href="#" th:text="#{msg.general.dailydeals}">Daily Deals</a></li>
+								<li><a href="#" th:text="#{msg.general.clearance}">Clearance</a></li>
 								
 								
 							</ul></li>
-						<li><a href="">Gifts Guide</a></li>	
-						<li><a href="">Blog</a></li>
-						<li><a href="/shop/support">Support</a></li>
-						<li><a href="">About</a></li>
+						<li><a href="" th:text="#{msg.general.giftguide}">Gifts Guide</a></li>	
+						<li><a href="" th:text="#{msg.general.blog}">Blog</a></li>
+						<li><a href="/shop/support" th:text="#{msg.general.support}">Support</a></li>
+						<li><a href="" th:text="#{msg.general.about}">About</a></li>
 					</ul>
 				</div>
 			</div>
