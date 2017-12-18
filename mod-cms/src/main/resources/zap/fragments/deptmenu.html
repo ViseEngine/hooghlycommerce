@@ -7,7 +7,7 @@
 				<div class="xt-sidenav hidden-xs hidden-sm">
 					<nav>
 						<ul class="xt-side-menu">
-							<li><a href="#">All Category</a>
+							<li><a href="#" th:text="#{msg.general.allcategories}">All Category</a>
 								<ul class="xt-dropdown">
 									<li th:each="c : ${displayCategories}">
 										<a class="xt-nav-link" href="single-shop.html">
@@ -40,7 +40,7 @@
 					class="form-group xt-form xt-search-cat col-md-4 col-sm-4 col-xs-5 padding-left-o ">
 					<div class="xt-select xt-search-opt">
 						<select class="xt-dropdown-search select-beast">
-							<option>All Categories</option>
+							<option th:text="#{msg.general.allcategories}">All Categories</option>
 							<option th:each="c : ${displayCategories}" th:text="#{__${c.name}__}">Boutique</option>
 							
 						</select>

@@ -2,7 +2,7 @@ defs:
   -
     name: landing
     layout: home
-    title: msg.page.title.home
+    title: msg.pagetitle.home
     fragments: 
         featured : /shop/featured
         newarrivals : /shop/newarrivals      
@@ -10,9 +10,9 @@ defs:
   -
     name: productdetails
     layout: layouts/productdetails
-    title: msg.page.title.productdetails
+    title: msg.pagetitle.productdetails
     
   -
     name: cartdetails
     layout: layouts/cartdetails
-    title: msg.page.title.cartdetails            
+    title: msg.pagetitle.cartdetails            

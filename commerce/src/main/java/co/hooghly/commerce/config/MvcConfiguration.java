@@ -7,7 +7,6 @@ import java.util.Locale;
 import org.springframework.beans.BeanUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.support.ReloadableResourceBundleMessageSource;
 import org.springframework.http.MediaType;
 import org.springframework.http.converter.ByteArrayHttpMessageConverter;
 import org.springframework.http.converter.HttpMessageConverter;
@@ -27,21 +26,13 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.argument.CustomerMethodArgumentResolver;
 import co.hooghly.commerce.web.argument.MerchantStoreMethodArgumentResolver;
 import co.hooghly.commerce.web.interceptor.AdminInterceptor;
-import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.cms.interceptor.CmsInterceptor;
-import co.hooghly.commerce.i18n.DatabaseDrivenMessageSource;
 import co.hooghly.commerce.web.interceptor.StoreInterceptor;
 
 @Configuration
 public class MvcConfiguration extends WebMvcConfigurerAdapter {
 	
-	private MessageResourceService messageResourceBusinessDelegate;
 	
-	/*@Bean
-	public DatabaseDrivenMessageSource messageSource() {
-		DatabaseDrivenMessageSource ms = new DatabaseDrivenMessageSource(messageResourceBusinessDelegate);
-		return ms;
-	}*/
 
 	@Bean
 	public StoreInterceptor storeFilter() {
@@ -94,15 +85,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		return sessionLocaleResolver;
 	}
 
-	/*@Bean
-	public ReloadableResourceBundleMessageSource messageSource() {
-		ReloadableResourceBundleMessageSource source = new ReloadableResourceBundleMessageSource();
-		source.setBasenames( "classpath:bundles/messages", "classpath:bundles/shipping",
-				"classpath:bundles/payment");
 
-		source.setUseCodeAsDefaultMessage(true);
-		return source;
-	}*/
 
 	@Bean
 	public LabelUtils messages() {
