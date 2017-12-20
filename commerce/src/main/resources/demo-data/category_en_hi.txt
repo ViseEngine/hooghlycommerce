@@ -1,10 +1,10 @@
-ZapKart Exclusive|ज़पकार्ट एक्सक्लूसिव 
-  iVoomi Me2|इवोमि Me २ 
-  Swipe Elite 2 Plus 2017|स्वाइप एलिट 2 प्लस 2017
-  iVooMi ME1+|इवोमि ME १+
-  Swipe Elite Prime|स्वाइप एलिट प्राइम
-  Swipe Elite VR|स्वाइप अभिजात वर्ग वी.आर.
-  Ivoomi iV505|इवोमि iV505
+#ZapKart Exclusive|ज़पकार्ट एक्सक्लूसिव 
+#  iVoomi Me2|इवोमि Me २ 
+#  Swipe Elite 2 Plus 2017|स्वाइप एलिट 2 प्लस 2017
+#  iVooMi ME1+|इवोमि ME १+
+#  Swipe Elite Prime|स्वाइप एलिट प्राइम
+#  Swipe Elite VR|स्वाइप अभिजात वर्ग वी.आर.
+#  Ivoomi iV505|इवोमि iV505
 Top Brands|शीर्ष ब्रांड
   Intex|ईन्तेक्स
   Samsung|सैमसंग
@@ -21,9 +21,9 @@ All Mobile Phones|सभी मोबाइल फ़ोन
 #  1000 to 4999|1000 से 4999
 #  5000 to 9999|5000 से 9999
 #  10000 & Above|1000 और ज़्यादा
-Tablets|टेबलेट्स 
-  With Calling|कॉलिंग के साथ
-  Without Calling|कॉलिंग के बिना
+#Tablets|टेबलेट्स 
+#  With Calling|कॉलिंग के साथ
+#  Without Calling|कॉलिंग के बिना
 Mobile Accessories|मोबाइल एक्सेसरीज
   Bluetooth Headsets|ब्लूटूथ हेडसेट
   Cases & Covers|केसेस और कवर
@@ -42,12 +42,12 @@ Memory Cards|मेमोरी कार्ड
 #  Less than 5,000 mAH|5,000 एमएएच से कम
 #  5,000-10,000 mAH|5,000-10,000 एमएएच
 #  Above 10,000 mAH|10,000 माह से ऊपर
-Portable Audio|पोर्टेबल ऑडियो
-  Headphones & Earphones|हेडफ़ोन और इयरफ़ोन
-  Bluetooth Speakers|ब्लूटूथ स्पीकर
-  Wired Headsets|वायर्ड हेडसेट
-  Radio & Karaoke|रेडियो और कराओके
-  Storage Devices|भंडारण उपकरणों
+#Portable Audio|पोर्टेबल ऑडियो
+#  Headphones & Earphones|हेडफ़ोन और इयरफ़ोन
+#  Bluetooth Speakers|ब्लूटूथ स्पीकर
+#  Wired Headsets|वायर्ड हेडसेट
+#  Radio & Karaoke|रेडियो और कराओके
+#  Storage Devices|भंडारण उपकरणों
 #Office Equipment|दफ्तर के उपकरण
 #Smart Gadgets|स्मार्ट गैजेट्स
 VR Gear|वीआर गियर
