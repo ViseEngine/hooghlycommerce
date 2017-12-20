@@ -19,9 +19,10 @@ public class RolesBusinessDelegate implements UserDetailsService{
 	@Autowired
 	private RoleRepository roleRepository;
 	
-	@Transactional(transactionManager = "roleTransactionManager")
+//	@Transactional(transactionManager = "roleTransactionManager")
 	public void register(Role role)
 	{
+		log.info("Role table is updated with role ::", role);
 		roleRepository.save(role);
 		
 	}
