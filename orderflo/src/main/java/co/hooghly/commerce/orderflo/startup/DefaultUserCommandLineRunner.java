@@ -8,15 +8,16 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import co.hooghly.commerce.orderflo.business.OrderService;
-import co.hooghly.commerce.orderflo.domain.Role;
+import co.hooghly.commerce.orderflo.business.UserBusinessDelegate;
+import co.hooghly.commerce.orderflo.domain.User;
 import co.hooghly.commerce.orderflo.roles.repository.RoleRepository;
+import co.hooghly.commerce.orderflo.roles.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
-import co.hooghly.commerce.orderflo.business.RolesBusinessDelegate;
 
 @Component
 @Slf4j
-@Order(1)
-public class RoleLoaderCommandLineRunner implements CommandLineRunner {
+@Order(2)
+public class DefaultUserCommandLineRunner implements CommandLineRunner {
 	
 	@Autowired
 	private OrderService orderService;
@@ -32,44 +33,45 @@ public class RoleLoaderCommandLineRunner implements CommandLineRunner {
 	private Role role;*/
 	
 	@Autowired
-	private RoleRepository roleRepository;
+	private UserRepository userRepository;
 	
 	@Autowired
-	private RolesBusinessDelegate rolesbusinessDeligate;
+	private UserBusinessDelegate usersbusinessDeligate;
 	
 	@Override
 	public void run(String... args) throws Exception {
 		
-		String roles[]={"ADMIN","USER"};
+		String emails[]={"demo@d.com"};
 		
-		for(String role:roles)
+		for(String email:emails)
 		{
-			boolean flag=((roleRepository.findByName(role)).isPresent());
-			if(flag)
+			User user=userRepository.findByEmail(email);
+			if(user !=null)
 			{
 				//do nothing
-				log.info("Role already present = ", role);
+				log.info("Default user already present = ", email);
 			}
 			else {
-				 // create role
-				provisionRole(role);
+				 // create default user
+				defaultUserWithAdminRole(email);
 				
 			}
 			
 		}
-		
-	//	String admin=((repository.findByName("ADMIN")).get()).getName();
 		log.info("orderflo.MODE = {}", toolMode);
 	}
 
-	private void provisionRole( String role) 
+	private void defaultUserWithAdminRole( String email) 
 	{
-		Role r =new Role();
-		r.setName(role);
-		log.info("Role service has been requested to insert ::", role);
-		rolesbusinessDeligate.register(r);
-		System.out.println(role);
-		//repository.save(r);
+		User demoUser =new User();
+		demoUser.setFirstName("Demo");
+		demoUser.setLastName("Demo");
+		demoUser.setEmail(email);
+		demoUser.setPassword("demo");
+		demoUser.setRole("ADMIN");
+		log.info("User service has been requested to insert ::", email);
+		usersbusinessDeligate.register(demoUser);
+		System.out.println(email);
 	}
 
 

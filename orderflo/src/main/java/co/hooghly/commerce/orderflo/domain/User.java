@@ -31,6 +31,9 @@ public class User {
 	Date lastUpdated;
 	@Column(name = "firstName")
 	String firstName;
+	
+	@Column(name = "role")
+	String role;
 
 //	int role;
 	@Column(name = "middleName")
