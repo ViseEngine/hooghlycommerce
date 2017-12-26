@@ -1,39 +1,54 @@
+<br/>
 <section class="xt-deal-section">
-            <div class="container">
-                <div class="row section-separator">
-                    <div class="xt-each-deal">
-                        <div class="col-md-8 col-sm-6">
-                            <div class="xt-spring-deal cover-bg white xt-deal" th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f1.jpg);'}">
-                                <div class="xt-overlay"></div>
-                                <span>fresh your soul</span>
-                                <h2>spring summer <br /> fashion collection</h2>
-                                <a href="" class="btn btn-fill">Shop now</a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="xt-summer-deal cover-bg white xt-deal" th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f2.jpg);'}">
-                                <div class="xt-overlay"></div>
-                                <span>SAVE 35% ON DESIGNER</span>
-                                <h2>hot summer collection</h2>
-                                <a href="" class="btn btn-fill">Shop now</a>
-                            </div>
-                        </div>
-                        <div class="col-md-4 col-sm-6">
-                            <div class="xt-off-deal cover-bg white xt-deal xt-color-bg">
-                                <span>summer collection 2017</span>
-                                <h2 class="xt-deal-price">66<span>%<br />off</span></h2>
-                                <a href="" class="btn btn-border">Shop now</a>
-                            </div>
-                        </div>
-                        <div class="col-md-8 col-sm-6">
-                            <div class="xt-summer-deal cover-bg white xt-deal" th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f3.jpg);'}">
-                                <div class="xt-overlay"></div>
-                                <span>Winter COllection</span>
-                                <h2>Winter Autumn <br /> Jacket Collection</h2>
-                                <a href="" class="btn btn-fill">Shop now</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
+	<div class="container">
+		<div class="row">
+
+			<div class="col-md-8 col-sm-6">
+				<div class="xt-spring-deal cover-bg white xt-deal"
+					th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f1.jpg);'}">
+					<div class="xt-overlay"></div>
+					<span th:utext="#{msg.advertisement.freshsoul}"></span>
+					<h2 th:utext="#{msg.advertisement.springsummer}"></h2>
+					<a href="" class="btn btn-fill"
+						th:utext="#{msg.advertisement.shopnow}">Shop now</a>
+				</div>
+			</div>
+			<div class="col-md-4 col-sm-6">
+				<div class="xt-summer-deal cover-bg white xt-deal"
+					th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f2.jpg);'}">
+					<div class="xt-overlay"></div>
+					<span th:utext="#{msg.advertisement.save35}"></span>
+					<h2 th:utext="#{msg.advertisement.hotsummer}"></h2>
+					<a href="" class="btn btn-fill"
+						th:utext="#{msg.advertisement.shopnow}">Shop now</a>
+				</div>
+			</div>
+
+
+		</div>
+
+		<div class="row">
+
+
+			<div class="col-md-4 col-sm-6">
+				<div class="xt-off-deal cover-bg white xt-deal xt-color-bg">
+					<span th:utext="#{msg.advertisement.summercoll2018}"></span>
+					<h2 class="xt-deal-price" th:utext="#{msg.advertisement.66}"></h2>
+					<a href="" class="btn btn-border"
+						th:utext="#{msg.advertisement.shopnow}">Shop now</a>
+				</div>
+			</div>
+			<div class="col-md-8 col-sm-6">
+				<div class="xt-summer-deal cover-bg white xt-deal"
+					th:style="@{'background-image: url(/cms/images/' + ${MERCHANT_STORE.id} + '/f3.jpg);'}">
+					<div class="xt-overlay"></div>
+					<span th:utext="#{msg.advertisement.wintercoll}"></span>
+					<h2 th:utext="#{msg.advertisement.winterautumn}"></h2>
+					<a href="" class="btn btn-fill"
+						th:utext="#{msg.advertisement.shopnow}">Shop now</a>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</section>
