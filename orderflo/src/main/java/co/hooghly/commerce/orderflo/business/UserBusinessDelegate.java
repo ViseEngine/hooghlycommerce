@@ -10,25 +10,19 @@ import co.hooghly.commerce.orderflo.domain.User;
 import co.hooghly.commerce.orderflo.roles.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
 
-
 @Slf4j
 @Component
-public class UserBusinessDelegate implements UserDetailsService{
+public class UserBusinessDelegate extends AbstractBaseBusinessDelegate<User, String> implements UserDetailsService {
 
 	@Autowired
-	private UserRepository userRepository;
-	
-//	@Transactional(transactionManager = "roleTransactionManager")
-	public void register(User user)
-	{
-		log.info("User table is updated with default email ::", user);
-		userRepository.save(user);
-		
+	public UserBusinessDelegate(UserRepository repository) {
+		super(repository);
+
 	}
-	
+
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		UserDetails u=null;
+		UserDetails u = null;
 		return u;
-		
+
 	}
 }

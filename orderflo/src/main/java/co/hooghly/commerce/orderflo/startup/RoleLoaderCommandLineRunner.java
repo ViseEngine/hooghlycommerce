@@ -67,7 +67,8 @@ public class RoleLoaderCommandLineRunner implements CommandLineRunner {
 		Role r =new Role();
 		r.setName(role);
 		log.info("Role service has been requested to insert ::", role);
-		rolesbusinessDeligate.register(r);
+	//	rolesbusinessDeligate.register(r);
+		rolesbusinessDeligate.save(r);
 		System.out.println(role);
 		//repository.save(r);
 	}

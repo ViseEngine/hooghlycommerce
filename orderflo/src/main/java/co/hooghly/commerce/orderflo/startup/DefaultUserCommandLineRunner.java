@@ -41,7 +41,7 @@ public class DefaultUserCommandLineRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 		
-		String emails[]={"demo@d.com"};
+		String emails[]={"default@d.com"};
 		
 		for(String email:emails)
 		{
@@ -63,14 +63,14 @@ public class DefaultUserCommandLineRunner implements CommandLineRunner {
 
 	private void defaultUserWithAdminRole( String email) 
 	{
-		User demoUser =new User();
-		demoUser.setFirstName("Demo");
-		demoUser.setLastName("Demo");
-		demoUser.setEmail(email);
-		demoUser.setPassword("demo");
-		demoUser.setRole("ADMIN");
+		User defaultUser =new User();
+		defaultUser.setFirstName("Demo");
+		defaultUser.setLastName("Demo");
+		defaultUser.setEmail(email);
+		defaultUser.setPassword("demo");
+		defaultUser.setRole("ADMIN");
 		log.info("User service has been requested to insert ::", email);
-		usersbusinessDeligate.register(demoUser);
+		usersbusinessDeligate.save(defaultUser);
 		System.out.println(email);
 	}
 
