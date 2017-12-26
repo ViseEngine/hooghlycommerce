@@ -7,8 +7,6 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -22,6 +20,7 @@ public class User {
 	@Id
 	@Column(name = "email")
 	String email;
+	
 	@Column(name = "password")
 	String password;
 

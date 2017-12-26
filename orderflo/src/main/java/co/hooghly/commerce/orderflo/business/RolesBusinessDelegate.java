@@ -4,12 +4,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import co.hooghly.commerce.orderflo.domain.Role;
-import co.hooghly.commerce.orderflo.roles.repository.RoleRepository;
-import lombok.extern.slf4j.Slf4j;
+import co.hooghly.commerce.orderflo.repository.RoleRepository;
 
-@Slf4j
+
 @Component
-public class RolesBusinessDelegate extends AbstractBaseBusinessDelegate<Role, String> {
+public class RolesBusinessDelegate extends AbstractBaseBusinessDelegate<Role, Long> {
 
 	@Autowired
 	public RolesBusinessDelegate(RoleRepository repository) {

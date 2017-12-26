@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
 
 import co.hooghly.commerce.orderflo.business.OrderService;
 import co.hooghly.commerce.orderflo.domain.Role;
-import co.hooghly.commerce.orderflo.roles.repository.RoleRepository;
+import co.hooghly.commerce.orderflo.repository.RoleRepository;
 import lombok.extern.slf4j.Slf4j;
 import co.hooghly.commerce.orderflo.business.RolesBusinessDelegate;
 

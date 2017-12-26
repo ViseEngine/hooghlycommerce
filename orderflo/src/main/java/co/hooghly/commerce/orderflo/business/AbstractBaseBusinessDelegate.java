@@ -1,21 +1,18 @@
 package co.hooghly.commerce.orderflo.business;
 
 import java.io.Serializable;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEvent;
 import org.springframework.context.ApplicationEventPublisher;
+import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.transaction.annotation.Transactional;
 
-import co.hooghly.commerce.orderflo.roles.repository.BaseRepository;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstractBaseBusinessDelegate<T , Id extends Serializable> {
-	@Getter
-	private BaseRepository<T, Id> repository;
+	
+	private JpaRepository<T, Id> repository;
 
 	@Autowired
 	private ApplicationEventPublisher eventPublisher;
@@ -26,8 +23,7 @@ public abstract class AbstractBaseBusinessDelegate<T , Id extends Serializable> 
 		eventPublisher.publishEvent(event);
 	}
 
-	public AbstractBaseBusinessDelegate(BaseRepository<T, Id> repository) {
-		super();
+	public AbstractBaseBusinessDelegate(JpaRepository<T, Id> repository) {
 		this.repository = repository;
 	}
 
