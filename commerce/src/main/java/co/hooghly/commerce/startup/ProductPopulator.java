@@ -62,12 +62,27 @@ public class ProductPopulator extends AbstractDataPopulator {
 	@Autowired
 	private ProductRelationshipService productRelationshipService;
 	
+	
+	
 	@Autowired
 	protected ProductImageService productImageService;
+	
+	
+	private void createProductType() {
+
+		log.info("12.0 - Populating product type.");
+
+		ProductType productType = new ProductType();
+		productType.setCode(ProductType.GENERAL_TYPE);
+		productTypeService.save(productType);
+
+	}
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("12.Populating products");
+		createProductType();
+		
+		log.info("12.1 - Populating products");
 		Date date = new Date(System.currentTimeMillis());
 		// Add products
 		// ProductType generalType = productTypeService.
@@ -89,7 +104,7 @@ public class ProductPopulator extends AbstractDataPopulator {
 		
 		
 
-		// PRODUCT 1
+		/*// PRODUCT 1
 
 		Product product = new Product();
 		product.setProductHeight(new BigDecimal(10));
@@ -498,7 +513,7 @@ public class ProductPopulator extends AbstractDataPopulator {
 		relationship.setRelatedProduct(product);
 
 		productRelationshipService.saveOrUpdate(relationship);
-
+*/
 
 	}
 

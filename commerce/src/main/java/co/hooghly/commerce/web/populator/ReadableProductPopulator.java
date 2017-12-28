@@ -15,7 +15,7 @@ import co.hooghly.commerce.business.utils.AbstractDataPopulator;
 import co.hooghly.commerce.domain.Category;
 import co.hooghly.commerce.domain.FinalPrice;
 import co.hooghly.commerce.domain.Language;
-import co.hooghly.commerce.domain.ManufacturerDescription;
+
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.domain.ProductAvailability;
@@ -23,7 +23,7 @@ import co.hooghly.commerce.domain.ProductDescription;
 import co.hooghly.commerce.domain.ProductImage;
 import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.web.ui.ReadableImage;
-import co.hooghly.commerce.web.ui.ReadableManufacturer;
+//import co.hooghly.commerce.web.ui.ReadableManufacturer;
 import co.hooghly.commerce.web.ui.ReadableProduct;
 
 
@@ -109,7 +109,7 @@ public class ReadableProductPopulator extends
 				target.setDescription(tragetDescription);
 			}
 			
-			if(source.getManufacturer()!=null) {
+			/*if(source.getManufacturer()!=null) {
 				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next(); 
 				ReadableManufacturer manufacturerEntity = new ReadableManufacturer();
 				co.hooghly.commerce.web.ui.ManufacturerDescription d = new co.hooghly.commerce.web.ui.ManufacturerDescription(); 
@@ -119,7 +119,7 @@ public class ReadableProductPopulator extends
 				manufacturerEntity.setOrder(source.getManufacturer().getOrder());
 				manufacturerEntity.setCode(source.getManufacturer().getCode());
 				target.setManufacturer(manufacturerEntity);
-			}
+			}*/
 			
 			ProductImage image = source.getProductImage();
 			if(image!=null) {

@@ -1,14 +1,24 @@
 package co.hooghly.commerce.startup;
 
+import java.net.URI;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 
 import co.hooghly.commerce.business.SystemConfigurationService;
 import co.hooghly.commerce.business.SystemConstants;
 import co.hooghly.commerce.domain.SystemConfiguration;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 public abstract class AbstractDataPopulator implements CommandLineRunner {
 	private String key;
 	public AbstractDataPopulator(String key) {
@@ -47,5 +57,18 @@ public abstract class AbstractDataPopulator implements CommandLineRunner {
 	
 	public abstract void runInternal(String... args) throws Exception;
 	
-	
+	public List<String> getFileContent(URI fileName) {
+		List<String> list = new ArrayList<>();
+
+		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
+
+			list = stream.filter(i -> StringUtils.isNotBlank(i) && !StringUtils.startsWith(i, "#")).collect(Collectors.toList());
+
+		} catch (Exception e) {
+			log.error("Error ", e);
+		}
+
+		return list;
+
+	}
 }

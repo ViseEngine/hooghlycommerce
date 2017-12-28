@@ -1,108 +1,92 @@
 package co.hooghly.commerce.startup;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
-import co.hooghly.commerce.business.LanguageService;
 import co.hooghly.commerce.business.ManufacturerService;
 import co.hooghly.commerce.business.MerchantStoreService;
-import co.hooghly.commerce.domain.Language;
+import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.domain.Manufacturer;
-import co.hooghly.commerce.domain.ManufacturerDescription;
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.domain.MerchantStoreView;
+import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 @Order(11)
-public class ManufacturerPopulator extends AbstractDataPopulator{
-	
+public class ManufacturerPopulator extends AbstractDataPopulator {
+
+	@Value("classpath:demo-data/manufacturer_*.txt")
+	private Resource[] resources;
+
 	public ManufacturerPopulator() {
 		super("MANUFACTURER");
 	}
-	
+
 	@Autowired
 	protected ManufacturerService manufacturerService;
-	
+
 	@Autowired
 	protected MerchantStoreService merchantService;
 	
 	@Autowired
-	protected LanguageService languageService;
+	private MessageResourceService messageResourceService;
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		
-		
+
 		log.info("11.Populating manufacturer.");
-		
+
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
+		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst()
+				.orElse(null);
+		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst()
+				.orElse(null);
+
+		for (Resource r : resources) {
+			List<String> contents = getFileContent(r.getURI());
+			List<MessageResource> messageResources = new ArrayList<>();
+			List<Manufacturer> manufacturers = new ArrayList<>();
+			for (String l : contents) {
+				String items[] = StringUtils.split(l,",");
+
+				MessageResource mr = new MessageResource();
+				mr.setDomain("Manufacturer");
+				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
+				mr.setMessageKey(items[0]);
+				mr.setMessageText(items[2]);
+
+				messageResources.add(mr);
+
+				mr = new MessageResource();
+				mr.setDomain("Manufacturer");
+				mr.setLocale(storeView.computeLocale().toString());
+				mr.setMessageKey(items[0]);
+				mr.setMessageText(items[3]);
+				
+				messageResources.add(mr);
+				
+				Manufacturer manufacturer = new Manufacturer();
+				manufacturer.setMerchantStore(store);
+				manufacturer.setCode(items[1]);
+				manufacturer.setName(items[2]);
+				manufacturers.add(manufacturer);
+			}
+			
+			manufacturerService.save(manufacturers);
+			messageResourceService.save(messageResources);
+		}
+
 		
-		Language en = languageService.getByCode("en");
-		
-		
-		Manufacturer samsung = new Manufacturer();
-		samsung.setMerchantStore(store);
-		samsung.setCode("samsung");
 
-	    ManufacturerDescription samsungd = new ManufacturerDescription();
-	    samsungd.setLanguage(en);
-	    samsungd.setName("Samsung");
-	    samsungd.setManufacturer(samsung);
-	    samsung.getDescriptions().add(samsungd);
-
-	    manufacturerService.create(samsung);
-	    
-	    
-	    Manufacturer lg = new Manufacturer();
-	    lg.setMerchantStore(store);
-	    lg.setCode("lg");
-
-	    ManufacturerDescription lgd = new ManufacturerDescription();
-	    lgd.setLanguage(en);
-	    lgd.setName("LG");
-	    lgd.setManufacturer(lg);
-	    lg.getDescriptions().add(lgd);
-
-	    manufacturerService.create(lg);
-	    
-	    Manufacturer sony = new Manufacturer();
-	    sony.setMerchantStore(store);
-	    sony.setCode("sony");
-
-	    ManufacturerDescription sonyd = new ManufacturerDescription();
-	    sonyd.setLanguage(en);
-	    sonyd.setName("Sony");
-	    sonyd.setManufacturer(sony);
-	    sony.getDescriptions().add(sonyd);
-
-	    manufacturerService.create(sony);
-
-	    Manufacturer nokia = new Manufacturer();
-	    nokia.setMerchantStore(store);
-	    nokia.setCode("nokia");
-
-	    ManufacturerDescription nokiad = new ManufacturerDescription();
-	    nokiad.setLanguage(en);
-	    nokiad.setManufacturer(nokia);
-	    nokiad.setName("Nokia");
-	    nokia.getDescriptions().add(nokiad);
-
-	    manufacturerService.create(nokia);
-
-	    Manufacturer apple = new Manufacturer();
-	    apple.setMerchantStore(store);
-	    apple.setCode("apple");
-
-	    ManufacturerDescription appled = new ManufacturerDescription();
-	    appled.setLanguage(en);
-	    appled.setManufacturer(apple);
-	    appled.setName("Novells publishing");
-	    apple.getDescriptions().add(appled);
-
-	    manufacturerService.create(apple);
-		
 	}
 
 }

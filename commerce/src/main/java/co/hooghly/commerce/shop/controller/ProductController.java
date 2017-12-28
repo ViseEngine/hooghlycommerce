@@ -33,7 +33,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 
-import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -144,7 +144,7 @@ public class ProductController {
 				AttributeValue attrValue = new AttributeValue();
 				ProductOptionValue optionValue = attribute.getProductOptionValue();
 
-				if (attribute.getAttributeDisplayOnly() == true) {// read only
+				if (attribute.isAttributeDisplayOnly() == true) {// read only
 																	// attribute
 					if (readOnlyAttributes == null) {
 						readOnlyAttributes = new TreeMap<Long, Attribute>();
@@ -170,7 +170,7 @@ public class ProductController {
 					}
 				}
 
-				attrValue.setDefaultAttribute(attribute.getAttributeDefault());
+				attrValue.setDefaultAttribute(attribute.isAttributeDefault());
 				attrValue.setId(attribute.getId());// id of the attribute
 				attrValue.setLanguage(language.getCode());
 				if (attribute.getProductAttributePrice() != null

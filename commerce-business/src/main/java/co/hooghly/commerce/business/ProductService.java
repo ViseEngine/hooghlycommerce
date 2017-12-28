@@ -1,6 +1,5 @@
 package co.hooghly.commerce.business;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -33,7 +32,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @Service
-public class ProductService extends SalesManagerEntityServiceImpl<Long, Product>  {
+public class ProductService extends AbstractBaseBusinessDelegate<Product, Long>  {
 
 	ProductRepository productRepository;
 
@@ -210,7 +209,7 @@ public class ProductService extends SalesManagerEntityServiceImpl<Long, Product>
 			productRelationshipService.delete(relationship);
 		}
 
-		super.delete(product);
+		//super.delete(product);
 		
 		
 
@@ -278,7 +277,7 @@ public class ProductService extends SalesManagerEntityServiceImpl<Long, Product>
 			if (originalProductImages != null) {
 				for (ProductImage image : originalProductImages) {
 					if (!newImageIds.contains(image.getId())) {
-						productImageService.delete(image);
+						//productImageService.delete(image);
 					}
 				}
 			}
