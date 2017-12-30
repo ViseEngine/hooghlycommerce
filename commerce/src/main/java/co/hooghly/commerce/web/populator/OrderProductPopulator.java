@@ -131,7 +131,7 @@ public class OrderProductPopulator extends
 						throw new ConversionException("Attribute id " + id + " invalid for this store");
 					}
 					
-					orderProductAttribute.setProductAttributeIsFree(attr.getProductAttributeIsFree());
+					orderProductAttribute.setProductAttributeIsFree(attr.isProductAttributeIsFree());
 					orderProductAttribute.setProductAttributeName(attr.getProductOption().getDescriptionsSettoList().get(0).getName());
 					orderProductAttribute.setProductAttributeValueName(attr.getProductOptionValue().getDescriptionsSettoList().get(0).getName());
 					orderProductAttribute.setProductAttributePrice(attr.getProductAttributePrice());

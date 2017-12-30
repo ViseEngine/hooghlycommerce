@@ -7,8 +7,8 @@ import org.springframework.stereotype.Service;
 import co.hooghly.commerce.domain.ProductAvailability;
 import co.hooghly.commerce.repository.ProductAvailabilityRepository;
 
-@Service("productAvailabilityService")
-public class ProductAvailabilityService extends SalesManagerEntityServiceImpl<Long, ProductAvailability> {
+@Service
+public class ProductAvailabilityService extends AbstractBaseBusinessDelegate<ProductAvailability, Long> {
 
 	private ProductAvailabilityRepository productAvailabilityRepository;
 
@@ -20,14 +20,7 @@ public class ProductAvailabilityService extends SalesManagerEntityServiceImpl<Lo
 
 	
 	public void saveOrUpdate(ProductAvailability availability) throws ServiceException {
-
-		if (availability.getId() != null && availability.getId() > 0) {
-
-			this.update(availability);
-
-		} else {
-			this.create(availability);
-		}
+		save(availability);
 
 	}
 

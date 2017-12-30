@@ -1,49 +1,28 @@
 package co.hooghly.commerce.domain;
 
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-import javax.persistence.UniqueConstraint;
+import javax.persistence.*;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "MANUFACTURER",  uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "CODE"}) )
-public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> implements Auditable {
-	private static final long serialVersionUID = 80693964563570099L;
+@Data
+@EqualsAndHashCode(callSuper=true)
+public class Manufacturer extends AbstractBaseEntity {
 	
-	@Id
-	@Column(name = "MANUFACTURER_ID", unique=true, nullable=false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-	
-	@Embedded
-	private AuditSection auditSection = new AuditSection();
-	
-	@OneToMany(mappedBy = "manufacturer", cascade = CascadeType.ALL , fetch = FetchType.EAGER)
-	private Set<ManufacturerDescription> descriptions = new HashSet<ManufacturerDescription>();
 	
 	@Column(name = "MANUFACTURER_IMAGE")
 	private String image;
 	
 	@Column(name="SORT_ORDER")
-	private Integer order = new Integer(0);
+	private int order;
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name="MERCHANT_ID", nullable=false)
@@ -53,70 +32,27 @@ public class Manufacturer extends SalesManagerEntity<Long, Manufacturer> impleme
 	@Column(name="CODE", length=100, nullable=false)
 	private String code;
 
-	public Manufacturer() {
-	}
-
-	@Override
-	public Long getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
 	
-	@Override
-	public AuditSection getAuditSection() {
-		return auditSection;
-	}
+	@Column(name = "MANUFACTURERS_URL")
+	private String url;
 	
-	@Override
-	public void setAuditSection(AuditSection auditSection) {
-		this.auditSection = auditSection;
-	}
-
-	public String getImage() {
-		return image;
-	}
-
-	public void setImage(String image) {
-		this.image = image;
-	}
-
-	public Set<ManufacturerDescription> getDescriptions() {
-		return descriptions;
-	}
-
-	public void setDescriptions(Set<ManufacturerDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-
-
-	public MerchantStore getMerchantStore() {
-		return merchantStore;
-	}
-
-	public void setMerchantStore(MerchantStore merchantStore) {
-		this.merchantStore = merchantStore;
-	}
-
-	public void setOrder(Integer order) {
-		this.order = order;
-	}
-
-	public Integer getOrder() {
-		return order;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
+	@Column(name = "URL_CLICKED")
+	private Integer urlClicked;
+	
+	@Column(name = "DATE_LAST_CLICK")
+	private Date dateLastClick;
+	
+	@NotEmpty
+	@Column(name="NAME", nullable = false, length=120)
+	private String name;
+	
+	@Column(name="TITLE", length=100)
+	private String title;
+	
+	@Column(name="SUB_TITLE", length=100)
+	private String subtitle;
+	
+	@Column(name="DESCRIPTION")
+	private String description;
 
 }

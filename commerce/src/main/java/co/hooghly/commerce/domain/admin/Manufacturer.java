@@ -1,6 +1,5 @@
 package co.hooghly.commerce.domain.admin;
 
-import co.hooghly.commerce.domain.ManufacturerDescription;
 import co.hooghly.commerce.domain.ProductImage;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -26,8 +25,7 @@ public class Manufacturer implements Serializable {
 	//provides wrapping to the main Manufacturer entity
 	private co.hooghly.commerce.domain.Manufacturer manufacturer;
 	
-	@Valid
-	private List<ManufacturerDescription> descriptions = new ArrayList<ManufacturerDescription>();
+	
 	
 	private Integer order = new Integer(0);
 	private MultipartFile image = null;
@@ -70,13 +68,7 @@ public class Manufacturer implements Serializable {
 		this.manufacturer = manufacturer;
 	}
 
-	public List<ManufacturerDescription> getDescriptions() {
-		return descriptions;
-	}
 
-	public void setDescriptions(List<ManufacturerDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
 
 	public Integer getOrder() {
 		return order;

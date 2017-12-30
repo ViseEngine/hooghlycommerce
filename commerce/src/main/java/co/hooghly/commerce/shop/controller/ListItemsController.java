@@ -6,9 +6,9 @@ import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.Manufacturer;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.util.PageBuilderUtils;
-import co.hooghly.commerce.web.populator.ReadableManufacturerPopulator;
+
 import co.hooghly.commerce.web.ui.PageInformation;
-import co.hooghly.commerce.web.ui.ReadableManufacturer;
+//import co.hooghly.commerce.web.ui.ReadableManufacturer;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,19 +54,19 @@ public class ListItemsController {
 			
 		}
 		
-		ReadableManufacturer readableManufacturer = new ReadableManufacturer();
+		//ReadableManufacturer readableManufacturer = new ReadableManufacturer();
 		
-		ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
-		readableManufacturer = populator.populate(manufacturer, readableManufacturer, store, language);
+		//ReadableManufacturerPopulator populator = new ReadableManufacturerPopulator();
+		//readableManufacturer = populator.populate(manufacturer, readableManufacturer, store, language);
 		
 		//meta information
-		PageInformation pageInformation = new PageInformation();
+		/*PageInformation pageInformation = new PageInformation();
 		pageInformation.setPageDescription(readableManufacturer.getDescription().getMetaDescription());
 		pageInformation.setPageKeywords(readableManufacturer.getDescription().getKeyWords());
 		pageInformation.setPageTitle(readableManufacturer.getDescription().getTitle());
 		pageInformation.setPageUrl(readableManufacturer.getDescription().getFriendlyUrl());
-		
-		model.addAttribute("manufacturer", readableManufacturer);
+		*/
+		//model.addAttribute("manufacturer", readableManufacturer);
 		
 		/** template **/
 		StringBuilder template = new StringBuilder().append(ControllerConstants.Tiles.Items.items_manufacturer).append(".").append(store.getStoreTemplate());

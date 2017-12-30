@@ -18,7 +18,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Service
 @Slf4j
-public class ProductImageService extends SalesManagerEntityServiceImpl<Long, ProductImage>
+public class ProductImageService extends AbstractBaseBusinessDelegate<ProductImage, Long>
 		 {
 
 	private ProductImageRepository productImageRepository;
@@ -75,7 +75,7 @@ public class ProductImageService extends SalesManagerEntityServiceImpl<Long, Pro
 
 		productImage.getDescriptions().add(description);
 		description.setProductImage(productImage);
-		update(productImage);
+		save(productImage);
 
 	}
 
@@ -130,7 +130,7 @@ public class ProductImageService extends SalesManagerEntityServiceImpl<Long, Pro
 
 		ProductImage p = this.getById(productImage.getId());
 
-		this.delete(p);
+		//this.delete(p);
 
 	}
 

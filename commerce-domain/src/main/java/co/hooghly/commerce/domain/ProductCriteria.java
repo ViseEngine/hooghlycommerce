@@ -2,6 +2,11 @@ package co.hooghly.commerce.domain;
 
 import java.util.List;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class ProductCriteria extends Criteria {
 	
 	
@@ -17,63 +22,6 @@ public class ProductCriteria extends Criteria {
 	
 	private Long manufacturerId = null;
 
-	public String getProductName() {
-		return productName;
-	}
-
-	public void setProductName(String productName) {
-		this.productName = productName;
-	}
-
-
-	public List<Long> getCategoryIds() {
-		return categoryIds;
-	}
-
-	public void setCategoryIds(List<Long> categoryIds) {
-		this.categoryIds = categoryIds;
-	}
-
-	public List<String> getAvailabilities() {
-		return availabilities;
-	}
-
-	public void setAvailabilities(List<String> availabilities) {
-		this.availabilities = availabilities;
-	}
-
-	public Boolean getAvailable() {
-		return available;
-	}
-
-	public void setAvailable(Boolean available) {
-		this.available = available;
-	}
-
-	public void setAttributeCriteria(List<AttributeCriteria> attributeCriteria) {
-		this.attributeCriteria = attributeCriteria;
-	}
-
-	public List<AttributeCriteria> getAttributeCriteria() {
-		return attributeCriteria;
-	}
-
-	public void setProductIds(List<Long> productIds) {
-		this.productIds = productIds;
-	}
-
-	public List<Long> getProductIds() {
-		return productIds;
-	}
-
-	public void setManufacturerId(Long manufacturerId) {
-		this.manufacturerId = manufacturerId;
-	}
-
-	public Long getManufacturerId() {
-		return manufacturerId;
-	}
-
-
+	
 
 }

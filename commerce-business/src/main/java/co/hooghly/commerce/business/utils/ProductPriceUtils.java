@@ -142,7 +142,7 @@ public class ProductPriceUtils {
 		BigDecimal attributePrice = null;
 		if(product.getAttributes()!=null && product.getAttributes().size()>0) {
 			for(ProductAttribute attribute : product.getAttributes()) {
-					if(attribute.getAttributeDefault()) {
+					if(attribute.isAttributeDefault()) {
 						if(attribute.getProductAttributePrice()!=null && attribute.getProductAttributePrice().doubleValue()>0) {
 							if(attributePrice==null) {
 								attributePrice = new BigDecimal(0);
