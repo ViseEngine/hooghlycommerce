@@ -1,6 +1,9 @@
 package co.hooghly.commerce.startup;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.net.URI;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -9,6 +12,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -57,7 +61,8 @@ public abstract class AbstractDataPopulator implements CommandLineRunner {
 	
 	public abstract void runInternal(String... args) throws Exception;
 	
-	public List<String> getFileContent(URI fileName) {
+	@Deprecated
+	protected List<String> getFileContent(URI fileName) {
 		List<String> list = new ArrayList<>();
 
 		try (Stream<String> stream = Files.lines(Paths.get(fileName))) {
@@ -70,5 +75,9 @@ public abstract class AbstractDataPopulator implements CommandLineRunner {
 
 		return list;
 
+	}
+	
+	protected List<String> getFileContent(InputStream inputStream) throws IOException{
+		return IOUtils.readLines(inputStream, StandardCharsets.UTF_8).stream().filter(i -> StringUtils.isNotBlank(i) && !StringUtils.startsWith(i, "#")).collect(Collectors.toList());
 	}
 }
