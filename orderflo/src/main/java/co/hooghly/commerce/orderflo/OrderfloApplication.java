@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 
-@EnableAutoConfiguration
+//@EnableAutoConfiguration
 @SpringBootApplication
 public class OrderfloApplication {
 
