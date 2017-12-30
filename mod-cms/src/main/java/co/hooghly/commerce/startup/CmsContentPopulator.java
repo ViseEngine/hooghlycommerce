@@ -3,7 +3,6 @@ package co.hooghly.commerce.startup;
 import java.io.BufferedInputStream;
 import java.io.File;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
@@ -12,7 +11,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipInputStream;
 
 import org.apache.commons.io.IOUtils;
@@ -28,7 +26,6 @@ import co.hooghly.commerce.domain.CmsContent;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.MessageResource;
 import co.hooghly.commerce.repository.CmsContentRepository;
-import java.time.LocalDate;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
@@ -46,13 +43,11 @@ public class CmsContentPopulator {
 	@Value("classpath:messages/messages_*.properties")
 	private Resource[] propResources;
 
-	private final static Long MILLS_IN_DAY = 86400000L;
-
 	public void load(MerchantStore store) {
 		log.debug("Loading default CMS contents");
 		for (Resource r : resources) {
-			log.info("Loading from ZIP - {}", r.getFilename());
-			log.info("Loading from ZIP exists - {}", r.exists());
+			log.debug("Loading from ZIP - {}", r.getFilename());
+			
 			if (r.exists())
 				readZipContents(r, store);
 		}
@@ -67,9 +62,7 @@ public class CmsContentPopulator {
 				ZipEntry ze;
 
 				while ((ze = zis.getNextEntry()) != null) {
-
-					System.out.format("Directory : %s File: %s Size: %d Last Modified %s %n", ze.isDirectory(), ze.getName(), ze.getSize(),
-							LocalDate.ofEpochDay(ze.getTime() / MILLS_IN_DAY));
+					saveZipContent(ze,zis,store);
 				}
 			}
 		} catch (Exception e) {
@@ -77,42 +70,37 @@ public class CmsContentPopulator {
 		}
 	}
 
-	private void unzipAndLoad(Resource r, MerchantStore store) {
-		// Open the file
-		try (ZipFile file = new ZipFile(r.getFile())) {
-			String theme = r.getFilename().replace(".zip", "");
+	private void saveZipContent(ZipEntry entry,ZipInputStream zis, MerchantStore store) {
+		try{
+		if (!entry.isDirectory() && !StringUtils.containsAny(entry.getName(), "less", "scss")) {
+			
+			
+			CmsContent content = new CmsContent();
+			
+			int lastIndx = StringUtils.lastIndexOf(entry.getName(), "/");
+			String code = StringUtils.substring(entry.getName(), lastIndx + 1);
+			
+			content.setCode(code);
+			content.setContent(IOUtils.toByteArray(zis));
 
-			// Get file entries
-			Enumeration<? extends ZipEntry> entries = file.entries();
-
-			// Iterate over entries
-			while (entries.hasMoreElements()) {
-				ZipEntry entry = entries.nextElement();
-				log.info("Entry - {}", entry.getName());
-				if (!entry.isDirectory() && !StringUtils.containsAny(entry.getName(), "less", "scss")) {
-					InputStream is = file.getInputStream(entry);
-					log.debug("Code - {}", entry.getName());
-					File f = new File(entry.getName());
-					CmsContent content = new CmsContent();
-
-					content.setCode(f.getName());
-					content.setContent(IOUtils.toByteArray(is));
-
-					content.setMerchantStore(store);
-					content.setOriginalFileName(entry.getName());
-					content.setFileSize(entry.getSize());
-					content.setLastModified(entry.getTime());
-					content.setFolder(detectFolder(entry.getName()));
-					content.setFileType(detectFileType(f));
-					content.setTheme(theme);
-					save(content);
-				}
-
-			}
-		} catch (IOException e) {
-			log.error("Error loading CMS content ", e);
+			content.setMerchantStore(store);
+			content.setOriginalFileName(entry.getName());
+			content.setFileSize(entry.getSize());
+			content.setLastModified(entry.getTime());
+			content.setFolder(detectFolder(entry.getName()));
+			//content.setFileType(detectFileType(f));
+			content.setTheme("zap");
+			
+			log.info("Saving cms content");
+			save(content);
+		}
+		}
+		catch(Exception e){
+			log.info("Error reading");
 		}
 	}
+
+	
 
 	private String detectFolder(String fileName) {
 		String folder = "Undetermined";

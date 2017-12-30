@@ -1,8 +1,12 @@
 package co.hooghly.commerce.startup;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
-
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -57,10 +61,6 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	@Autowired
 	private MessageResourceService messageResourceService;
 	
-	
-
-	
-
 	@Override
 	public void runInternal(String... args) throws Exception {
 		log.info("10. Populating categories.");
@@ -73,8 +73,9 @@ public class CategoryPopulator extends AbstractDataPopulator {
 		
 		for (Resource r : resources) {
 			log.debug("Found resource - {}", r.getFilename());
-
-			List<String> contents = getFileContent(r.getURI());
+			
+			
+			List<String> contents = getFileContent(r.getInputStream());
 			int parentSortOder = 0;
 			int childSortOrder = 0;
 			Category parent = null;
@@ -138,6 +139,8 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 
 	}
+
+	
 
 	
 
