@@ -30,22 +30,25 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		http.authorizeRequests().antMatchers("/webjars/**", "/user/login", "/user/register", "/user/savenew","/user/activate","/install/**")
 				.permitAll().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/studio/**")
 				.hasAnyRole("ADMIN", "USER").antMatchers("/**/**").hasAnyRole("ADMIN", "USER").and().formLogin()
-				.passwordParameter("password").usernameParameter("username").loginProcessingUrl("/authenticate")
-				.failureUrl("/user/login?error=SEC-0001").loginPage("/user/login").defaultSuccessUrl("/lead/new?form=lead").and()
-				.logout().logoutUrl("/user/logout").logoutSuccessUrl("/signin");
+				.passwordParameter("password").usernameParameter("username").loginProcessingUrl("/admin/secure/authenticate")
+				.failureUrl("/user/login?error=SEC-0001").loginPage("/user/login").defaultSuccessUrl("/user/success").and()
+				.logout().logoutUrl("/user/logout").logoutSuccessUrl("/user/login");
 	}
-
+//lead/new?form=lead
 	@Bean
 	public PasswordEncoder encoder() {
 		return new BCryptPasswordEncoder();
 	}
 
-	@Override
+/*	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(
 				encoder());
+	}*/
+	
+	@Autowired
+	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+		auth.inMemoryAuthentication().withUser("ram").password("ram123").roles("ADMIN");
 	}
-	
-	
 
 }

@@ -27,6 +27,7 @@ public class UserController {
 
 		if (principal instanceof UserDetails) {
 			view = "redirect:/lead/new?form=formLead";
+			view = "login";
 		}
 		System.out.println(" View returned .."+view);
 		return view;
@@ -39,6 +40,12 @@ public class UserController {
 	@GetMapping(value="/register")
 	public String goToSignUp() {
 		return "signupform";
+	}
+	
+	@RequestMapping("/success")
+	public String successPage() {
+		System.out.println("Inside Success block");
+		return "success";
 	}
 	
 
