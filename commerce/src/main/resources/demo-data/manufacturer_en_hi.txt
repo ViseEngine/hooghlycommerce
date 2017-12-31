@@ -1,0 +1,7 @@
+msg.manufacturer.samsung,samsung,Samsung,सैमसंग
+msg.manufacturer.lg,lg,LG,एलजी
+msg.manufacturer.karbon,karbon,Karbon,कार्बन
+msg.manufacturer.sony,sony,Sony,सोनी
+msg.manufacturer.nokia,nokia,Nokia,नोकिया
+msg.manufacturer.apple,apple,Apple,एप्प्ल
+msg.manufacturer.redmi,redmi,RedMi,रेडमी

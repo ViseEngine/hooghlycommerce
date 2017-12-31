@@ -57,7 +57,7 @@ public class UserGroupPermissionPopulator extends AbstractDataPopulator {
 	@Override
 	public void runInternal(String... args) throws Exception {
 		log.info("8.Populating User, Group, Permissions.");
-		populate();
+		//populate();
 	}
 
 	public void populate() throws Exception {

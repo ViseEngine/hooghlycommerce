@@ -1,5 +1,7 @@
 package co.hooghly.commerce.domain;
 
+import java.util.Locale;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -9,6 +11,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.persistence.UniqueConstraint;
 
 import co.hooghly.commerce.constants.MeasureUnit;
@@ -33,6 +36,8 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
+	@Column(name = "STORE_VIEW_CODE", unique = true, nullable=false)
+	private String code;
 		
 	@Column(name = "WEIGHTUNITCODE", length=5)
 	private String weightunitcode = MeasureUnit.LB.name();
@@ -41,7 +46,7 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	private String seizeunitcode = MeasureUnit.IN.name();
 
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Language.class)
 	@JoinColumn(name = "LANGUAGE_ID", nullable=false)
 	private Language language;
 
@@ -50,11 +55,15 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	private String continueshoppingurl;
 	
 	
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Currency.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Currency.class)
 	@JoinColumn(name = "CURRENCY_ID", nullable=false)
 	private Currency currency;
 	
-	@ManyToOne(fetch=FetchType.LAZY)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
+	@JoinColumn(name = "COUNTRY_ID", nullable=false , referencedColumnName="COUNTRY_ID")
+	private Country country;
+	
+	@ManyToOne(fetch=FetchType.EAGER)
 	@JoinColumn(name="MERCHANT_STORE_ID")
 	private MerchantStore merchantStore;
 	
@@ -64,5 +73,13 @@ public class MerchantStoreView extends SalesManagerEntity<Integer, MerchantStore
 	@Column(name = "IS_DEFAULT_STORE_VIEW")
 	private boolean defaultView = false;
 	
-
+	@Transient
+	private Locale computedLocale;
+	
+	public Locale computeLocale(){
+		if(computedLocale == null){
+			computedLocale = new Locale(language.getCode(), country.getIsoCode());
+		}
+		return computedLocale;
+	}
 }

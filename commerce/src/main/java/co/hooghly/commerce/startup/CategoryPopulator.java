@@ -1,205 +1,149 @@
 package co.hooghly.commerce.startup;
 
-import java.util.ArrayList;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+import java.util.stream.Collectors;
 
+import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
+import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 import co.hooghly.commerce.business.CategoryService;
 import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.LanguageService;
 import co.hooghly.commerce.business.MerchantStoreService;
+import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.business.ProductTypeService;
 import co.hooghly.commerce.business.ZoneService;
 import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
-import co.hooghly.commerce.domain.Language;
+
 import co.hooghly.commerce.domain.MerchantStore;
+import co.hooghly.commerce.domain.MerchantStoreView;
+import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
 @Order(10)
 public class CategoryPopulator extends AbstractDataPopulator {
-	
+
+	@Value("classpath:demo-data/category_*.txt")
+	private Resource[] resources;
+
 	public CategoryPopulator() {
 		super("CATEGORY");
 	}
-	
+
 	@Autowired
 	protected CategoryService categoryService;
-	
+
 	@Autowired
 	protected ProductTypeService productTypeService;
-	
+
 	@Autowired
 	protected LanguageService languageService;
-	
+
 	@Autowired
 	protected CountryService countryService;
-	
+
 	@Autowired
 	protected ZoneService zoneService;
-	
+
 	@Autowired
 	protected MerchantStoreService merchantService;
-
+	
+	@Autowired
+	private MessageResourceService messageResourceService;
+	
 	@Override
 	public void runInternal(String... args) throws Exception {
 		log.info("10. Populating categories.");
 		
-		//2 languages by default
-		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
 		
-		
-		//create a merchant
+		// create a merchant
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
+		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst().orElse(null);
+		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst().orElse(null);
 		
-		Category mobile = new Category();
-		mobile.setMerchantStore(store);
-		mobile.setCode("mobile");
-		mobile.setVisible(true);
+		for (Resource r : resources) {
+			log.debug("Found resource - {}", r.getFilename());
+			
+			
+			List<String> contents = getFileContent(r.getInputStream());
+			int parentSortOder = 0;
+			int childSortOrder = 0;
+			Category parent = null;
+			for (String s : contents) {
+				
+				log.debug("Line - {}", s);
+				int i = s.indexOf('|');
+				Category category = new Category();
+				
+				String engPart = s.substring(0, i);
+				String hiPart = s.substring(i+1);
+				
+				String code = StringUtils.lowerCase(StringUtils.replace(StringUtils.trim(engPart), " ", "-"));
+				
+				log.debug("Code - {}", code);
+				
+				if (StringUtils.startsWith(engPart, " ")) {
+					
+					// child entry
+					log.debug("Child category - {}", s);
+					category.setMerchantStore(store);
+					category.setCode(code);
+					category.setVisible(true);
+					category.setSortOrder(childSortOrder++);
+					category.setParent(parent);
+					category.setSeUrl("/categories/"+code);
+					category.setName("msg.category."+code);
+					
+					categoryService.create(category);
+				} else {
+					category.setMerchantStore(store);
+					category.setCode(code);
+					category.setVisible(true);
+					category.setSortOrder(parentSortOder++);
+					category.setName("msg.category."+code);
+					category.setSeUrl("/categories/"+code);
+					
+					categoryService.create(category);
+					parent = category;
+					childSortOrder = 0;
+				}
+				
+				//will create message resources as these are throw-away demo data.
+				MessageResource mr = new MessageResource();
+				mr.setDomain("Category");
+				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
+				mr.setMessageKey(category.getName());
+				mr.setMessageText(engPart);
+				
+				MessageResource mrHi = new MessageResource();
+				mrHi.setDomain("Category");
+				mrHi.setLocale(storeView.computeLocale().toString());
+				mrHi.setMessageKey(category.getName());
+				mrHi.setMessageText(hiPart);
+				
+				messageResourceService.save(mr);
+				messageResourceService.save(mrHi);
+				
+			}
+		}
 
-	    CategoryDescription mobileEnglishDescription = new CategoryDescription();
-	    mobileEnglishDescription.setName("Mobile");
-	    mobileEnglishDescription.setCategory(mobile);
-	    mobileEnglishDescription.setLanguage(en);
-	    mobileEnglishDescription.setSeUrl("mobile");
 
-	    CategoryDescription mobileFrenchDescription = new CategoryDescription();
-	    mobileFrenchDescription.setName("Mobile");
-	    mobileFrenchDescription.setCategory(mobile);
-	    mobileFrenchDescription.setLanguage(fr);
-	    mobileFrenchDescription.setSeUrl("mobile");
-
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
-	    descriptions.add(mobileEnglishDescription);
-	    descriptions.add(mobileFrenchDescription);
-
-	    mobile.setDescriptions(descriptions);
-	    
-	   
-
-	    categoryService.create(mobile);
-	    
-	    addChildren(mobile, store, en, fr);
-
-	    Category accessories = new Category();
-	    accessories.setMerchantStore(store);
-	    accessories.setCode("accessories");
-	    accessories.setVisible(false);
-
-	    CategoryDescription accessoriesEnglishDescription = new CategoryDescription();
-	    accessoriesEnglishDescription.setName("Accessories");
-	    accessoriesEnglishDescription.setCategory(accessories);
-	    accessoriesEnglishDescription.setLanguage(en);
-	    accessoriesEnglishDescription.setSeUrl("accessories");
-
-	    CategoryDescription accessoriesFrenchDescription = new CategoryDescription();
-	    accessoriesFrenchDescription.setName("Accessoires");
-	    accessoriesFrenchDescription.setCategory(accessories);
-	    accessoriesFrenchDescription.setLanguage(fr);
-	    accessoriesFrenchDescription.setSeUrl("accessoires");
-
-	    List<CategoryDescription> descriptions2 = new ArrayList<CategoryDescription>();
-	    descriptions2.add(accessoriesEnglishDescription);
-	    descriptions2.add(accessoriesFrenchDescription);
-
-	    accessories.setDescriptions(descriptions2);
-
-	    categoryService.create(accessories);
-	    
-	    Category handicrafts = new Category();
-	    handicrafts.setMerchantStore(store);
-	    handicrafts.setCode("handicrafts");
-
-	    CategoryDescription handicraftsEnglishDescription = new CategoryDescription();
-	    handicraftsEnglishDescription.setName("Handicrafts");
-	    handicraftsEnglishDescription.setCategory(handicrafts);
-	    handicraftsEnglishDescription.setLanguage(en);
-	    handicraftsEnglishDescription.setSeUrl("handicrafts");
-
-	    CategoryDescription handicraftsFrenchDescription = new CategoryDescription();
-	    handicraftsFrenchDescription.setName("Artisanats");
-	    handicraftsFrenchDescription.setCategory(handicrafts);
-	    handicraftsFrenchDescription.setLanguage(fr);
-	    handicraftsFrenchDescription.setSeUrl("artisanats");
-
-	    List<CategoryDescription> descriptions4 = new ArrayList<CategoryDescription>();
-	    descriptions4.add(handicraftsEnglishDescription);
-	    descriptions4.add(handicraftsFrenchDescription);
-
-	    handicrafts.setDescriptions(descriptions4);
-	    
-	   
-
-	    categoryService.create(handicrafts);
-	    
-	    
 	}
 
-	private void addChildren(Category mobile, MerchantStore store, Language en, Language fr) {
-		//1. Samsung
-		Category samsung = new Category();
-		samsung.setMerchantStore(store);
-		samsung.setCode("samsung");
-		samsung.setVisible(true);
+	
 
-	    CategoryDescription samsungEnglishDescription = new CategoryDescription();
-	    samsungEnglishDescription.setName("Samsung");
-	    samsungEnglishDescription.setCategory(samsung);
-	    samsungEnglishDescription.setLanguage(en);
-	    samsungEnglishDescription.setSeUrl("samsung-mobile");
+	
 
-	    CategoryDescription samsungFrenchDescription = new CategoryDescription();
-	    samsungFrenchDescription.setName("Samsung");
-	    samsungFrenchDescription.setCategory(samsung);
-	    samsungFrenchDescription.setLanguage(fr);
-	    samsungFrenchDescription.setSeUrl("samsung-mobile-fr");
-
-	    List<CategoryDescription> descriptions = new ArrayList<CategoryDescription>();
-	    descriptions.add(samsungEnglishDescription);
-	    descriptions.add(samsungFrenchDescription);
-
-	    samsung.setDescriptions(descriptions);
-	    
-	    samsung.setParent(mobile);
-	    mobile.getCategories().add(samsung);
-	    
-	    categoryService.create(samsung);
-
-	    //2.LG
-	    Category lg = new Category();
-	    lg.setMerchantStore(store);
-	    lg.setCode("LG");
-	    lg.setVisible(true);
-
-	    CategoryDescription lgEnglishDescription = new CategoryDescription();
-	    lgEnglishDescription.setName("LG");
-	    lgEnglishDescription.setCategory(lg);
-	    lgEnglishDescription.setLanguage(en);
-	    lgEnglishDescription.setSeUrl("lg-mobile");
-
-	    CategoryDescription lgFrenchDescription = new CategoryDescription();
-	    lgFrenchDescription.setName("LG");
-	    lgFrenchDescription.setCategory(lg);
-	    lgFrenchDescription.setLanguage(fr);
-	    lgFrenchDescription.setSeUrl("lg-mobile-fr");
-
-	    descriptions = new ArrayList<CategoryDescription>();
-	    descriptions.add(lgEnglishDescription);
-	    descriptions.add(lgFrenchDescription);
-
-	    lg.setDescriptions(descriptions);
-	    
-	    lg.setParent(mobile);
-	    mobile.getCategories().add(lg);
-	    
-	    categoryService.create(lg);
-		
-	}
+	
 
 }

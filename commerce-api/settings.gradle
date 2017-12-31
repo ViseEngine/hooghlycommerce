@@ -1,0 +1,11 @@
+include ':commerce-business'
+project(':commerce-business').projectDir = new File(settingsDir, '../commerce-business')
+
+include ':commerce-data'
+project(':commerce-data').projectDir = new File(settingsDir, '../commerce-data')
+
+include ':commerce-domain'
+project(':commerce-domain').projectDir = new File(settingsDir, '../commerce-domain')
+
+
+

@@ -1,57 +1,19 @@
 package co.hooghly.commerce.web.interceptor;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-
-import co.hooghly.commerce.business.CategoryService;
-import co.hooghly.commerce.business.CustomerService;
-
 import co.hooghly.commerce.business.MerchantConfigurationService;
-import co.hooghly.commerce.business.MerchantStoreService;
-import co.hooghly.commerce.business.ProductService;
-import co.hooghly.commerce.business.utils.CacheUtils;
 import co.hooghly.commerce.business.utils.CoreConfiguration;
 import static co.hooghly.commerce.constants.Constants.*;
-import co.hooghly.commerce.domain.Category;
-import co.hooghly.commerce.domain.CategoryDescription;
-import co.hooghly.commerce.domain.Customer;
-import co.hooghly.commerce.domain.Language;
-import co.hooghly.commerce.domain.MerchantConfig;
-import co.hooghly.commerce.domain.MerchantConfiguration;
-import co.hooghly.commerce.domain.MerchantConfigurationType;
-import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.Product;
-import co.hooghly.commerce.facade.CategoryFacade;
-import co.hooghly.commerce.util.GeoLocationUtils;
-import co.hooghly.commerce.util.LabelUtils;
-import co.hooghly.commerce.util.LanguageUtils;
-import co.hooghly.commerce.util.WebApplicationCacheUtils;
-import co.hooghly.commerce.web.populator.ReadableCategoryPopulator;
-import co.hooghly.commerce.domain.Address;
-import co.hooghly.commerce.domain.Billing;
-import co.hooghly.commerce.web.ui.AnonymousCustomer;
-import co.hooghly.commerce.web.ui.Breadcrumb;
-import co.hooghly.commerce.web.ui.BreadcrumbItem;
-import co.hooghly.commerce.web.ui.BreadcrumbItemType;
-import co.hooghly.commerce.web.ui.PageInformation;
-import co.hooghly.commerce.web.ui.ReadableCategory;
 import lombok.extern.slf4j.Slf4j;
 
-import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.context.i18n.LocaleContextHolder;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.web.bind.ServletRequestUtils;
-import org.springframework.web.servlet.LocaleResolver;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
-import org.springframework.web.servlet.support.RequestContextUtils;
-import org.springframework.web.util.WebUtils;
 
-import javax.inject.Inject;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
-import java.util.concurrent.ConcurrentHashMap;
 
 /**
  * Spring MVC interceptor.
@@ -61,212 +23,76 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 public class StoreInterceptor extends HandlerInterceptorAdapter {
 
-	private static final String STORE_REQUEST_PARAMETER = "store";
+	
+	@Autowired
+	private List<WebInterceptorProcessingStrategy> processingStrategies;
+	
 
-	@Inject
-	private CategoryService categoryService;
-
-	@Inject
-	private ProductService productService;
-
-	@Inject
-	private MerchantStoreService merchantService;
-
-	@Inject
-	private CustomerService customerService;
-
-	@Inject
+	@Autowired
 	private MerchantConfigurationService merchantConfigurationService;
 
-	@Inject
-	private LabelUtils messages;
+	//@Autowired
+	//private LabelUtils messages;
 
-	
-	@Inject
-	private CacheUtils cache;
+	//@Autowired
+	//private CategoryFacade categoryFacade;
 
-	@Inject
-	private WebApplicationCacheUtils webApplicationCache;
-
-	@Inject
-	private CategoryFacade categoryFacade;
-
-	@Inject
+	@Autowired
 	private CoreConfiguration coreConfiguration;
+	
+	
 
-	public MerchantStore findAndSetMerchantStore(HttpServletRequest request) throws Exception {
-		/** merchant store **/
-		MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
-		String storeCode = ServletRequestUtils.getStringParameter(request, STORE_REQUEST_PARAMETER);
-
-		if (StringUtils.isNotBlank(storeCode) && store != null) {
-			// A store code found in request and session so handle the
-			// conflict by
-			// trying to use the request param store code.
-			// override the session store code with request store code.
-			store = setMerchantStoreInSession(request, storeCode);
+	@Override
+	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
+			ModelAndView modelAndView) throws Exception {
+		log.debug("Post handling request for store.");
+		for(WebInterceptorProcessingStrategy strategy : processingStrategies) {
+			if(strategy.canHandle("StoreInterceptor")) {
+				strategy.postHandle(request, response, handler,modelAndView);
+			}
 		}
-
-		if (store == null) {
-			// merchant store not found in session or override did not work, set
-			// default
-			store = setMerchantStoreInSession(request, MerchantStore.DEFAULT_STORE);
-		}
-
-		request.setAttribute(MERCHANT_STORE, store);
-
-		return store;
 	}
+
+
 
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler)
 			throws Exception {
 
-		log.info("Pre handling request for store.");
+		log.debug("Pre handling request for store.");
 
-		try {
-
-			/** merchant store **/
-			MerchantStore store = findAndSetMerchantStore(request);
-
-			/** customer **/
-			findCustomer(request, store);
-
-			/** anonymous customer **/
-			findAndSetAnonymousCustomer(request, store);
-			
-
-			/** language & locale **/
-			Locale locale = findAndStoreLanguageWithLocale(request, response,store);
-
-			
-
-			/** Breadcrumbs **/
-			//TODO move to CMS page and controller
-			//setBreadcrumb(request, locale);
-
-			
-
-			/******* Top Categories ********/
-			// this.getTopCategories(store, language, request);
-			//this.setTopCategories(store, language, request);
-
-			/******* Default metatags *******/
-
-			/**
-			 * Title Description Keywords
-			 */
-
-			//all these will come from CMS view definition
-
-			
-			
-
-			/******* Configuration objects *******/
-
-			/**
-			 * SHOP configuration type Should contain - Different configuration
-			 * flags - Google analytics - Facebook page - Twitter handle - Show
-			 * customer login - ...
-			 */
-
-			this.getMerchantConfigurations(store, request);
-
-			/******* Shopping Cart *********/
-
-			String shoppingCarCode = (String) request.getSession().getAttribute(SHOPPING_CART);
-			if (shoppingCarCode != null) {
-				request.setAttribute(REQUEST_SHOPPING_CART, shoppingCarCode);
+		for(WebInterceptorProcessingStrategy strategy : processingStrategies) {
+			if(strategy.canHandle("StoreInterceptor")) {
+				strategy.preHandle(request, response, handler);
 			}
+		}
 
-		} catch (Exception e) {
-			log.error("Error in StoreFilter", e);
+		
+
+		
+		/******* Configuration objects *******/
+
+		/**
+		 * SHOP configuration type Should contain - Different configuration
+		 * flags - Google analytics - Facebook page - Twitter handle - Show
+		 * customer login - ...
+		 */
+
+		// this.getMerchantConfigurations(store, request);
+
+		/******* Shopping Cart *********/
+
+		String shoppingCartCode = (String) request.getSession().getAttribute(SHOPPING_CART);
+		if (StringUtils.isNotEmpty(shoppingCartCode)) {
+			request.setAttribute(REQUEST_SHOPPING_CART, shoppingCartCode);
 		}
 
 		return true;
 
 	}
+
 	
-	/**
-	 * Rules
-	 * ==========
-	 * first time 
-	 * ==========
-	 *	1. Get browser locale
-	 *	2. check if language exists for the merchant
-	 *	3. if not use default langauge
-	 *  ======================
-	 * user selects a language
-	 *  ======================	
-	 *	1. check if the language exists for the merchant
-	 *	2. if not use default langauge
-	 * @param request
-	 * @param response
-	 * @param store
-	 */
-	private Locale findAndStoreLanguageWithLocale(HttpServletRequest request, HttpServletResponse response, MerchantStore store) {
-		Locale locale = LocaleContextHolder.getLocale(); //browser locale.
-		
-		Optional<Language> language = store.getLanguages().stream().filter(lang -> StringUtils.equals(locale.getLanguage(), lang.getCode())).findFirst();
-		Language lang = language.isPresent() ? language.get() : store.getDefaultLanguage();
-	
-		LocaleContextHolder.setLocale(locale);
-		WebUtils.setSessionAttribute(request, LANGUAGE, lang);
-		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
-		if (localeResolver != null) {
-			localeResolver.setLocale(request, response, locale);
-		}
-		response.setLocale(locale);
-		request.setAttribute(LANGUAGE, lang);
-		
-		return locale;
-		
-	}
-
-	private void findAndSetAnonymousCustomer(HttpServletRequest request, MerchantStore store) {
-		Customer anonymousCustomer = (Customer) WebUtils.getSessionAttribute(request, ANONYMOUS_CUSTOMER);
-		if (anonymousCustomer == null) {
-			anonymousCustomer = new Customer();
-			Optional<Address> geoAddress = customerService.getCustomerAddress(store,
-					GeoLocationUtils.getClientIpAddress(request));
-			if (!geoAddress.isPresent()) {// Copy store details
-				Billing billing = new Billing();
-				billing.setCountry(store.getCountry());
-				billing.setZone(store.getZone());
-
-				anonymousCustomer.setBilling(billing);
-			}
-
-			anonymousCustomer.setAnonymous(true);
-			WebUtils.setSessionAttribute(request, ANONYMOUS_CUSTOMER, anonymousCustomer);
-		}
-
-		request.setAttribute(ANONYMOUS_CUSTOMER, anonymousCustomer);
-	}
-
-	private Customer findCustomer(HttpServletRequest request, MerchantStore store) {
-		Customer customer = (Customer) WebUtils.getSessionAttribute(request, CUSTOMER);
-		if (customer != null) {
-			if (customer.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				request.getSession().removeAttribute(CUSTOMER);
-			}
-
-			request.setAttribute(CUSTOMER, customer);
-		} else {
-
-			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (auth != null) {
-				customer = customerService.getByNick(auth.getName());
-				if (customer != null) {
-					request.setAttribute(CUSTOMER, customer);
-				}
-			}
-
-		}
-
-		return customer;
-	}
-
+	/*
 	@SuppressWarnings("unchecked")
 	private void getMerchantConfigurations(MerchantStore store, HttpServletRequest request) throws Exception {
 
@@ -311,10 +137,6 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 	}
 
-	
-
-	
-
 	@SuppressWarnings("unused")
 	private Map<String, Object> getConfigurations(MerchantStore store) {
 
@@ -358,114 +180,5 @@ public class StoreInterceptor extends HandlerInterceptorAdapter {
 
 	}
 
-	private void setBreadcrumb(HttpServletRequest request, Locale locale) {
-
-		try {
-
-			// breadcrumb
-			Breadcrumb breadCrumb = (Breadcrumb) request.getSession().getAttribute(BREADCRUMB);
-			Language language = (Language) request.getAttribute(LANGUAGE);
-			if (breadCrumb == null) {
-				breadCrumb = new Breadcrumb();
-				breadCrumb.setLanguage(language);
-				BreadcrumbItem item = this.getDefaultBreadcrumbItem(language, locale);
-				breadCrumb.getBreadCrumbs().add(item);
-			} else {
-
-				// check language
-				if (language.getCode().equals(breadCrumb.getLanguage().getCode())) {
-
-					// rebuild using the appropriate language
-					List<BreadcrumbItem> items = new ArrayList<BreadcrumbItem>();
-					for (BreadcrumbItem item : breadCrumb.getBreadCrumbs()) {
-
-						if (item.getItemType().name().equals(BreadcrumbItemType.HOME)) {
-							BreadcrumbItem homeItem = this.getDefaultBreadcrumbItem(language, locale);
-							homeItem.setItemType(BreadcrumbItemType.HOME);
-							homeItem.setLabel(messages.getMessage(HOME_MENU_KEY, locale));
-							homeItem.setUrl(HOME_URL);
-							items.add(homeItem);
-						} else if (item.getItemType().name().equals(BreadcrumbItemType.PRODUCT)) {
-							Product product = productService.getProductForLocale(item.getId(), language, locale);
-							if (product != null) {
-								BreadcrumbItem productItem = new BreadcrumbItem();
-								productItem.setId(product.getId());
-								productItem.setItemType(BreadcrumbItemType.PRODUCT);
-								productItem.setLabel(product.getProductDescription().getName());
-								productItem.setUrl(product.getProductDescription().getSeUrl());
-								items.add(productItem);
-							}
-						} else if (item.getItemType().name().equals(BreadcrumbItemType.CATEGORY)) {
-							Category category = categoryService.getByLanguage(item.getId(), language);
-							if (category != null) {
-								BreadcrumbItem categoryItem = new BreadcrumbItem();
-								categoryItem.setId(category.getId());
-								categoryItem.setItemType(BreadcrumbItemType.CATEGORY);
-								categoryItem.setLabel(category.getDescription().getName());
-								categoryItem.setUrl(category.getDescription().getSeUrl());
-								items.add(categoryItem);
-							}
-						} else if (item.getItemType().name().equals(BreadcrumbItemType.PAGE)) {
-							/*
-							 * Content content =
-							 * contentService.getByLanguage(item.getId(),
-							 * language); if(content!=null) { BreadcrumbItem
-							 * contentItem = new BreadcrumbItem();
-							 * contentItem.setId(content.getId());
-							 * contentItem.setItemType(BreadcrumbItemType.PAGE);
-							 * contentItem.setLabel(content.getDescription().
-							 * getName());
-							 * contentItem.setUrl(content.getDescription().
-							 * getSeUrl()); items.add(contentItem); }
-							 */
-						}
-
-					}
-
-					breadCrumb = new Breadcrumb();
-					breadCrumb.setLanguage(language);
-					breadCrumb.setBreadCrumbs(items);
-
-				}
-
-			}
-
-			request.getSession().setAttribute(BREADCRUMB, breadCrumb);
-			request.setAttribute(BREADCRUMB, breadCrumb);
-
-		} catch (Exception e) {
-			log.error("Error while building breadcrumbs", e);
-		}
-
-	}
-
-	private BreadcrumbItem getDefaultBreadcrumbItem(Language language, Locale locale) {
-
-		// set home page item
-		BreadcrumbItem item = new BreadcrumbItem();
-		item.setItemType(BreadcrumbItemType.HOME);
-		item.setLabel(messages.getMessage(HOME_MENU_KEY, locale));
-		item.setUrl(HOME_URL);
-		return item;
-
-	}
-
-	/**
-	 * Sets a MerchantStore with the given storeCode in the session.
-	 * 
-	 * @param request
-	 * @param storeCode
-	 *            The storeCode of the Merchant.
-	 * @return the MerchantStore inserted in the session.
-	 * @throws Exception
-	 */
-	private MerchantStore setMerchantStoreInSession(HttpServletRequest request, String storeCode) throws Exception {
-
-		MerchantStore store = merchantService.getByCode(storeCode);
-		if (store != null) {
-			request.getSession().setAttribute(MERCHANT_STORE, store);
-		}
-		return store;
-	}
-
+	*/
 }

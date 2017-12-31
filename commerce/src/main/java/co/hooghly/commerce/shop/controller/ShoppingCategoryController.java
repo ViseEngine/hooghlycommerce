@@ -17,8 +17,8 @@ import co.hooghly.commerce.util.BreadcrumbsUtils;
 import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.util.PageBuilderUtils;
-import co.hooghly.commerce.web.populator.ReadableCategoryPopulator;
-import co.hooghly.commerce.web.populator.ReadableManufacturerPopulator;
+
+
 import co.hooghly.commerce.web.populator.ReadableProductPopulator;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.PageInformation;
@@ -26,14 +26,14 @@ import co.hooghly.commerce.web.ui.ProductList;
 import co.hooghly.commerce.web.ui.QueryFilter;
 import co.hooghly.commerce.web.ui.QueryFilterType;
 import co.hooghly.commerce.web.ui.ReadableCategory;
-import co.hooghly.commerce.web.ui.ReadableManufacturer;
+//import co.hooghly.commerce.web.ui.ReadableManufacturer;
 import co.hooghly.commerce.web.ui.ReadableProduct;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Qualifier;
+
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -54,7 +54,7 @@ import java.util.*;
  *
  */
 @Controller
-@ConditionalOnProperty(prefix="shop.controller.ShoppingCategoryController", name="enabled")
+@ConditionalOnProperty(prefix="hooghly.shop.controller", name="enabled")
 public class ShoppingCategoryController {
 
 	@Inject
@@ -147,7 +147,7 @@ public class ShoppingCategoryController {
 			return PageBuilderUtils.buildHomePage(store);
 		}
 
-		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
+		/*ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		ReadableCategory categoryProxy = populator.populate(category, new ReadableCategory(), store, language);
 
 		Breadcrumb breadCrumb = breadcrumbsUtils.buildCategoryBreadcrumb(categoryProxy, store, language,
@@ -160,13 +160,13 @@ public class ShoppingCategoryController {
 		pageInformation.setPageDescription(categoryProxy.getDescription().getMetaDescription());
 		pageInformation.setPageKeywords(categoryProxy.getDescription().getKeyWords());
 		pageInformation.setPageTitle(categoryProxy.getDescription().getTitle());
-		pageInformation.setPageUrl(categoryProxy.getDescription().getFriendlyUrl());
+		pageInformation.setPageUrl(categoryProxy.getDescription().getFriendlyUrl());*/
 
 		// ** retrieves category id drill down**//
 		String lineage = new StringBuilder().append(category.getLineage()).append(category.getId())
 				.append(Constants.CATEGORY_LINEAGE_DELIMITER).toString();
 
-		request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
+		//request.setAttribute(Constants.REQUEST_PAGE_INFORMATION, pageInformation);
 
 		// TODO add to caching
 		List<Category> subCategs = categoryService.listByLineage(store, lineage);
@@ -221,17 +221,17 @@ public class ShoppingCategoryController {
 		ReadableCategory parentProxy = null;
 
 		if (category.getParent() != null) {
-			Category parent = categoryService.getById(category.getParent().getId());
-			parentProxy = populator.populate(parent, new ReadableCategory(), store, language);
+			Category parent = categoryService.findOne(category.getParent().getId());
+			//parentProxy = populator.populate(parent, new ReadableCategory(), store, language);
 		}
 
 		// ** List of manufacturers **//
-		List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store, category, subIds,
-				language);
+		/*List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store, category, subIds,
+				language);*/
 
-		model.addAttribute("manufacturers", manufacturerList);
+		//model.addAttribute("manufacturers", manufacturerList);
 		model.addAttribute("parent", parentProxy);
-		model.addAttribute("category", categoryProxy);
+		//model.addAttribute("category", categoryProxy);
 		model.addAttribute("subCategories", subCategories);
 
 		if (parentProxy != null) {
@@ -245,12 +245,12 @@ public class ShoppingCategoryController {
 		return template.toString();
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	private List<ReadableManufacturer> getManufacturersByProductAndCategory(MerchantStore store, Category category,
 			List<Long> subCategoryIds, Language language) throws Exception {
 
 		List<ReadableManufacturer> manufacturerList = null;
-		/** List of manufacturers **/
+		*//** List of manufacturers **//*
 		if (subCategoryIds != null && subCategoryIds.size() > 0) {
 
 			StringBuilder manufacturersKey = new StringBuilder();
@@ -285,9 +285,9 @@ public class ShoppingCategoryController {
 			}
 		}
 		return manufacturerList;
-	}
+	}*/
 
-	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language)
+	/*private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language)
 			throws Exception {
 		List<ReadableManufacturer> manufacturerList = null;
 		List<co.hooghly.commerce.domain.Manufacturer> manufacturers = manufacturerService
@@ -302,7 +302,7 @@ public class ShoppingCategoryController {
 			}
 		}
 		return manufacturerList;
-	}
+	}*/
 
 	private Map<Long, Long> getProductsByCategory(MerchantStore store, Category category, String lineage,
 			List<Long> subIds) throws Exception {
@@ -346,7 +346,7 @@ public class ShoppingCategoryController {
 
 		// sub categories
 		List<Category> subCategories = categoryService.listByParent(category, language);
-		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
+		/*ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 		List<ReadableCategory> subCategoryProxies = new ArrayList<ReadableCategory>();
 
 		for (Category sub : subCategories) {
@@ -360,10 +360,10 @@ public class ShoppingCategoryController {
 				}
 			}
 			subCategoryProxies.add(cProxy);
-		}
+		}*/
 
-		return subCategoryProxies;
-
+		//return subCategoryProxies;
+		return null;
 	}
 
 	/**
@@ -402,7 +402,7 @@ public class ShoppingCategoryController {
 
 		List<Category> categories = categoryService.listByStore(merchantStore, l);
 
-		ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
+		/*ReadableCategoryPopulator populator = new ReadableCategoryPopulator();
 
 		List<ReadableCategory> returnCategories = new ArrayList<ReadableCategory>();
 		for (Category category : categories) {
@@ -410,7 +410,9 @@ public class ShoppingCategoryController {
 			returnCategories.add(categoryProxy);
 		}
 
-		return returnCategories;
+		return returnCategories;*/
+		
+		return null;
 	}
 
 	/**

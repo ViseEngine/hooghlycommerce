@@ -16,17 +16,22 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Entity
 @Table(name = "COUNTRY")
 @Cacheable
-public class Country extends SalesManagerEntity<Integer, Country> {
+@Data
+@EqualsAndHashCode(callSuper = true)
+public class Country extends SalesManagerEntity<Long, Country> {
 	private static final long serialVersionUID = -7388011537255588035L;
 
 	@Id
 	@Column(name="COUNTRY_ID")
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer id;
+	private Long id;
 	
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
 	private List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
@@ -47,13 +52,7 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 	@Transient
 	private String name;
 	
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+	
 
 	public Country() {
 	}
@@ -62,62 +61,5 @@ public class Country extends SalesManagerEntity<Integer, Country> {
 		this.setIsoCode(isoCode);
 	}
 	
-	public boolean getSupported() {
-		return supported;
-	}
-
-	public void setSupported(boolean supported) {
-		this.supported = supported;
-	}
-
-	public String getIsoCode() {
-		return isoCode;
-	}
-
-	public void setIsoCode(String isoCode) {
-		this.isoCode = isoCode;
-	}
-
-
-	@Override
-	public Integer getId() {
-		return id;
-	}
-
-	@Override
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public List<Zone> getZones() {
-		return zones;
-	}
-
-	public void setZones(List<Zone> zones) {
-		this.zones = zones;
-	}
-
-	public List<CountryDescription> getDescriptions() {
-		return descriptions;
-	}
-
-	public void setDescriptions(List<CountryDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-	public GeoZone getGeoZone() {
-		return geoZone;
-	}
-
-	public void setGeoZone(GeoZone geoZone) {
-		this.geoZone = geoZone;
-	}
-
-/*	public GeoZone getGeoZone() {
-		return geoZone;
-	}
-
-	public void setGeoZone(GeoZone geoZone) {
-		this.geoZone = geoZone;
-	}*/
+	
 }

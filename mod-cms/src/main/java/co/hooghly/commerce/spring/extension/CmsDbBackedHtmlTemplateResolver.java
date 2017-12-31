@@ -37,7 +37,7 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 	@Override
 	protected ITemplateResource computeTemplateResource(IEngineConfiguration configuration, String ownerTemplate,
 			String template, Map<String, Object> templateResolutionAttributes) {
-		log.info("Finding DB backed HTML template - {} - attr - {}", template, templateResolutionAttributes);
+		log.debug("Finding DB backed HTML template - {} - attr - {}", template, templateResolutionAttributes);
 		String htmlTemplate = StringUtils.replace(template, ".cms", ".html");
 		String htmlTemplateParts [] = htmlTemplate.split("/");
 		
@@ -45,9 +45,9 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 		Optional<CmsContent> content = cmsContentService.findByMerchantStoreIdAndAndCode(Integer.parseInt(htmlTemplateParts[0]) , htmlTemplateParts[1]);
 		ITemplateResource resource = null;
 		if (content.isPresent()) {
-			log.info("Resource found");
+			log.debug("Resource found");
 			try{
-			resource = super.computeTemplateResource(configuration, ownerTemplate,content.get().getTemplateContent(),
+			resource = super.computeTemplateResource(configuration, ownerTemplate,new String(content.get().getContent()),
 					templateResolutionAttributes);
 			}
 			catch(Exception e) {
@@ -55,7 +55,7 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 			}
 		}
 		
-		log.info("Final resource state - {}", resource);
+		
 		return resource;
 
 	}

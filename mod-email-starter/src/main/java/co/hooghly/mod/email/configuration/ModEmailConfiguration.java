@@ -23,7 +23,7 @@ public class ModEmailConfiguration {
 	@ConditionalOnProperty(name = "spring.mail.host")
 	@ConditionalOnMissingBean
 	public SendMailListener sendMailListener(@Autowired JavaMailSender javaMailSener) {
-		log.info("## Send mail listener configuration");
+		log.debug("## Send mail listener configuration");
 		
 		return BeanUtils.instantiate(SendMailListener.class);
 	}

@@ -22,7 +22,7 @@ public class EmailEvent<T> extends ApplicationEvent{
 	private String subject;
 	private T data;
 
-	public EmailEvent(Object source, T data, String template, String from, String[] tos, String subject) {
+	public EmailEvent(Object source, T data, String template, Email email) {
 		super(source);
 		Assert.isNull(template, "Thymeleaf template mandatory parameter is missing.");
 		Assert.isNull(from, "Email from address is required");
@@ -31,9 +31,7 @@ public class EmailEvent<T> extends ApplicationEvent{
 		
 		this.data = data;
 		this.template = template;
-		this.from = from;
-		this.tos = tos;
-		this.subject = subject;
+		
 	}
 
 	

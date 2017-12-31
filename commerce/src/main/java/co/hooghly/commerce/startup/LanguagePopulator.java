@@ -5,7 +5,6 @@ import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
 import co.hooghly.commerce.business.LanguageService;
-import co.hooghly.commerce.business.ServiceException;
 import co.hooghly.commerce.domain.Language;
 
 import lombok.extern.slf4j.Slf4j;
@@ -23,22 +22,25 @@ public class LanguagePopulator extends AbstractDataPopulator {
 	 * Languages iso codes
 	 * 
 	 */
-	protected static final String[] LANGUAGE_ISO_CODE = { "en", "fr" };
-
+	protected static final String[] LANGUAGE_ISO_CODE = { "en", "hi" };
+	protected static final String[] LANGUAGE_NAME = { "English", "हिंदी" };
+	
 	@Autowired
 	private LanguageService languageService;
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("1.Loading languages.");
+		log.debug("1.Loading languages.");
 		createLanguages();
 	}
 
-	private void createLanguages() throws ServiceException {
-
+	protected void createLanguages()  {
+		int counter = 0;
 		for (String code : LANGUAGE_ISO_CODE) {
-			log.info("Code - {}", code);
-			Language language = new Language(code);
+			log.debug("Code - {}", code);
+			Language language = new Language();
+			language.setCode(code);
+			language.setName(LANGUAGE_NAME[counter++]);
 			languageService.create(language);
 		}
 	}

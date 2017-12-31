@@ -1,77 +1,49 @@
 package co.hooghly.commerce.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import java.util.*;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
+
+import lombok.*;
 
 
 @Entity
 @EntityListeners(value = AuditListener.class)
 @Table(name = "PRODUCT",  uniqueConstraints=
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
-public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
-	private static final long serialVersionUID = -6228066416290007047L;
+@Data
+@EqualsAndHashCode(callSuper=false)
+public class Product extends AbstractBaseEntity {
 	
 	
-	@Id
-	@Column(name = "PRODUCT_ID", unique=true, nullable=false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Embedded
-	private AuditSection auditSection = new AuditSection();
-	
-	
+		
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+	private Set<ProductDescription> descriptions = new HashSet<>();
 	
 	
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="product")
-	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
-	
+	private Set<ProductAvailability> availabilities = new HashSet<>();	
 	
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
+	private Set<ProductAttribute> attributes = new HashSet<>();
 	
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")//cascade is set to remove because product save requires logic to create physical image first and then save the image id in the database, cannot be done in cascade
 	@JsonBackReference
-	private Set<ProductImage> images = new HashSet<ProductImage>();
+	private Set<ProductImage> images = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	@JsonBackReference
-	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
+	private Set<ProductRelationship> relationships = new HashSet<>();
 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -93,7 +65,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private Set<Category> categories = new HashSet<Category>();
+	private Set<Category> categories = new HashSet<>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)
@@ -166,242 +138,6 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 	@Column(name = "REF_SKU")
 	private String refSku;
 
-	public Product() {
-	}
-
-	@Override
-	public Long getId() {
-		return this.id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-	@Override
-	public AuditSection getAuditSection() {
-		return auditSection;
-	}
-
-	@Override
-	public void setAuditSection(AuditSection auditSection) {
-		this.auditSection = auditSection;
-	}
-
-
-	public boolean isProductVirtual() {
-		return productVirtual;
-	}
-
-
-
-	public BigDecimal getProductLength() {
-		return productLength;
-	}
-
-	public void setProductLength(BigDecimal productLength) {
-		this.productLength = productLength;
-	}
-
-	public BigDecimal getProductWidth() {
-		return productWidth;
-	}
-
-	public void setProductWidth(BigDecimal productWidth) {
-		this.productWidth = productWidth;
-	}
-
-	public BigDecimal getProductHeight() {
-		return productHeight;
-	}
-
-	public void setProductHeight(BigDecimal productHeight) {
-		this.productHeight = productHeight;
-	}
-
-	public BigDecimal getProductWeight() {
-		return productWeight;
-	}
-
-	public void setProductWeight(BigDecimal productWeight) {
-		this.productWeight = productWeight;
-	}
-
-	public BigDecimal getProductReviewAvg() {
-		return productReviewAvg;
-	}
-
-	public void setProductReviewAvg(BigDecimal productReviewAvg) {
-		this.productReviewAvg = productReviewAvg;
-	}
-
-	public Integer getProductReviewCount() {
-		return productReviewCount;
-	}
-
-	public void setProductReviewCount(Integer productReviewCount) {
-		this.productReviewCount = productReviewCount;
-	}
-
-
-
-	public Integer getProductOrdered() {
-		return productOrdered;
-	}
-
-	public void setProductOrdered(Integer productOrdered) {
-		this.productOrdered = productOrdered;
-	}
-
-	public String getSku() {
-		return sku;
-	}
-
-	public void setSku(String sku) {
-		this.sku = sku;
-	}
-
-	public Set<ProductDescription> getDescriptions() {
-		return descriptions;
-	}
-
-	public void setDescriptions(Set<ProductDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-
-	public boolean getProductVirtual() {
-		return productVirtual;
-	}
-
-	public void setProductVirtual(boolean productVirtual) {
-		this.productVirtual = productVirtual;
-	}
-
-	public boolean isProductIsFree() {
-		return productIsFree;
-	}
-
-	public void setProductIsFree(boolean productIsFree) {
-		this.productIsFree = productIsFree;
-	}
-
-
-
-	public Set<ProductAttribute> getAttributes() {
-		return attributes;
-	}
-
-	public void setAttributes(Set<ProductAttribute> attributes) {
-		this.attributes = attributes;
-	}
-
-
-
-	public Manufacturer getManufacturer() {
-		return manufacturer;
-	}
-
-	public void setManufacturer(Manufacturer manufacturer) {
-		this.manufacturer = manufacturer;
-	}
-
-	public ProductType getType() {
-		return type;
-	}
-
-	public void setType(ProductType type) {
-		this.type = type;
-	}
-
-
-
-	public Set<ProductAvailability> getAvailabilities() {
-		return availabilities;
-	}
-
-	public void setAvailabilities(Set<ProductAvailability> availabilities) {
-		this.availabilities = availabilities;
-	}
-
-	public TaxClass getTaxClass() {
-		return taxClass;
-	}
-
-	public void setTaxClass(TaxClass taxClass) {
-		this.taxClass = taxClass;
-	}
-
-	public Set<ProductImage> getImages() {
-		return images;
-	}
-
-	public void setImages(Set<ProductImage> images) {
-		this.images = images;
-	}
-
-	public Set<ProductRelationship> getRelationships() {
-		return relationships;
-	}
-
-	public void setRelationships(Set<ProductRelationship> relationships) {
-		this.relationships = relationships;
-	}
-
-
-	public Set<Category> getCategories() {
-		return categories;
-	}
-
-	public void setCategories(Set<Category> categories) {
-		this.categories = categories;
-	}
-
-	public MerchantStore getMerchantStore() {
-		return merchantStore;
-	}
-
-	public void setMerchantStore(MerchantStore merchantStore) {
-		this.merchantStore = merchantStore;
-	}
-
-
-
-	public Date getDateAvailable() {
-		return dateAvailable;
-	}
-
-	public void setDateAvailable(Date dateAvailable) {
-		this.dateAvailable = dateAvailable;
-	}
-
-	public void setSortOrder(Integer sortOrder) {
-		this.sortOrder = sortOrder;
-	}
-
-	public Integer getSortOrder() {
-		return sortOrder;
-	}
-
-
-
-	public void setAvailable(boolean available) {
-		this.available = available;
-	}
-
-	public boolean isAvailable() {
-		return available;
-	}
-	
-	public boolean isProductShipeable() {
-		return productShipeable;
-	}
-
-	public void setProductShipeable(boolean productShipeable) {
-		this.productShipeable = productShipeable;
-	}
-
 	
 	public ProductDescription getProductDescription() {
 		if(this.getDescriptions()!=null && this.getDescriptions().size()>0) {
@@ -423,21 +159,4 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		return productImage;
 	}
 	
-	public boolean isPreOrder() {
-		return preOrder;
-	}
-
-	public void setPreOrder(boolean preOrder) {
-		this.preOrder = preOrder;
-	}
-
-	public String getRefSku() {
-		return refSku;
-	}
-
-	public void setRefSku(String refSku) {
-		this.refSku = refSku;
-	}
-
-
 }

@@ -7,11 +7,7 @@ import java.util.Locale;
 import org.hibernate.Hibernate;
 
 
-/**
- * <p>Entité racine pour la persistence des objets via JPA.</p>
- *
- * @param <E> type de l'entité
- */
+
 public abstract class SalesManagerEntity<K extends Serializable & Comparable<K>, E extends SalesManagerEntity<K, ?>>
 		implements Serializable, Comparable<E> {
 

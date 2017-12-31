@@ -79,7 +79,7 @@ public class PersistableProductPopulator extends
 					manuf = manufacturerService.getByCode(store, source.getManufacturer().getCode());
 				} else {
 					Validate.notNull(source.getManufacturer().getId(), "Requires to set manufacturer id");
-					manuf = manufacturerService.getById(source.getManufacturer().getId());
+					manuf = manufacturerService.findOne(source.getManufacturer().getId());
 				}
 				
 				if(manuf==null) {
@@ -271,7 +271,7 @@ public class PersistableProductPopulator extends
 						c = categoryService.getByCode(store, categ.getCode());
 					} else {
 						Validate.notNull(categ.getId(), "Category id nust not be null");
-						c = categoryService.getById(categ.getId());
+						c = categoryService.findOne(categ.getId());
 					}
 					
 					if(c==null) {

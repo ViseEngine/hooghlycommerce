@@ -1,7 +1,8 @@
 package co.hooghly.commerce.startup;
 
-import java.sql.Date;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -70,12 +71,13 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		Date date = new Date(System.currentTimeMillis());
 
 		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
-		Country ca = countryService.getByCode("CA");
-		Currency currency = currencyService.getByCode("GBP");
-		Currency eur = currencyService.getByCode("EUR");
 		
-		log.info("EURO - {}", eur);
+		Language hi = languageService.getByCode("hi");
+		
+		
+		Country in = countryService.getByCode("IN");
+		Currency currency = currencyService.getByCode("INR");
+		
 		
 		Zone qc = zoneService.getByCode("QC");
 
@@ -84,8 +86,8 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 
 		// create a merchant
 		MerchantStore store = new MerchantStore();
-		store.setCountry(ca);
-		store.setCurrency(currency);
+		store.setCountry(in);
+		store.setCurrency(currency); //todo remove
 		store.setDefaultLanguage(en);
 		store.setInBusinessSince(date);
 		store.setZone(qc);
@@ -98,30 +100,31 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		store.setStoreEmailAddress("test@test.com");
 		store.setDomainName("localhost:8080");
 		store.setStoreTemplate("bootstrap");
-		store.setLanguages(supportedLanguages);
+		store.setLanguages(supportedLanguages); //todo remove
 
 		merchantService.create(store);
 		
 		log.info("7.1 Populating store views along with store");
-		MerchantStoreView eng = new MerchantStoreView();
-		log.info("Curr 1 - {}", currency.getId());
-		eng.setCurrency(currency);
-		eng.setLanguage(en);
-		eng.setTheme("zap");
-		eng.setMerchantStore(store);
-		eng.setDefaultView(true);
+		MerchantStoreView msEn = new MerchantStoreView();
+		msEn.setCode("enINR");
+		msEn.setCountry(in);
+		msEn.setCurrency(currency);
+		msEn.setLanguage(en);
+		msEn.setTheme("zap");
+		msEn.setMerchantStore(store);
+		msEn.setDefaultView(true);
 		
-		merchantStoreViewRepository.save(eng);
+		merchantStoreViewRepository.save(msEn);
 		
-		MerchantStoreView frStoreView = new MerchantStoreView();
-		log.info("Curr 2 - {}", eur.getId());
-		frStoreView.setCurrency(eur);
-		frStoreView.setLanguage(fr);
-		frStoreView.setTheme("zap");
-		frStoreView.setMerchantStore(store);
+		MerchantStoreView msHi = new MerchantStoreView();
+		msHi.setCode("hiINR");
+		msHi.setCountry(in);
+		msHi.setCurrency(currency);
+		msHi.setLanguage(hi);
+		msHi.setTheme("zap");
+		msHi.setMerchantStore(store);
 		
-		
-		merchantStoreViewRepository.save(frStoreView);
+		merchantStoreViewRepository.save(msHi);
 		
 		
 		

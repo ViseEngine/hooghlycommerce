@@ -1,0 +1,18 @@
+defs:
+  -
+    name: landing
+    layout: home
+    title: msg.pagetitle.home
+    fragments: 
+        featured : /shop/featured
+        newarrivals : /shop/newarrivals      
+    
+  -
+    name: productdetails
+    layout: layouts/productdetails
+    title: msg.pagetitle.productdetails
+    
+  -
+    name: cartdetails
+    layout: layouts/cartdetails
+    title: msg.pagetitle.cartdetails            

@@ -1,15 +1,19 @@
 buildscript {
-	ext { springBootVersion = '1.5.8.RELEASE' }
+	ext { springBootVersion = '1.5.9.RELEASE' }
 	repositories { mavenCentral() }
 	dependencies { classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}") }
 }
 
 
-ext { springBootVersion = '1.5.8.RELEASE' }
+ext { springBootVersion = '1.5.9.RELEASE' }
 
 apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'org.springframework.boot'
+
+bootRepackage {
+	enabled = false
+}
 
 jar {
 	baseName = 'commerce-domain'
@@ -23,13 +27,19 @@ dependencies {
 	compile('org.springframework.boot:spring-boot-starter')
 	compile('org.springframework.boot:spring-boot-starter-data-jpa')
 	compile('org.springframework.boot:spring-boot-starter-validation')
-	///compile('org.springframework.boot:spring-boot-starter-data-elasticsearch')
+	
 	compileOnly('org.projectlombok:lombok')
 
 	compile group: 'com.googlecode.json-simple', name: 'json-simple', version: '1.1.1'
 	compile group: 'org.apache.commons', name: 'commons-lang3', version: '3.6'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-core', version: '2.7.4'
 	compile group: 'com.fasterxml.jackson.core', name: 'jackson-annotations', version: '2.7.4'
+	
+	compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.1'
+	
+	compile('com.vladmihalcea:hibernate-types-5:1.2.0')
+	
+	
 	
 }
 
