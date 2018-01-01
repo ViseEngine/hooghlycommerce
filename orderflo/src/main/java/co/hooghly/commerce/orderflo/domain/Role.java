@@ -14,5 +14,6 @@ public class Role {
     private Long id;
 	
 	@Basic(optional=false)
+	@Column(name="name", unique=true)
 	private String name;
 }

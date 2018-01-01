@@ -40,15 +40,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		return new BCryptPasswordEncoder();
 	}
 
-/*	@Override
+	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService).passwordEncoder(
 				encoder());
-	}*/
+	}
 	
-	@Autowired
+	/*@Autowired
 	public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
 		auth.inMemoryAuthentication().withUser("ram").password("ram123").roles("ADMIN");
-	}
+	}*/
 
 }
