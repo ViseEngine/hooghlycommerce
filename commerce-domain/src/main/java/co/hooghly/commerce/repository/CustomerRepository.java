@@ -20,12 +20,12 @@ public interface CustomerRepository extends JpaRepository<Customer, Long>, Custo
 	Customer findByNick(String nick);
 	
 	@Query("select c from Customer c join fetch c.merchantStore cm left join fetch c.defaultLanguage cl left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions  left join fetch c.groups  where c.nick = ?1 and cm.id = ?2")
-	Customer findByNick(String nick, int storeId);
+	Customer findByNick(String nick, Long storeId);
 	
 	@Query("select c from Customer c join fetch c.merchantStore cm left join fetch c.defaultLanguage cl left join fetch c.attributes ca left join fetch ca.customerOption cao left join fetch ca.customerOptionValue cav left join fetch cao.descriptions caod left join fetch cav.descriptions  left join fetch c.groups  where cm.id = ?1")
-	List<Customer> findByStore(int storeId);
+	List<Customer> findByStore(Long storeId);
 	
-	Customer findByMerchantStoreIdAndId(int merchantStoreId, Long id);
+	Customer findByMerchantStoreIdAndId(Long merchantStoreId, Long id);
 	
-	void deleteByMerchantStoreIdAndId(int merchantStoreId, Long id);
+	void deleteByMerchantStoreIdAndId(Long merchantStoreId, Long id);
 }

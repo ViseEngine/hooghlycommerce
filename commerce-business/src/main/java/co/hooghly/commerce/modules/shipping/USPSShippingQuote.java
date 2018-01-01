@@ -28,7 +28,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.utils.DataUtils;
 import co.hooghly.commerce.business.utils.ProductPriceUtils;
@@ -346,8 +346,8 @@ public class USPSShippingQuote implements ShippingQuoteModule {
 				xmldatabuffer.append("ALL");
 				xmldatabuffer.append("</Service>");
 				xmldatabuffer.append("<ZipOrigination>");
-				xmldatabuffer.append(DataUtils
-						.trimPostalCode(store.getStorepostalcode()));
+				/*xmldatabuffer.append(DataUtils
+						.trimPostalCode(store.getStorepostalcode()));*/
 				xmldatabuffer.append("</ZipOrigination>");
 				xmldatabuffer.append("<ZipDestination>");
 				xmldatabuffer.append(DataUtils

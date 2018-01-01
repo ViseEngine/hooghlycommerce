@@ -56,8 +56,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 	
 	@Autowired
 	private CmsContentService cmsContentService;
-	@Autowired
-	private MerchantStoreViewRepository merchantStoreViewRepository;
+	
 
 	@Override
 	public void runInternal(String... args) throws Exception {
@@ -66,12 +65,11 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 	}
 
 	private void createMerchant()  {
-		log.info("7.Populating merchant ");
+		log.info("7.Populating merchant store");
 
 		Date date = new Date(System.currentTimeMillis());
 
-		Language en = languageService.getByCode("en");
-		
+		Language en = languageService.getByCode("en");		
 		Language hi = languageService.getByCode("hi");
 		
 		
@@ -87,13 +85,14 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 		// create a merchant
 		MerchantStore store = new MerchantStore();
 		store.setCountry(in);
-		store.setCurrency(currency); //todo remove
+		store.setCurrency(currency); 
 		store.setDefaultLanguage(en);
 		store.setInBusinessSince(date);
 		store.setZone(qc);
 		store.setStorename("Default store");
 		store.setStorephone("888-888-8888");
 		store.setCode(MerchantStore.DEFAULT_STORE);
+		store.setTheme("zap");
 		store.setStorecity("My city");
 		store.setStoreaddress("1234 Street address");
 		store.setStorepostalcode("H2H-2H2");

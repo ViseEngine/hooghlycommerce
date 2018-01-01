@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.MerchantConfiguration;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.modules.email.Email;

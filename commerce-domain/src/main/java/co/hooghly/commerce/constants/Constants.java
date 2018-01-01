@@ -1,5 +1,8 @@
 package co.hooghly.commerce.constants;
 
+import java.util.Currency;
+import java.util.Locale;
+
 public interface Constants {
 
 	String SLASH = "/";
@@ -113,5 +116,36 @@ public interface Constants {
 	String RESPONSE_KEY_USERNAME = "userName";
 
 	String DEBUG_MODE = "debugMode";
+	String DISTANCE_KEY = "DISTANCE_KEY";
+	
+	String TEST_ENVIRONMENT= "TEST";
+	String PRODUCTION_ENVIRONMENT= "PROD";
+	
+	
+	public static final String ALL_REGIONS = "*";
+	
+	
+	String DEFAULT_DATE_FORMAT = "yyyy-MM-dd";
+	String DEFAULT_DATE_FORMAT_YEAR = "yyyy";
+	
+	
+	String EMAIL_CONFIG = "EMAIL_CONFIG";
+	String MERCHANT_CONFIG = "MERCHANT_CONFIG";
+	
+	String UNDERSCORE = "_";
+	
+	String TRUE = "true";
+	String FALSE = "false";
+	String OT_ITEM_PRICE_MODULE_CODE = "itemprice";
+	String OT_SUBTOTAL_MODULE_CODE = "subtotal";
+	String OT_TOTAL_MODULE_CODE = "total";
+	String OT_SHIPPING_MODULE_CODE = "shipping";
+	String OT_HANDLING_MODULE_CODE = "handling";
+	String OT_TAX_MODULE_CODE = "tax";
+	String OT_REFUND_MODULE_CODE = "refund";
+	String OT_DISCOUNT_TITLE = "order.total.discount";
+	
+	Locale DEFAULT_LOCALE = Locale.US;
+	Currency DEFAULT_CURRENCY = Currency.getInstance(Locale.US);
 
 }

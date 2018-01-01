@@ -47,7 +47,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	private Long id;
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "customer")
-	private Set<CustomerAttribute> attributes = new HashSet<CustomerAttribute>();
+	private Set<CustomerAttribute> attributes = new HashSet<>();
 
 	@Column(name = "CUSTOMER_GENDER", length = 1, nullable = true)
 	@Enumerated(value = EnumType.STRING)
@@ -79,7 +79,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 	private Language defaultLanguage;
 
 	@OneToMany(mappedBy = "customer", targetEntity = ProductReview.class)
-	private List<ProductReview> reviews = new ArrayList<ProductReview>();
+	private List<ProductReview> reviews = new ArrayList<>();
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "MERCHANT_ID", nullable = false)
@@ -124,7 +124,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 		Billing billing = new Billing();
 		billing.setCountry(store.getCountry());
 		billing.setZone(store.getZone());
-		billing.setState(store.getStorestateprovince());
+		billing.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// billing.setPostalCode(store.getStorepostalcode());
 		customer.setBilling(billing);
@@ -132,7 +132,7 @@ public class Customer extends SalesManagerEntity<Long, Customer> {
 		Delivery delivery = new Delivery();
 		delivery.setCountry(store.getCountry());
 		delivery.setZone(store.getZone());
-		delivery.setState(store.getStorestateprovince());
+		delivery.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// delivery.setPostalCode(store.getStorepostalcode());
 		customer.setDelivery(delivery);

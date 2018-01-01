@@ -19,5 +19,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
 	List<User> findAll();
 	
 	@Query("select distinct u from User as u inner join fetch u.groups ug inner join fetch u.merchantStore um left join fetch u.defaultLanguage ul where um.id = ?1 order by u.id")
-	List<User> findByStore(Integer storeId);
+	List<User> findByStore(Long storeId);
 }

@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.ConversionException;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.business.utils.AbstractDataPopulator;

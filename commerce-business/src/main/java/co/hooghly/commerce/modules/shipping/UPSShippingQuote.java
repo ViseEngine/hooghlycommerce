@@ -215,7 +215,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			
 			String xmlhead = xmlreqbuffer.toString();
 			
-
+/*
 			String weightCode = store.getWeightunitcode();
 			String measureCode = store.getSeizeunitcode();
 
@@ -223,7 +223,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 				weightCode = "KGS";
 			} else {
 				weightCode = "LBS";
-			}
+			}*/
 
 			String xml = "<?xml version=\"1.0\"?><RatingServiceSelectionRequest><Request><TransactionReference><CustomerContext>Shopizer</CustomerContext><XpciVersion>1.0001</XpciVersion></TransactionReference><RequestAction>Rate</RequestAction><RequestOption>Shop</RequestOption></Request>";
 			StringBuffer xmldatabuffer = new StringBuffer();
@@ -285,7 +285,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			xmldatabuffer.append("<Shipment><Shipper>");
 			xmldatabuffer.append("<Address>");
 			xmldatabuffer.append("<City>");
-			xmldatabuffer.append(store.getStorecity());
+			//xmldatabuffer.append(store.getStorecity());
 			xmldatabuffer.append("</City>");
 			// if(!StringUtils.isBlank(store.getStorestateprovince())) {
 			if (store.getZone() != null) {
@@ -297,8 +297,8 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 			xmldatabuffer.append(store.getCountry().getIsoCode());
 			xmldatabuffer.append("</CountryCode>");
 			xmldatabuffer.append("<PostalCode>");
-			xmldatabuffer.append(DataUtils
-					.trimPostalCode(store.getStorepostalcode()));
+			/*xmldatabuffer.append(DataUtils
+					.trimPostalCode(store.getStorepostalcode()));*/
 			xmldatabuffer.append("</PostalCode></Address></Shipper>");
 
 			// ship to
@@ -336,7 +336,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 				xmldatabuffer.append("<PackageWeight>");
 				xmldatabuffer.append("<UnitOfMeasurement>");
 				xmldatabuffer.append("<Code>");
-				xmldatabuffer.append(weightCode);
+				//xmldatabuffer.append(weightCode);
 				xmldatabuffer.append("</Code>");
 				xmldatabuffer.append("</UnitOfMeasurement>");
 				xmldatabuffer.append("<Weight>");
@@ -349,7 +349,7 @@ public class UPSShippingQuote implements ShippingQuoteModule {
 				xmldatabuffer.append("<Dimensions>");
 				xmldatabuffer.append("<UnitOfMeasurement>");
 				xmldatabuffer.append("<Code>");
-				xmldatabuffer.append(measureCode);
+				//xmldatabuffer.append(measureCode);
 				xmldatabuffer.append("</Code>");
 				xmldatabuffer.append("</UnitOfMeasurement>");
 				xmldatabuffer.append("<Length>");

@@ -1,6 +1,6 @@
 package co.hooghly.commerce.web.populator;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.ConversionException;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.business.utils.AbstractDataPopulator;

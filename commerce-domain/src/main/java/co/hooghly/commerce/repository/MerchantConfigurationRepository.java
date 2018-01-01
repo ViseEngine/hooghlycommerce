@@ -15,11 +15,11 @@ public interface MerchantConfigurationRepository extends JpaRepository<MerchantC
 	//MerchantConfiguration findByCode(String code);
 	
 	@Query("select m from MerchantConfiguration m join fetch m.merchantStore ms where ms.id=?1")
-	List<MerchantConfiguration> findByMerchantStore(Integer id);
+	List<MerchantConfiguration> findByMerchantStore(Long id);
 	
 	@Query("select m from MerchantConfiguration m join fetch m.merchantStore ms where ms.id=?1 and m.key=?2")
-	MerchantConfiguration findByMerchantStoreAndKey(Integer id, String key);
+	MerchantConfiguration findByMerchantStoreAndKey(Long id, String key);
 	
 	@Query("select m from MerchantConfiguration m join fetch m.merchantStore ms where ms.id=?1 and m.merchantConfigurationType=?2")
-	List<MerchantConfiguration> findByMerchantStoreAndType(Integer id, MerchantConfigurationType type);
+	List<MerchantConfiguration> findByMerchantStoreAndType(Long id, MerchantConfigurationType type);
 }

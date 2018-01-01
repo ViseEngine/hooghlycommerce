@@ -17,6 +17,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.CreditCardPayment;
 import co.hooghly.commerce.domain.CreditCardType;
 import co.hooghly.commerce.domain.Customer;

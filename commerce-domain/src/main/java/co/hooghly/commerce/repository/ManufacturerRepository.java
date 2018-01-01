@@ -14,10 +14,10 @@ public interface ManufacturerRepository extends JpaRepository<Manufacturer, Long
 	
 	
 	
-	List<Manufacturer> findByMerchantStoreId(Integer storeId);
+	List<Manufacturer> findByMerchantStoreId(Long storeId);
 	
 	@Query("select distinct manufacturer from Product as p join p.manufacturer manufacturer join p.categories categs where categs.id in (?1) ")
 	List<Manufacturer> findByCategories(List<Long> categoryIds);
 	
-	Manufacturer findByCodeAndMerchantStoreId(String code, Integer storeId);
+	Manufacturer findByCodeAndMerchantStoreId(String code, Long storeId);
 }

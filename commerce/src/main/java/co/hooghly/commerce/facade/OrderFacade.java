@@ -431,7 +431,7 @@ public class OrderFacade {
 		Billing billing = new Billing();
 		billing.setCountry(store.getCountry());
 		billing.setZone(store.getZone());
-		billing.setState(store.getStorestateprovince());
+		billing.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// billing.setPostalCode(store.getStorepostalcode());
 		customer.setBilling(billing);
@@ -439,7 +439,7 @@ public class OrderFacade {
 		Delivery delivery = new Delivery();
 		delivery.setCountry(store.getCountry());
 		delivery.setZone(store.getZone());
-		delivery.setState(store.getStorestateprovince());
+		delivery.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// delivery.setPostalCode(store.getStorepostalcode());
 		customer.setDelivery(delivery);

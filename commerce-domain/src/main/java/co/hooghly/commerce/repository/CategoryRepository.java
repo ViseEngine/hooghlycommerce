@@ -10,27 +10,27 @@ import co.hooghly.commerce.domain.MerchantStore;
 
 public interface CategoryRepository extends JpaRepository<Category, Long>, CategoryRepositoryCustom {
 
-	List<Category> findByMerchantStoreIdAndSeUrlLikeOrderBySortOrderAsc(Integer storeId, String friendlyUrl);
+	List<Category> findByMerchantStoreIdAndSeUrlLikeOrderBySortOrderAsc(Long storeId, String friendlyUrl);
 
-	Category findByMerchantStoreIdAndSeUrl(Integer storeId, String friendlyUrl);
+	Category findByMerchantStoreIdAndSeUrl(Long storeId, String friendlyUrl);
 
-	List<Category> findByMerchantStoreIdAndNameLikeOrderBySortOrderAsc(Integer storeId, String name);
+	List<Category> findByMerchantStoreIdAndNameLikeOrderBySortOrderAsc(Long storeId, String name);
 
-	Category findByMerchantStoreIdAndCode(Integer storeId, String code);
+	Category findByMerchantStoreIdAndCode(Long storeId, String code);
 
-	List<Category> findByMerchantStoreIdAndCodeInOrderBySortOrderAsc(Integer storeId, List<String> codes);
+	List<Category> findByMerchantStoreIdAndCodeInOrderBySortOrderAsc(Long storeId, List<String> codes);
 
-	List<Category> findByMerchantStoreIdAndIdInOrderBySortOrderAsc(Integer storeId, List<Long> ids);
+	List<Category> findByMerchantStoreIdAndIdInOrderBySortOrderAsc(Long storeId, List<Long> ids);
 
 	Category findByMerchantStoreCodeAndCode(String merchantStoreCode, String code);
 
-	List<Category> findByMerchantStoreIdAndLineageLikeOrderByLineageAscSortOrderAsc(Integer merchantId, String linenage);
+	List<Category> findByMerchantStoreIdAndLineageLikeOrderByLineageAscSortOrderAsc(Long merchantId, String linenage);
 
 	List<Category> findByMerchantStoreCodeAndLineageLikeOrderByLineageAscSortOrderAsc(String storeCode, String linenage);
 
-	List<Category> findByMerchantStoreIdAndDepthGreaterThanOrderByLineageAscSortOrderAsc(Integer merchantId, int depth);
+	List<Category> findByMerchantStoreIdAndDepthGreaterThanOrderByLineageAscSortOrderAsc(Long merchantId, int depth);
 
-	List<Category> findByMerchantStoreIdAndDepthOrderByLineageAscSortOrderAsc(Integer merchantId, int depth);
+	List<Category> findByMerchantStoreIdAndDepthOrderByLineageAscSortOrderAsc(Long merchantId, int depth);
 
 	List<Category> findByParentOrderByLineageAscSortOrderAsc(Category parent);
 

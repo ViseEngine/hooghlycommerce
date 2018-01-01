@@ -1,5 +1,7 @@
 package co.hooghly.commerce.cms.interceptor;
 
+import static co.hooghly.commerce.constants.Constants.MERCHANT_STORE;
+
 import java.util.Optional;
 
 
@@ -9,9 +11,10 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
+import org.springframework.web.util.WebUtils;
 
 import co.hooghly.commerce.business.PageDefinitionService;
-import co.hooghly.commerce.domain.MerchantStoreView;
+import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.PageDefinition;
 import co.hooghly.commerce.util.ServletUtil;
 import lombok.extern.slf4j.Slf4j;
@@ -45,14 +48,14 @@ public class CmsInterceptor extends HandlerInterceptorAdapter {
 
 				if (pageDef.isPresent()) {
 					log.debug("Page defintion found for viewName - {}", viewName);
-					MerchantStoreView storeView = (MerchantStoreView) request.getAttribute("MERCHANT_STORE_VIEW");
+					MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
 					
-					modelAndView.setViewName(storeView.getMerchantStore().getId() + "/" + pageDef.get().getLayout() + ".cms");
+					modelAndView.setViewName(store.getId() + "/" + pageDef.get().getLayout() + ".cms");
 					modelAndView.addObject("pgDef", pageDef.get());
 					
 					log.info("Page title - {}", pageDef.get().getTitle());
 					
-					modelAndView.addObject("theme", storeView.getTheme());
+					modelAndView.addObject("theme", store.getTheme());
 				} else {
 					log.warn("## Page defintion not found for viewName - {}. Please set the page definition correctly. No default is set.", viewName);
 					

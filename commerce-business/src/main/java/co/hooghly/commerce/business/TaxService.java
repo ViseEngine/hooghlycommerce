@@ -131,7 +131,7 @@ public class TaxService {
 		} else if(taxBasisCalculation.name().equals(TaxBasisCalculation.STOREADDRESS)){
 			country = store.getCountry();
 			zone = store.getZone();
-			stateProvince = store.getStorestateprovince();
+			//stateProvince = store.getStorestateprovince();
 		}
 		
 		//check other conditions
@@ -140,7 +140,7 @@ public class TaxService {
 			if((zone!=null && store.getZone()!=null) && (zone.getId().longValue() != store.getZone().getId().longValue())) {
 				return null;
 			}
-			if(!StringUtils.isBlank(stateProvince)) {
+			/*if(!StringUtils.isBlank(stateProvince)) {
 				if(store.getZone()!=null) {
 					if(!store.getZone().getName().equals(stateProvince)) {
 						return null;
@@ -152,7 +152,7 @@ public class TaxService {
 						return null;
 					}
 				}
-			}
+			}*/
 		}
 		
 		//collect tax in different countries
@@ -160,7 +160,7 @@ public class TaxService {
 			//use store country
 			country = store.getCountry();
 			zone = store.getZone();
-			stateProvince = store.getStorestateprovince();
+			//stateProvince = store.getStorestateprovince();
 		}
 		
 		Map<Long,TaxClass> taxClasses =  new HashMap<Long,TaxClass>();
