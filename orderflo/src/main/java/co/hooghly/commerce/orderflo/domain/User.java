@@ -50,14 +50,14 @@ public class User {
 	@Column(name = "role")
 	String role;
 
-/*	@OneToMany(fetch = FetchType.EAGER)
+	@OneToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "t_user_roles", joinColumns = {
 			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
 			@JoinColumn(name = "role_id", referencedColumnName = "id", unique = true) }			
 			)
-	private List<Role> roles*/;
+	private List<Role> roles;
 	
-//	int role;
+
 	@Column(name = "middleName")
 	String middleName;
 	@Column(name = "lastName")
