@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import co.hooghly.commerce.orderflo.domain.Role;
 import co.hooghly.commerce.orderflo.domain.User;
 import co.hooghly.commerce.orderflo.repository.UserRepository;
+import co.hooghly.commerce.orderflo.simpleusers.SimpleUsers;
 import lombok.extern.slf4j.Slf4j;
 
 
@@ -34,8 +35,9 @@ public class UserBusinessDelegate extends AbstractBaseBusinessDelegate<User, Str
 		UserDetails u = null;
 		User user=repository.findByEmail(username);
 		System.out.println("Username :"+username);
-		System.out.println(user.getEmail() +"::"+user.getPassword() +"::"+user.getRole());
-		return (UserDetails)user;
+		System.out.println(user.getEmail() +"::"+user.getPassword() +"::"+user.getRole() +"::"+user.getRoles());
+	//	return (UserDetails)user;
+		return new SimpleUsers(user,getAuthorities(user.getRoles()));
 
 	}
 	
@@ -43,6 +45,7 @@ public class UserBusinessDelegate extends AbstractBaseBusinessDelegate<User, Str
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (Role role : roles) {
 			authorities.add(new SimpleGrantedAuthority("ROLE_" + role.getName()));
+			System.out.println("ROLE_" + role.getName());
 		}
 
 		log.info("Authorities - # {} - ", authorities);

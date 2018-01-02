@@ -16,10 +16,10 @@ public class SimpleUsers implements UserDetails{
 	private List<GrantedAuthority> authorities;
 	String auth;
 	
-	SimpleUsers(User user,String auth)
+	public SimpleUsers(User user,List<GrantedAuthority> authorities)
 	{
 		this.user=user;
-		this.auth=auth;
+		this.authorities=authorities;
 	}
 	
 	@Override

@@ -28,11 +28,16 @@ public abstract class AbstractBaseBusinessDelegate<T , Id extends Serializable> 
 	}
 
 	@Transactional(readOnly = true)
+	public T findByName(String email) {
+	//	return repository.findByName("");
+	//	repository.find("");
+		return null;
+	}
+
+	@Transactional(readOnly = true)
 	public T findOne(Id id) {
 		return repository.findOne(id);
 	}
-
-
 	
 	/*@Transactional(readOnly = true)
 	public List<T> findAllByDeleted(boolean deleted) {

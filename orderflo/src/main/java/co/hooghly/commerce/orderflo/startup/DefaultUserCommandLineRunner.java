@@ -1,5 +1,8 @@
 package co.hooghly.commerce.orderflo.startup;
 
+
+import java.util.Arrays;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.CommandLineRunner;
@@ -7,8 +10,11 @@ import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
 
+
 import co.hooghly.commerce.orderflo.business.OrderService;
+import co.hooghly.commerce.orderflo.business.RolesBusinessDelegate;
 import co.hooghly.commerce.orderflo.business.UserBusinessDelegate;
+import co.hooghly.commerce.orderflo.domain.Role;
 import co.hooghly.commerce.orderflo.domain.User;
 import co.hooghly.commerce.orderflo.repository.RoleRepository;
 import co.hooghly.commerce.orderflo.repository.UserRepository;
@@ -38,6 +44,9 @@ public class DefaultUserCommandLineRunner implements CommandLineRunner {
 	@Autowired
 	private UserBusinessDelegate usersbusinessDeligate;
 	
+	@Autowired
+	private RolesBusinessDelegate rolessbusinessDeligate;
+	
 	@Override
 	public void run(String... args) throws Exception {
 		
@@ -63,12 +72,17 @@ public class DefaultUserCommandLineRunner implements CommandLineRunner {
 
 	private void defaultUserWithAdminRole( String email) 
 	{
+		Role r = new Role();
+		r.setName("SADMIN");
+		
+		rolessbusinessDeligate.findByName("ADMIN");
 		User defaultUser =new User();
 		defaultUser.setFirstName("Demo");
 		defaultUser.setLastName("Demo");
 		defaultUser.setEmail(email);
 		defaultUser.setPassword("demo");
 		defaultUser.setRole("ADMIN");
+		defaultUser.setRoles(Arrays.asList(r));
 		log.info("User service has been requested to insert ::", email);
 		usersbusinessDeligate.save(defaultUser);
 		System.out.println(email);
