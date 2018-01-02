@@ -42,7 +42,7 @@ public class CountryPopulator extends AbstractDataPopulator{
 	
 	private void createCountries() throws ServiceException {
 		
-		List<Language> languages = languageService.list();
+		List<Language> languages = languageService.getLanguages();
 		for(String code : SchemaConstant.COUNTRY_ISO_CODE) {
 			Locale locale = SchemaConstant.LOCALES.get(code);
 			if (locale != null) {

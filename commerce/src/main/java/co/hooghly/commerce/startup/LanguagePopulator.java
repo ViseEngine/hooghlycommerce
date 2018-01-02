@@ -41,7 +41,7 @@ public class LanguagePopulator extends AbstractDataPopulator {
 			Language language = new Language();
 			language.setCode(code);
 			language.setName(LANGUAGE_NAME[counter++]);
-			languageService.create(language);
+			languageService.save(language);
 		}
 	}
 }

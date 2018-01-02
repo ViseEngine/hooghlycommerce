@@ -24,25 +24,25 @@ public class CustomerOptionSetService extends SalesManagerEntityServiceImpl<Long
 		this.customerOptionSetRepository = customerOptionSetRepository;
 	}
 
-	public List<CustomerOptionSet> listByOption(CustomerOption option, MerchantStore store) throws ServiceException {
+	public List<CustomerOptionSet> listByOption(CustomerOption option, MerchantStore store) {
 		Validate.notNull(store, "merchant store cannot be null");
 		Validate.notNull(option, "option cannot be null");
 
 		return customerOptionSetRepository.findByOptionId(store.getId(), option.getId());
 	}
 
-	public void delete(CustomerOptionSet customerOptionSet) throws ServiceException {
+	public void delete(CustomerOptionSet customerOptionSet) {
 		customerOptionSet = customerOptionSetRepository.findOne(customerOptionSet.getId());
 		super.delete(customerOptionSet);
 	}
 
-	public List<CustomerOptionSet> listByStore(MerchantStore store, Language language) throws ServiceException {
+	public List<CustomerOptionSet> listByStore(MerchantStore store, Language language) {
 		Validate.notNull(store, "merchant store cannot be null");
 
 		return customerOptionSetRepository.findByStore(store.getId(), language.getId());
 	}
 
-	public void saveOrUpdate(CustomerOptionSet entity) throws ServiceException {
+	public void saveOrUpdate(CustomerOptionSet entity)  {
 		Validate.notNull(entity, "customer option set cannot be null");
 
 		if (entity.getId() > 0) {
@@ -54,7 +54,7 @@ public class CustomerOptionSetService extends SalesManagerEntityServiceImpl<Long
 	}
 
 	public List<CustomerOptionSet> listByOptionValue(CustomerOptionValue optionValue, MerchantStore store)
-			throws ServiceException {
+			 {
 		return customerOptionSetRepository.findByOptionValueId(store.getId(), optionValue.getId());
 	}
 

@@ -22,5 +22,5 @@ public interface ProductAttributeRepository extends JpaRepository<ProductAttribu
 	List<ProductAttribute> findByAttributeIds(Long storeId, Long productId, List<Long> ids);
 	
 	@Query("select p from ProductAttribute p join fetch p.product pr left join fetch p.productOption po left join fetch p.productOptionValue pov left join fetch po.descriptions pod left join fetch pov.descriptions povd left join fetch po.merchantStore pom where pom.id = ?1 and pr.id = ?2 and povd.language.id = ?3")
-	List<ProductAttribute> findByProductId(Long storeId, Long productId, Integer languageId);
+	List<ProductAttribute> findByProductId(Long storeId, Long productId, Long languageId);
 }

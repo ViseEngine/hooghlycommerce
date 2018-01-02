@@ -20,6 +20,6 @@ public interface CustomerOptionSetRepository extends JpaRepository<CustomerOptio
 	List<CustomerOptionSet> findByOptionValueId(Long merchantStoreId, Long id);
 	
 	@Query("select c from CustomerOptionSet c join fetch c.customerOption co join fetch c.customerOptionValue cov join fetch co.merchantStore com left join fetch co.descriptions cod left join fetch cov.descriptions covd where com.id = ?1 and cod.language.id = ?2 and covd.language.id = ?2 order by c.sortOrder asc")
-	List<CustomerOptionSet> findByStore(Long merchantStoreId, Integer languageId);
+	List<CustomerOptionSet> findByStore(Long merchantStoreId, Long languageId);
 
 }

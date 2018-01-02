@@ -18,6 +18,6 @@ public interface CustomerOptionValueRepository extends JpaRepository<CustomerOpt
 	CustomerOptionValue findByCode(Long merchantId, String code);
 	
 	@Query("select o from CustomerOptionValue o join fetch o.merchantStore om left join fetch o.descriptions od where om.id = ?1 and od.language.id = ?2")
-	List<CustomerOptionValue> findByStore(Long merchantId, Integer languageId);
+	List<CustomerOptionValue> findByStore(Long merchantId, Long languageId);
 
 }

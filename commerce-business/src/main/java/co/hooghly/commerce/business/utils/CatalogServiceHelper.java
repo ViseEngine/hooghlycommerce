@@ -21,7 +21,7 @@ public class CatalogServiceHelper {
 	 * @param p
 	 * @param language
 	 */
-	public static void setToLanguage(Product p, int language) {
+	public static void setToLanguage(Product p, long language) {
 		
 		
 	Set<ProductAttribute> attributes = p.getAttributes();

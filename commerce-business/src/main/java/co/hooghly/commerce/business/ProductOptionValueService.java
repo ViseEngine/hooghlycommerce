@@ -19,50 +19,34 @@ public class ProductOptionValueService extends SalesManagerEntityServiceImpl<Lon
 
 	private ProductOptionValueRepository productOptionValueRepository;
 
-	
 	public ProductOptionValueService(ProductOptionValueRepository productOptionValueRepository) {
 		super(productOptionValueRepository);
 		this.productOptionValueRepository = productOptionValueRepository;
 	}
 
-	public List<ProductOptionValue> listByStore(MerchantStore store, Language language) throws ServiceException {
+	public List<ProductOptionValue> listByStore(MerchantStore store, Language language) {
 
 		return productOptionValueRepository.findByStoreId(store.getId(), language.getId());
 	}
 
-	public List<ProductOptionValue> listByStoreNoReadOnly(MerchantStore store, Language language)
-			throws ServiceException {
+	public List<ProductOptionValue> listByStoreNoReadOnly(MerchantStore store, Language language) {
 
 		return productOptionValueRepository.findByReadOnly(store.getId(), language.getId(), false);
 	}
 
-	public List<ProductOptionValue> getByName(MerchantStore store, String name, Language language)
-			throws ServiceException {
+	public List<ProductOptionValue> getByName(MerchantStore store, String name, Language language) {
 
-		try {
-			return productOptionValueRepository.findByName(store.getId(), name, language.getId());
-		} catch (Exception e) {
-			throw new ServiceException(e);
-		}
+		return productOptionValueRepository.findByName(store.getId(), name, language.getId());
 
 	}
 
-	public void saveOrUpdate(ProductOptionValue entity) throws ServiceException {
+	public void saveOrUpdate(ProductOptionValue entity) {
 
-		// save or update (persist and attach entities
-		if (entity.getId() != null && entity.getId() > 0) {
-
-			super.update(entity);
-
-		} else {
-
-			super.save(entity);
-
-		}
+		super.save(entity);
 
 	}
 
-	public void delete(ProductOptionValue entity) throws ServiceException {
+	public void delete(ProductOptionValue entity) {
 
 		// remove all attributes having this option
 		List<ProductAttribute> attributes = productAttributeService.getByOptionValueId(entity.getMerchantStore(),

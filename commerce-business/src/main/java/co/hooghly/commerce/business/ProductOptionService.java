@@ -25,19 +25,19 @@ public class ProductOptionService extends SalesManagerEntityServiceImpl<Long, Pr
 		this.productOptionRepository = productOptionRepository;
 	}
 
-	public List<ProductOption> listByStore(MerchantStore store, Language language) throws ServiceException {
+	public List<ProductOption> listByStore(MerchantStore store, Language language)  {
 
 		return productOptionRepository.findByStoreId(store.getId(), language.getId());
 
 	}
 
-	public List<ProductOption> listReadOnly(MerchantStore store, Language language) throws ServiceException {
+	public List<ProductOption> listReadOnly(MerchantStore store, Language language) {
 
 		return productOptionRepository.findByReadOnly(store.getId(), language.getId(), true);
 
 	}
 
-	public List<ProductOption> getByName(MerchantStore store, String name, Language language) throws ServiceException {
+	public List<ProductOption> getByName(MerchantStore store, String name, Language language)  {
 
 		try {
 			return productOptionRepository.findByName(store.getId(), name, language.getId());
@@ -47,7 +47,7 @@ public class ProductOptionService extends SalesManagerEntityServiceImpl<Long, Pr
 
 	}
 
-	public void saveOrUpdate(ProductOption entity) throws ServiceException {
+	public void saveOrUpdate(ProductOption entity)  {
 
 		// save or update (persist and attach entities
 		if (entity.getId() != null && entity.getId() > 0) {
@@ -58,7 +58,7 @@ public class ProductOptionService extends SalesManagerEntityServiceImpl<Long, Pr
 
 	}
 
-	public void delete(ProductOption entity) throws ServiceException {
+	public void delete(ProductOption entity)  {
 
 		// remove all attributes having this option
 		List<ProductAttribute> attributes = productAttributeService.getByOptionId(entity.getMerchantStore(),
