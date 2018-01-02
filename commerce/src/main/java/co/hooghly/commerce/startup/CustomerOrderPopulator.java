@@ -37,7 +37,7 @@ import co.hooghly.commerce.domain.OrderStatusHistory;
 import co.hooghly.commerce.domain.OrderTotal;
 import co.hooghly.commerce.domain.PaymentType;
 import co.hooghly.commerce.domain.Zone;
-import co.hooghly.commerce.util.LocaleUtils;
+
 import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
@@ -77,12 +77,13 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 
 	@Override
 	public void runInternal(String... args) throws Exception {
+		log.info("13. Loading customer and order demo data");
 		
-		Country canada = countryService.getByCode("CA");
+		Country india = countryService.getByCode("IN");
 		Zone zone = zoneService.getByCode("QC");
 		
 		Language en = languageService.getByCode("en");
-		Language fr = languageService.getByCode("fr");
+		
 		
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
 		
@@ -114,7 +115,7 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 	    Delivery delivery = new Delivery();
 	    delivery.setAddress("358 Du Languadoc");
 	    delivery.setCity( "Boucherville" );
-	    delivery.setCountry(canada);
+	    delivery.setCountry(india);
 //	    delivery.setCountryCode(canada.getIsoCode());
 	    delivery.setFirstName("Leonardo" );
 	    delivery.setLastName("DiCaprio" );
@@ -125,7 +126,7 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 	    billing.setAddress("358 Du Languadoc");
 	    billing.setCity("Boucherville");
 	    billing.setCompany("CSTI Consulting");
-	    billing.setCountry(canada);
+	    billing.setCountry(india);
 //	    billing.setCountryCode(canada.getIsoCode());
 	    billing.setFirstName("Leonardo" );
 	    billing.setLastName("DiCaprio" );
@@ -136,7 +137,7 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 	    customer.setDelivery(delivery);		
 		customerService.create(customer);
 		
-		Currency currency = currencyService.getByCode("CAD");
+		Currency currency = currencyService.getByCode("INR");
 
 		OrderStatusHistory orderStatusHistory = new OrderStatusHistory();
 		
@@ -149,7 +150,7 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 		order.setBilling(billing);
 
 		
-		order.setLocale(LocaleUtils.getLocale(store));
+		order.setLocale(en.computeLocale(india));
 
 		order.setCurrencyValue(new BigDecimal(0.98));//compared to based currency (not necessary)
 		order.setCustomerId(customer.getId());

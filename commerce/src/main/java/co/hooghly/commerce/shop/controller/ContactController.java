@@ -10,7 +10,6 @@ import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.util.CaptchaRequestUtils;
 import co.hooghly.commerce.util.EmailTemplatesUtils;
 import co.hooghly.commerce.util.LabelUtils;
-import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.web.ui.AjaxResponse;
 import co.hooghly.commerce.web.ui.ContactForm;
 import co.hooghly.commerce.web.ui.PageInformation;
@@ -161,7 +160,7 @@ public class ContactController extends AbstractController {
 
 	        }
 	        
-	        emailTemplatesUtils.sendContactEmail(contact, store, LocaleUtils.getLocale(store.getDefaultLanguage()), request.getContextPath());
+	        emailTemplatesUtils.sendContactEmail(contact, store, store.getDefaultLanguage().computeLocale(), request.getContextPath());
 			
 			ajaxResponse.setStatus(AjaxResponse.RESPONSE_STATUS_SUCCESS);
 		} catch(Exception e) {

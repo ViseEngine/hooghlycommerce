@@ -2,6 +2,8 @@ package co.hooghly.commerce.domain;
 
 
 
+import java.util.Locale;
+
 import javax.persistence.Cacheable;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
@@ -45,6 +47,10 @@ public class Language extends SalesManagerEntity<Integer, Language> implements A
 	@Column(name="SORT_ORDER")
 	private Integer sortOrder;
 	
-	
-	
+	public Locale computeLocale(){
+		return new Locale(code);
+	}
+	public Locale computeLocale(Country country){
+		return new Locale(code, country.getName());
+	}
 }

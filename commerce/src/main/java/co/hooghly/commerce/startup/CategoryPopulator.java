@@ -24,7 +24,6 @@ import co.hooghly.commerce.business.ZoneService;
 import co.hooghly.commerce.domain.Category;
 
 import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.MerchantStoreView;
 import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
@@ -68,8 +67,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 		
 		// create a merchant
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
-		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst().orElse(null);
-		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst().orElse(null);
+		
 		
 		for (Resource r : resources) {
 			log.debug("Found resource - {}", r.getFilename());
@@ -119,7 +117,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 				}
 				
 				//will create message resources as these are throw-away demo data.
-				MessageResource mr = new MessageResource();
+				/*MessageResource mr = new MessageResource();
 				mr.setDomain("Category");
 				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
 				mr.setMessageKey(category.getName());
@@ -132,7 +130,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 				mrHi.setMessageText(hiPart);
 				
 				messageResourceService.save(mr);
-				messageResourceService.save(mrHi);
+				messageResourceService.save(mrHi);*/
 				
 			}
 		}

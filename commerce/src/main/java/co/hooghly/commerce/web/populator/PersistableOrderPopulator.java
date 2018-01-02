@@ -21,7 +21,7 @@ import co.hooghly.commerce.domain.OrderStatus;
 import co.hooghly.commerce.domain.OrderStatusHistory;
 import co.hooghly.commerce.domain.Zone;
 import co.hooghly.commerce.business.DigitalProductService;
-import co.hooghly.commerce.util.LocaleUtils;
+
 import co.hooghly.commerce.web.ui.OrderTotal;
 import co.hooghly.commerce.web.ui.PersistableCustomer;
 import co.hooghly.commerce.web.ui.PersistableOrder;
@@ -86,7 +86,7 @@ public class PersistableOrderPopulator extends
 				} 
 			}
 			
-			target.setLocale(LocaleUtils.getLocale(store));
+			//target.setLocale(LocaleUtils.getLocale(store));
 			
 			CreditCard creditCard = source.getCreditCard();
 			if(creditCard!=null) {
