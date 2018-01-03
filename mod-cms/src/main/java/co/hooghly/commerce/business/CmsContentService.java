@@ -38,7 +38,7 @@ public class CmsContentService {
 	
 	@Transactional(readOnly = true)
 	@Cacheable("content-merchantstore-code")
-	public Optional<CmsContent> findByMerchantStoreIdAndAndCode(Integer storeId, String code){
+	public Optional<CmsContent> findByMerchantStoreIdAndAndCode(Long storeId, String code){
 		log.debug("Finding with merchant store id - {} and code - {}", storeId, code);
 		return cmsContentRepository.findByMerchantStoreIdAndAndCode(storeId, code);
 	}

@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.Language;
@@ -26,11 +27,14 @@ public class LanguageService extends AbstractBaseBusinessDelegate<Language, Long
 	public Language getByCode(String code) {
 		return languageRepository.findByCode(code);
 	}
-
+	
+	@Deprecated
+	@Transactional(readOnly=true)
 	public Locale toLocale(Language language) {
 		return new Locale(language.getCode());
 	}
-
+	
+	@Transactional(readOnly=true)
 	public Language toLanguage(Locale locale) {
 
 		Language lang = getLanguagesMap().get(locale.getLanguage());

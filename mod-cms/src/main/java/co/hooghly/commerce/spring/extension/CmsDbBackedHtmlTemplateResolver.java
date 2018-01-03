@@ -42,7 +42,7 @@ public class CmsDbBackedHtmlTemplateResolver extends StringTemplateResolver {
 		String htmlTemplateParts [] = htmlTemplate.split("/");
 		
 		
-		Optional<CmsContent> content = cmsContentService.findByMerchantStoreIdAndAndCode(Integer.parseInt(htmlTemplateParts[0]) , htmlTemplateParts[1]);
+		Optional<CmsContent> content = cmsContentService.findByMerchantStoreIdAndAndCode(Long.parseLong(htmlTemplateParts[0]) , htmlTemplateParts[1]);
 		ITemplateResource resource = null;
 		if (content.isPresent()) {
 			log.debug("Resource found");

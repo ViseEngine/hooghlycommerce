@@ -41,7 +41,7 @@ import co.hooghly.commerce.domain.Zone;
 import lombok.extern.slf4j.Slf4j;
 @Component
 @Slf4j
-@org.springframework.core.annotation.Order(13)
+@org.springframework.core.annotation.Order(12)
 public class CustomerOrderPopulator extends AbstractDataPopulator {
 	
 	public CustomerOrderPopulator() {
@@ -77,13 +77,14 @@ public class CustomerOrderPopulator extends AbstractDataPopulator {
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("13. Loading customer and order demo data");
+		log.info("12. Loading customer and order demo data");
 		
 		Country india = countryService.getByCode("IN");
 		Zone zone = zoneService.getByCode("QC");
 		
 		Language en = languageService.getByCode("en");
-		
+		log.info("Language - {}", en.getId());
+		log.info("Country - {}", india.getId());
 		
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
 		

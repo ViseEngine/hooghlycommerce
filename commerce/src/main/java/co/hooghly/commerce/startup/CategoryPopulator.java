@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(10)
+@Order(9)
 public class CategoryPopulator extends AbstractDataPopulator {
 
 	@Value("classpath:demo-data/category_*.txt")
@@ -62,7 +62,7 @@ public class CategoryPopulator extends AbstractDataPopulator {
 	
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("10. Populating categories.");
+		log.info("9. Populating categories.");
 		
 		
 		// create a merchant

@@ -27,7 +27,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(7)
+@Order(6)
 public class MerchantStorePopulator extends AbstractDataPopulator {
 
 	public MerchantStorePopulator() {
@@ -62,7 +62,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 	}
 
 	private void createMerchant() {
-		log.info("7.Populating merchant store");
+		log.info("6.Populating merchant store");
 
 		Date date = new Date(System.currentTimeMillis());
 
@@ -99,14 +99,14 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 
 		merchantService.save(store);
 
-		log.info("7.1 Populating Tax Class - DEFAULT");
+		log.info("6.1 Populating Tax Class - DEFAULT");
 
 		TaxClass taxclass = new TaxClass(TaxClass.DEFAULT_TAX_CLASS);
 		taxclass.setMerchantStore(store);
 
 		taxClassService.saveNow(taxclass);
 
-		log.info("7.2 Populating CMS contents - DEMO");
+		log.info("6.2 Populating CMS contents - DEMO");
 
 		cmsContentService.load(store);
 

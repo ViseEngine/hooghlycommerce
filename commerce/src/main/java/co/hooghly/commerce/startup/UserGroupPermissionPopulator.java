@@ -29,7 +29,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(8)
+@Order(7)
 public class UserGroupPermissionPopulator extends AbstractDataPopulator {
 	
 	public UserGroupPermissionPopulator() {
@@ -56,7 +56,7 @@ public class UserGroupPermissionPopulator extends AbstractDataPopulator {
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("8.Populating User, Group, Permissions.");
+		log.info("7.Populating User, Group, Permissions.");
 		//populate();
 	}
 

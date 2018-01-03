@@ -34,6 +34,7 @@ public class Language extends AbstractBaseEntity {
 	}
 
 	public Locale computeLocale(Country country) {
-		return new Locale(code, country.getName());
+		
+		return new Locale(code, country.getIsoCode());
 	}
 }

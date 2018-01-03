@@ -37,18 +37,18 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Order(2)
 public class LanguageProcessingStrategy implements WebInterceptorProcessingStrategy {
-	
+
 	@Autowired
 	private LanguageService languageService;
 
 	@Autowired
 	private MessageSource messageSource;
-		
+
 	@Autowired
 	private ProductService productService;
-	
+
 	private CategoryService categoryService;
-	
+
 	@Override
 	public boolean canHandle(String clazz) {
 		return StringUtils.equals(clazz, "StoreInterceptor");
@@ -88,37 +88,28 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 		Locale locale = LocaleContextHolder.getLocale();
 
 		log.info("Determining store view  locale - {}", locale);
+		log.info("Language from session - {}", (language == null));
 
 		if (language == null) {
-			try {
 
-				MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
-				language = store.getDefaultLanguage(); // language is mandatory
-														// for store so if check
-														// redundant
+			MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
+			language = store.getDefaultLanguage(); // language is mandatory
+													// for store so if check
+													// redundant
 
-				locale = languageService.toLocale(language);
-				if (locale != null) {
-					LocaleContextHolder.setLocale(locale);
-				}
-				WebUtils.setSessionAttribute(request, LANGUAGE, language);
+			log.info("Default language from store - {}", language.getId());
 
-				if (language == null) {
-					language = languageService.toLanguage(locale);
-					WebUtils.setSessionAttribute(request, LANGUAGE, language);
-				}
+			locale = language.computeLocale(store.getCountry());
+			LocaleContextHolder.setLocale(locale);
 
-			} catch (Exception e) {
-				if (language == null) {
-					try {
-						language = languageService.getByCode(DEFAULT_LANGUAGE);
-					} catch (Exception ignore) {
-					}
-				}
-			}
+			WebUtils.setSessionAttribute(request, LANGUAGE, language);
+
 		} else {
 
 			if (!language.getCode().equals(locale.getLanguage())) {
+				
+				
+				
 				// get locale context
 				language = languageService.toLanguage(locale);
 			}
@@ -183,21 +174,23 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 								BreadcrumbItem categoryItem = new BreadcrumbItem();
 								categoryItem.setId(category.getId());
 								categoryItem.setItemType(BreadcrumbItemType.CATEGORY);
-								//categoryItem.setLabel(category.getDescription().getName());
-								//categoryItem.setUrl(category.getDescription().getSeUrl());
+								// categoryItem.setLabel(category.getDescription().getName());
+								// categoryItem.setUrl(category.getDescription().getSeUrl());
 								items.add(categoryItem);
 							}
-						} /*else if (item.getItemType().name().equals(BreadcrumbItemType.PAGE)) {
-							Content content = contentService.getByLanguage(item.getId(), language);
-							if (content != null) {
-								BreadcrumbItem contentItem = new BreadcrumbItem();
-								contentItem.setId(content.getId());
-								contentItem.setItemType(BreadcrumbItemType.PAGE);
-								contentItem.setLabel(content.getDescription().getName());
-								contentItem.setUrl(content.getDescription().getSeUrl());
-								items.add(contentItem);
-							}
-						}*/
+						} /*
+							 * else if (item.getItemType().name().equals(
+							 * BreadcrumbItemType.PAGE)) { Content content =
+							 * contentService.getByLanguage(item.getId(),
+							 * language); if (content != null) { BreadcrumbItem
+							 * contentItem = new BreadcrumbItem();
+							 * contentItem.setId(content.getId());
+							 * contentItem.setItemType(BreadcrumbItemType.PAGE);
+							 * contentItem.setLabel(content.getDescription().
+							 * getName());
+							 * contentItem.setUrl(content.getDescription().
+							 * getSeUrl()); items.add(contentItem); } }
+							 */
 
 					}
 
@@ -223,7 +216,7 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 		// set home page item
 		BreadcrumbItem item = new BreadcrumbItem();
 		item.setItemType(BreadcrumbItemType.HOME);
-		item.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY,null, locale));
+		item.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, locale));
 		item.setUrl(Constants.HOME_URL);
 		return item;
 

@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(9)
+@Order(8)
 public class MerchantConfigPopulator extends AbstractDataPopulator{
 	
 	public MerchantConfigPopulator() {
@@ -28,7 +28,7 @@ public class MerchantConfigPopulator extends AbstractDataPopulator{
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("9.Populating merchant config populator.");
+		log.info("8.Populating merchant config populator.");
 		
 		MerchantStore store = merchantService.getByCode(MerchantStore.DEFAULT_STORE);
 		MerchantConfig config = new MerchantConfig();

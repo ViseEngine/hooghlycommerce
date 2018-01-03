@@ -40,7 +40,7 @@ public class MerchantStore extends AbstractBaseEntity {
 	@Column(name = "STORE_LOGO", length = 100)
 	private String storeLogo;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Currency.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Currency.class)
 	@JoinColumn(name = "CURRENCY_ID", nullable = false)
 	private Currency currency;
 
@@ -48,12 +48,12 @@ public class MerchantStore extends AbstractBaseEntity {
 	private Address address;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Country.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Country.class)
 	@JoinColumn(name = "COUNTRY_ID", nullable = false, updatable = true)
 	private Country country;
 
 	@JsonBackReference
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Zone.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Zone.class)
 	@JoinColumn(name = "ZONE_ID", nullable = true, updatable = true)
 	private Zone zone;
 
@@ -72,12 +72,12 @@ public class MerchantStore extends AbstractBaseEntity {
 	@Transient
 	private String dateBusinessSince;
 
-	@ManyToOne(fetch = FetchType.LAZY, targetEntity = Language.class)
+	@ManyToOne(fetch = FetchType.EAGER, targetEntity = Language.class)
 	@JoinColumn(name = "LANGUAGE_ID", nullable = false)
 	private Language defaultLanguage;
 
 	@NotEmpty
-	@ManyToMany(fetch = FetchType.LAZY)
+	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "MERCHANT_LANGUAGE")
 	private List<Language> languages = new ArrayList<>();
 

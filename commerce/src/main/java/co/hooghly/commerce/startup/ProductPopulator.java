@@ -35,7 +35,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(12)
+@Order(11)
 public class ProductPopulator extends AbstractDataPopulator {
 	public ProductPopulator() {
 		super("PRODUCT");
@@ -70,7 +70,7 @@ public class ProductPopulator extends AbstractDataPopulator {
 	
 	private void createProductType() {
 
-		log.info("12.0 - Populating product type.");
+		log.info("11.0 - Populating product type.");
 
 		ProductType productType = new ProductType();
 		productType.setCode(ProductType.GENERAL_TYPE);

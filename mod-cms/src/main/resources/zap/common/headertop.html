@@ -11,12 +11,12 @@
 							<a href="" class="dropdown-toggle"
 								data-toggle="dropdown" role="button" aria-haspopup="true"
 								aria-expanded="false"> 
-								<span th:text="${MERCHANT_STORE_VIEW.language.name + '(' + MERCHANT_STORE_VIEW.currency.currency.symbol + ')'}"></span>
+								<span th:text="${MERCHANT_STORE.defaultLanguage.name}"></span>
 								<span class="fa fa-angle-down"></span>
 							</a>
 							<ul class="dropdown-menu xt-lang-dropdown" >
-								<li th:each="sv : ${MERCHANT_STORE.storeViews}">
-								<a th:href="@{/shop(storeView=${sv.code})}" th:text="${sv.language.name + '(' + sv.currency.currency.symbol + ')'}" >USD</a>
+								<li th:each="l : ${MERCHANT_STORE.languages}">
+								<a th:href="@{/shop(storeView=${MERCHANT_STORE.id},lang=${l.id})}" th:text="${l.name}" >USD</a>
 								</li>
 								
 								
