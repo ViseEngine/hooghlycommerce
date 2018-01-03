@@ -27,12 +27,14 @@ public class UserBusinessDelegate extends AbstractBaseBusinessDelegate<User, Str
 
 	public UserDetails loadUserByUsername(String username) {
 		
+		System.out.println("username :"+username);
 		Optional<User> user = repository.findByEmail(username);
 		SimpleUserDetails userDetails = null;
 		if(user.isPresent()) {
 			log.info("User found.");
 			userDetails = new SimpleUserDetails(user.get());
 		}
+		System.out.println("userDetails :"+userDetails);
 		return userDetails;
 	}
 

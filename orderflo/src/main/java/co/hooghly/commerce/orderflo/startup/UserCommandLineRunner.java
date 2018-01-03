@@ -34,7 +34,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
 	@Override
 	public void run(String... args) throws Exception {
 
-		String emails[] = { "orderflo@hooghly.co" };
+		String emails[] = { "orderflo@hooghly.com" };
 
 		for (String email : emails) {
 			Optional<User> user = userRepository.findByEmail(email);

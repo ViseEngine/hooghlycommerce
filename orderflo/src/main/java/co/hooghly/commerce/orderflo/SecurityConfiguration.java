@@ -25,14 +25,14 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	}
 
 
+	/* (non-Javadoc)
+	 * @see org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter#configure(org.springframework.security.config.annotation.web.builders.HttpSecurity)
+	 */
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/webjars/**", "/user/login", "/user/register", "/user/savenew","/user/activate","/install/**")
-				.permitAll().antMatchers("/admin/**").hasRole("ADMIN").antMatchers("/studio/**")
-				.hasAnyRole("ADMIN", "USER").antMatchers("/**/**").hasAnyRole("ADMIN", "USER").and().formLogin()
-				.passwordParameter("password").usernameParameter("username").loginProcessingUrl("/admin/secure/authenticate")
-				.failureUrl("/user/login?error=SEC-0001").loginPage("/user/login").defaultSuccessUrl("/user/success").and()
-				.logout().logoutUrl("/user/logout").logoutSuccessUrl("/user/login");
+		
+		http.authorizeRequests().antMatchers("/user/login").permitAll().antMatchers("/user/**").hasRole("ADMIN").and().formLogin().passwordParameter("password").usernameParameter("username").loginProcessingUrl("/admin/secure/authenticate").failureUrl("/user/login?error=SEC-0001").loginPage("/user/login").defaultSuccessUrl("/user/success").and().logout().logoutUrl("/user/logout").logoutSuccessUrl("/user/login");;
+		
 	}
 //lead/new?form=lead
 	@Bean

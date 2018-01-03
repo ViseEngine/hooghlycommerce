@@ -24,6 +24,7 @@ public class SimpleUserDetails implements UserDetails {
 	private List<GrantedAuthority> getAuthorities(List<Role> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (Role role : roles) {
+			System.out.println("Roles "+role);
 			authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getName()));
 
 		}
