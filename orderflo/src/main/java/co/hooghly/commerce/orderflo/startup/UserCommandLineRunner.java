@@ -7,14 +7,14 @@ import org.springframework.boot.CommandLineRunner;
 
 import org.springframework.core.annotation.Order;
 import org.springframework.stereotype.Component;
-import org.springframework.transaction.annotation.Transactional;
-
 import co.hooghly.commerce.orderflo.business.RolesBusinessDelegate;
 import co.hooghly.commerce.orderflo.business.UserBusinessDelegate;
 import co.hooghly.commerce.orderflo.domain.Role;
 import co.hooghly.commerce.orderflo.domain.User;
 import co.hooghly.commerce.orderflo.repository.UserRepository;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.security.crypto.password.PasswordEncoder;
+
 
 @Component
 @Slf4j
@@ -30,6 +30,9 @@ public class UserCommandLineRunner implements CommandLineRunner {
 
 	@Autowired
 	private RolesBusinessDelegate rolebusinessDelegate;
+	
+	@Autowired
+	private PasswordEncoder encoder;
 
 	@Override
 	public void run(String... args) throws Exception {
@@ -59,7 +62,7 @@ public class UserCommandLineRunner implements CommandLineRunner {
 		defaultUser.setFirstName("OrderFlo");
 		defaultUser.setLastName("Admin");
 		defaultUser.setEmail(email);
-		defaultUser.setPassword("demo");
+		defaultUser.setPassword(encoder.encode("demo"));
 		defaultUser.getRoles().add(role);
 	
 		log.info("User service has been requested to insert ::", email);

@@ -13,7 +13,7 @@ public class SimpleUserDetails implements UserDetails {
 	private static final long serialVersionUID = 1L;
 	private User user;
 	private List<GrantedAuthority> authorities;
-	String auth;
+	
 	private static final String ROLE_PREFIX = "ROLE_";
 
 	public SimpleUserDetails(User user) {
@@ -24,7 +24,7 @@ public class SimpleUserDetails implements UserDetails {
 	private List<GrantedAuthority> getAuthorities(List<Role> roles) {
 		List<GrantedAuthority> authorities = new ArrayList<>();
 		for (Role role : roles) {
-			System.out.println("Roles "+role);
+			
 			authorities.add(new SimpleGrantedAuthority(ROLE_PREFIX + role.getName()));
 
 		}
@@ -51,7 +51,7 @@ public class SimpleUserDetails implements UserDetails {
 
 	@Override
 	public boolean isAccountNonExpired() {
-		return false;
+		return true;
 	}
 
 	@Override

@@ -19,7 +19,7 @@ logging:
   file: c:/EDMT_WORK/orderflo.log
   level:
     co.hooghly.commerce.orderflo.business: info
-                
+    org.springframework.security: debug            
 
 security:
   basic:
