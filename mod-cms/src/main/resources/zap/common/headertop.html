@@ -16,7 +16,7 @@
 							</a>
 							<ul class="dropdown-menu xt-lang-dropdown" >
 								<li th:each="l : ${MERCHANT_STORE.languages}">
-								<a th:href="@{/shop(storeView=${MERCHANT_STORE.id},lang=${l.id})}" th:text="${l.name}" >USD</a>
+								<a th:href="@{/shop(store=${MERCHANT_STORE.id},lang=${l.id})}" th:text="${l.name}" >USD</a>
 								</li>
 								
 								

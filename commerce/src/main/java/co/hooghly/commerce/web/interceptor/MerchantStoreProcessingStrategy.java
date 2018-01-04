@@ -1,8 +1,5 @@
 package co.hooghly.commerce.web.interceptor;
 
-import static co.hooghly.commerce.constants.Constants.*;
-import java.util.Optional;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 

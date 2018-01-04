@@ -87,7 +87,7 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 		// should be browser locale
 		Locale locale = LocaleContextHolder.getLocale();
 
-		log.info("Determining store view  locale - {}", locale);
+		log.info("Determining browser locale - {}", locale);
 		log.info("Language from session - {}", (language == null));
 
 		if (language == null) {
@@ -100,6 +100,9 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 			log.info("Default language from store - {}", language.getId());
 
 			locale = language.computeLocale(store.getCountry());
+			
+			log.info("Computed locale - {} ", locale);
+			
 			LocaleContextHolder.setLocale(locale);
 
 			WebUtils.setSessionAttribute(request, LANGUAGE, language);
@@ -116,11 +119,7 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 
 		}
 
-		if (language != null) {
-			locale = languageService.toLocale(language);
-		} else {
-			language = languageService.toLanguage(locale);
-		}
+		
 
 		LocaleResolver localeResolver = RequestContextUtils.getLocaleResolver(request);
 		if (localeResolver != null) {
