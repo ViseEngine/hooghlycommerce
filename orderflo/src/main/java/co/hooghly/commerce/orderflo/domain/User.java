@@ -17,6 +17,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.springframework.core.annotation.Order;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -65,4 +66,21 @@ public class User {
 	String department;
 	@Column(name = "apiToken")
 	String apiToken;
+	
+	@LastModifiedDate  
+	private Date lastModifiedDate;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
+	@Column(name="credentials_non_expired")
+	private boolean credentialsNonExpired;
+	
+	
+	@Column(name="account_non_locked")
+	private boolean accountNonLocked;
+	
+	
+	@Column(name="account_non_expired")
+	private boolean accountNonExpired;
 }

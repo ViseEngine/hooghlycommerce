@@ -1,5 +1,6 @@
 package co.hooghly.commerce.orderflo.startup;
 
+import java.util.Date;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -64,7 +65,14 @@ public class UserCommandLineRunner implements CommandLineRunner {
 		defaultUser.setEmail(email);
 		defaultUser.setPassword(encoder.encode("demo"));
 		defaultUser.getRoles().add(role);
-	
+		defaultUser.setDeleted(false);
+		defaultUser.setAccountNonExpired(true);
+		defaultUser.setAccountNonLocked(true);
+		defaultUser.setCredentialsNonExpired(true);
+
+		// TODO - move dates to audit handler
+		defaultUser.setCreatedDate(new Date());
+		defaultUser.setLastModifiedDate(new Date());
 		log.info("User service has been requested to insert ::", email);
 		userbusinessDelegate.save(defaultUser);
 		
