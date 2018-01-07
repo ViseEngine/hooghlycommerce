@@ -1,11 +1,23 @@
 package co.hooghly.commerce.orderflo.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import org.springframework.core.annotation.Order;
+import org.springframework.data.annotation.LastModifiedDate;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -15,10 +27,15 @@ import lombok.EqualsAndHashCode;
 @Table(name = "t_user")
 @Data
 @EqualsAndHashCode
+@Order(1)
 public class User {
 	
 	@Id
-	@Column(name = "email")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+	
+	
+	@Column(name = "email", unique = true)
 	String email;
 	
 	@Column(name = "password")
@@ -31,10 +48,14 @@ public class User {
 	@Column(name = "firstName")
 	String firstName;
 	
-	@Column(name = "role")
-	String role;
+	@OneToMany(cascade = CascadeType.MERGE,fetch = FetchType.EAGER)
+	@JoinTable(name = "t_user_roles", joinColumns = {
+			@JoinColumn(name = "user_id", referencedColumnName = "id") }, inverseJoinColumns = {
+			@JoinColumn(name = "role_id", referencedColumnName = "id", unique = true) }			
+			)
+	private List<Role> roles = new ArrayList<>();
+	
 
-//	int role;
 	@Column(name = "middleName")
 	String middleName;
 	@Column(name = "lastName")
@@ -45,4 +66,21 @@ public class User {
 	String department;
 	@Column(name = "apiToken")
 	String apiToken;
+	
+	@LastModifiedDate  
+	private Date lastModifiedDate;
+	
+	@Column(name = "deleted")
+	private boolean deleted;
+	
+	@Column(name="credentials_non_expired")
+	private boolean credentialsNonExpired;
+	
+	
+	@Column(name="account_non_locked")
+	private boolean accountNonLocked;
+	
+	
+	@Column(name="account_non_expired")
+	private boolean accountNonExpired;
 }
