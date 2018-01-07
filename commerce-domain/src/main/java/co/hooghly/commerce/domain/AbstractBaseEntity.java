@@ -16,7 +16,7 @@ public abstract class AbstractBaseEntity implements Auditable{
 	@Id
 	@Column(name = "ID", unique = true, nullable = false)
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	protected Long id;
 
 	@Transient
 	private String _csrf;

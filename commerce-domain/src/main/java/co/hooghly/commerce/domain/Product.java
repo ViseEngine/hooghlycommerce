@@ -1,39 +1,16 @@
 package co.hooghly.commerce.domain;
 
 import java.math.BigDecimal;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
-
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Embedded;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.Table;
-
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-import javax.persistence.UniqueConstraint;
+import java.util.*;
+import javax.persistence.*;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.annotations.Cascade;
 import org.hibernate.validator.constraints.NotEmpty;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 
-import lombok.Data;
-import lombok.EqualsAndHashCode;
+import lombok.*;
 
 
 @Entity
@@ -42,41 +19,31 @@ import lombok.EqualsAndHashCode;
 @UniqueConstraint(columnNames = {"MERCHANT_ID", "SKU"}))
 @Data
 @EqualsAndHashCode(callSuper=false)
-public class Product extends SalesManagerEntity<Long, Product> implements Auditable {
-	private static final long serialVersionUID = -6228066416290007047L;
+public class Product extends AbstractBaseEntity {
 	
 	
-	@Id
-	@Column(name = "PRODUCT_ID", unique=true, nullable=false)
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
-
-	@Embedded
-	private AuditSection auditSection = new AuditSection();
-	
-	
+		
 	@JsonManagedReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+	private Set<ProductDescription> descriptions = new HashSet<>();
 	
 	
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy="product")
-	private Set<ProductAvailability> availabilities = new HashSet<ProductAvailability>();
-	
+	private Set<ProductAvailability> availabilities = new HashSet<>();	
 	
 	@JsonBackReference
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
-	private Set<ProductAttribute> attributes = new HashSet<ProductAttribute>();
+	private Set<ProductAttribute> attributes = new HashSet<>();
 	
 	
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")//cascade is set to remove because product save requires logic to create physical image first and then save the image id in the database, cannot be done in cascade
 	@JsonBackReference
-	private Set<ProductImage> images = new HashSet<ProductImage>();
+	private Set<ProductImage> images = new HashSet<>();
 
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	@JsonBackReference
-	private Set<ProductRelationship> relationships = new HashSet<ProductRelationship>();
+	private Set<ProductRelationship> relationships = new HashSet<>();
 
 	
 	@ManyToOne(fetch = FetchType.LAZY)
@@ -98,7 +65,7 @@ public class Product extends SalesManagerEntity<Long, Product> implements Audita
 		org.hibernate.annotations.CascadeType.REPLICATE
 		
 	})
-	private Set<Category> categories = new HashSet<Category>();
+	private Set<Category> categories = new HashSet<>();
 	
 	@Column(name="DATE_AVAILABLE")
 	@Temporal(TemporalType.TIMESTAMP)

@@ -18,7 +18,7 @@ import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.util.PageBuilderUtils;
 
-import co.hooghly.commerce.web.populator.ReadableManufacturerPopulator;
+
 import co.hooghly.commerce.web.populator.ReadableProductPopulator;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.PageInformation;
@@ -26,7 +26,7 @@ import co.hooghly.commerce.web.ui.ProductList;
 import co.hooghly.commerce.web.ui.QueryFilter;
 import co.hooghly.commerce.web.ui.QueryFilterType;
 import co.hooghly.commerce.web.ui.ReadableCategory;
-import co.hooghly.commerce.web.ui.ReadableManufacturer;
+//import co.hooghly.commerce.web.ui.ReadableManufacturer;
 import co.hooghly.commerce.web.ui.ReadableProduct;
 
 import org.apache.commons.collections4.CollectionUtils;
@@ -226,10 +226,10 @@ public class ShoppingCategoryController {
 		}
 
 		// ** List of manufacturers **//
-		List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store, category, subIds,
-				language);
+		/*List<ReadableManufacturer> manufacturerList = getManufacturersByProductAndCategory(store, category, subIds,
+				language);*/
 
-		model.addAttribute("manufacturers", manufacturerList);
+		//model.addAttribute("manufacturers", manufacturerList);
 		model.addAttribute("parent", parentProxy);
 		//model.addAttribute("category", categoryProxy);
 		model.addAttribute("subCategories", subCategories);
@@ -245,12 +245,12 @@ public class ShoppingCategoryController {
 		return template.toString();
 	}
 
-	@SuppressWarnings("unchecked")
+	/*@SuppressWarnings("unchecked")
 	private List<ReadableManufacturer> getManufacturersByProductAndCategory(MerchantStore store, Category category,
 			List<Long> subCategoryIds, Language language) throws Exception {
 
 		List<ReadableManufacturer> manufacturerList = null;
-		/** List of manufacturers **/
+		*//** List of manufacturers **//*
 		if (subCategoryIds != null && subCategoryIds.size() > 0) {
 
 			StringBuilder manufacturersKey = new StringBuilder();
@@ -285,9 +285,9 @@ public class ShoppingCategoryController {
 			}
 		}
 		return manufacturerList;
-	}
+	}*/
 
-	private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language)
+	/*private List<ReadableManufacturer> getManufacturers(MerchantStore store, List<Long> ids, Language language)
 			throws Exception {
 		List<ReadableManufacturer> manufacturerList = null;
 		List<co.hooghly.commerce.domain.Manufacturer> manufacturers = manufacturerService
@@ -302,7 +302,7 @@ public class ShoppingCategoryController {
 			}
 		}
 		return manufacturerList;
-	}
+	}*/
 
 	private Map<Long, Long> getProductsByCategory(MerchantStore store, Category category, String lineage,
 			List<Long> subIds) throws Exception {

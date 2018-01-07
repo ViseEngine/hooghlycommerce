@@ -79,7 +79,7 @@ public class PersistableProductPopulator extends
 					manuf = manufacturerService.getByCode(store, source.getManufacturer().getCode());
 				} else {
 					Validate.notNull(source.getManufacturer().getId(), "Requires to set manufacturer id");
-					manuf = manufacturerService.getById(source.getManufacturer().getId());
+					manuf = manufacturerService.findOne(source.getManufacturer().getId());
 				}
 				
 				if(manuf==null) {
