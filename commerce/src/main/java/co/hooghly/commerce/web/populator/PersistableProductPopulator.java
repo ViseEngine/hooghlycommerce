@@ -98,7 +98,7 @@ public class PersistableProductPopulator extends
 			
 			List<Language> languages = new ArrayList<Language>();
 			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
-			if(!CollectionUtils.isEmpty(source.getDescriptions())) {
+			/*if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(co.hooghly.commerce.web.ui.ProductDescription description : source.getDescriptions()) {
 					
 					ProductDescription productDescription = new ProductDescription();
@@ -119,11 +119,11 @@ public class PersistableProductPopulator extends
 					productDescription.setLanguage(lang);
 					descriptions.add(productDescription);
 				}
-			}
+			}*/
 			
-			if(descriptions.size()>0) {
+			/*if(descriptions.size()>0) {
 				target.setDescriptions(descriptions);
-			}
+			}*/
 
 			//target.setType(source.getType());//not implemented yet
 			target.setProductHeight(source.getProductHeight());
@@ -206,7 +206,7 @@ public class PersistableProductPopulator extends
 					ByteArrayInputStream in = new ByteArrayInputStream(img.getBytes());
 					ProductImage productImage = new ProductImage();
 					productImage.setProduct(target);
-					productImage.setProductImage(img.getImageName());
+					//productImage.setProductImage(img.getImageName());
 					//productImage.setImage(in);
 					target.getImages().add(productImage);
 				}

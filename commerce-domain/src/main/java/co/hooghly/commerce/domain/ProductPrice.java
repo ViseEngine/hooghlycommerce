@@ -11,9 +11,7 @@ import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -24,21 +22,23 @@ import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.NotEmpty;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 
 @Entity
 @Table(name = "PRODUCT_PRICE")
-public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
-	private static final long serialVersionUID = -9186473817468772165L;
+@Data
+@EqualsAndHashCode(callSuper=true, exclude={"productAvailability"})
+public class ProductPrice extends AbstractBaseEntity {
+	
 	
 	private final static String DEFAULT_PRICE_CODE="base";
 
-	@Id
-	@Column(name = "PRODUCT_PRICE_ID")
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Long id;
+	
 
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productPrice", cascade = CascadeType.ALL)
-	private Set<ProductPriceDescription> descriptions = new HashSet<ProductPriceDescription>();
+	private Set<ProductPriceDescription> descriptions = new HashSet<>();
 
 	@NotEmpty
 	@Pattern(regexp="^[a-zA-Z0-9_]*$")
@@ -71,106 +71,5 @@ public class ProductPrice extends SalesManagerEntity<Long, ProductPrice> {
 	@JoinColumn(name = "PRODUCT_AVAIL_ID", nullable = false)
 	private ProductAvailability productAvailability;
 	
-
-	public ProductPrice() {
-	}
-	
-	@Override
-	public Long getId() {
-		return this.id;
-	}
-
-	@Override
-	public void setId(Long id) {
-		this.id = id;
-	}
-
-
-
-
-	public BigDecimal getProductPriceAmount() {
-		return productPriceAmount;
-	}
-
-	public void setProductPriceAmount(BigDecimal productPriceAmount) {
-		this.productPriceAmount = productPriceAmount;
-	}
-
-
-	
-	public Date getProductPriceSpecialStartDate() {
-		return productPriceSpecialStartDate;
-	}
-
-	public void setProductPriceSpecialStartDate(
-			Date productPriceSpecialStartDate) {
-		this.productPriceSpecialStartDate = productPriceSpecialStartDate;
-	}
-
-	public Date getProductPriceSpecialEndDate() {
-		return productPriceSpecialEndDate;
-	}
-
-	public void setProductPriceSpecialEndDate(Date productPriceSpecialEndDate) {
-		this.productPriceSpecialEndDate = productPriceSpecialEndDate;
-	}
-
-
-
-	public BigDecimal getProductPriceSpecialAmount() {
-		return productPriceSpecialAmount;
-	}
-
-	public void setProductPriceSpecialAmount(
-			BigDecimal productPriceSpecialAmount) {
-		this.productPriceSpecialAmount = productPriceSpecialAmount;
-	}
-
-
-
-	public Set<ProductPriceDescription> getDescriptions() {
-		return descriptions;
-	}
-
-
-
-	public void setDescriptions(Set<ProductPriceDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
-
-
-	public boolean isDefaultPrice() {
-		return defaultPrice;
-	}
-
-	public void setDefaultPrice(boolean defaultPrice) {
-		this.defaultPrice = defaultPrice;
-	}
-
-	public void setProductAvailability(ProductAvailability productAvailability) {
-		this.productAvailability = productAvailability;
-	}
-
-	public ProductAvailability getProductAvailability() {
-		return productAvailability;
-	}
-
-	public void setCode(String code) {
-		this.code = code;
-	}
-
-	public String getCode() {
-		return code;
-	}
-
-	public void setProductPriceType(ProductPriceType productPriceType) {
-		this.productPriceType = productPriceType;
-	}
-
-	public ProductPriceType getProductPriceType() {
-		return productPriceType;
-	}
-
 
 }

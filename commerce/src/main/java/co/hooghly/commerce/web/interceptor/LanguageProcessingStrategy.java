@@ -163,8 +163,8 @@ public class LanguageProcessingStrategy implements WebInterceptorProcessingStrat
 								BreadcrumbItem productItem = new BreadcrumbItem();
 								productItem.setId(product.getId());
 								productItem.setItemType(BreadcrumbItemType.PRODUCT);
-								productItem.setLabel(product.getProductDescription().getName());
-								productItem.setUrl(product.getProductDescription().getSeUrl());
+								productItem.setLabel(product.getName());
+								productItem.setUrl(product.getSeUrl());
 								items.add(productItem);
 							}
 						} else if (item.getItemType().name().equals(BreadcrumbItemType.CATEGORY)) {

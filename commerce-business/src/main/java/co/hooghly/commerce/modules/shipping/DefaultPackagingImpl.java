@@ -122,7 +122,7 @@ public class DefaultPackagingImpl implements Packaging {
 					temp.setProductWidth(wd);
 					temp.setProductWeight(w);
 					temp.setAttributes(product.getAttributes());
-					temp.setDescriptions(product.getDescriptions());
+					//temp.setDescriptions(product.getDescriptions());
 					individualProducts.add(temp);
 				}
 			} else {
@@ -132,7 +132,7 @@ public class DefaultPackagingImpl implements Packaging {
 				temp.setProductWidth(wd);
 				temp.setProductWeight(w);
 				temp.setAttributes(product.getAttributes());
-				temp.setDescriptions(product.getDescriptions());
+				//temp.setDescriptions(product.getDescriptions());
 				individualProducts.add(temp);
 			}
 			iterCount++;
@@ -364,9 +364,7 @@ public class DefaultPackagingImpl implements Packaging {
 				detail.setShippingWidth(wd.doubleValue());
 				detail.setShippingQuantity(shippingProduct.getQuantity());
 				String description = "item";
-				if(product.getDescriptions().size()>0) {
-					description = product.getDescriptions().iterator().next().getName();
-				}
+				
 				detail.setItemName(description);
 	
 				packages.add(detail);
@@ -382,9 +380,7 @@ public class DefaultPackagingImpl implements Packaging {
 							.doubleValue());
 					detail.setShippingQuantity(shippingProduct.getQuantity());
 					String description = "item";
-					if(product.getDescriptions().size()>0) {
-						description = product.getDescriptions().iterator().next().getName();
-					}
+					
 					detail.setItemName(description);
 					
 					packages.add(detail);

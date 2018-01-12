@@ -34,8 +34,6 @@ public class Language extends AbstractBaseEntity {
 	}
 
 	public Locale computeLocale(Country country) {
-		System.out.println("L Code - " + code);
-		System.out.println("C Code - " + country.getIsoCode());
 		
 		return new Locale(code, country.getIsoCode());
 	}

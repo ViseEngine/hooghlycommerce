@@ -128,8 +128,8 @@ public class BreadcrumbsUtils {
 		
 		BreadcrumbItem productBreadcrump = new BreadcrumbItem();
 		productBreadcrump.setItemType(BreadcrumbItemType.PRODUCT);
-		productBreadcrump.setLabel(productClicked.getProductDescription().getName());
-		productBreadcrump.setUrl(filePathUtils.buildProductUrl(store, contextPath, productClicked.getProductDescription().getSeUrl()));
+		productBreadcrump.setLabel(productClicked.getName());
+		productBreadcrump.setUrl(filePathUtils.buildProductUrl(store, contextPath, productClicked.getSeUrl()));
 		items.add(productBreadcrump);
 		
 		

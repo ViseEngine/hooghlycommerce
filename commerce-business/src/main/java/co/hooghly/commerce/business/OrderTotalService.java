@@ -59,7 +59,7 @@ public class OrderTotalService  {
 					}
 					
 					//if product is null it will be catched when invoking the module
-					orderTotal.setText(product.getProductDescription().getName());
+					orderTotal.setText(product.getName());
 					variation.getVariations().add(orderTotal);	
 				}
 			}

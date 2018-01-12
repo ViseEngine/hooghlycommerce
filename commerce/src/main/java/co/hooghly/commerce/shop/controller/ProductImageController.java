@@ -25,18 +25,5 @@ public class ProductImageController {
 	@Autowired
 	private ProductImageService productImageService;
 
-	@GetMapping(value = "/download/{productImageId}")
-	public ResponseEntity<byte[]> getImageAsResponseEntity(@PathVariable("productImageId") Long productImageId) {
-		
-		log.info("Getting product image with id - {}", productImageId);
-		
-		ProductImage productImage = productImageService.getById(productImageId);
-
-		byte[] media = productImage.getImage();
-		HttpHeaders headers = new HttpHeaders();
-		headers.setCacheControl(CacheControl.noCache().getHeaderValue());
-
-		ResponseEntity<byte[]> responseEntity = new ResponseEntity<>(media, headers, HttpStatus.OK);
-		return responseEntity;
-	}
+	
 }

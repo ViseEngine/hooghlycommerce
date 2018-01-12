@@ -115,9 +115,9 @@ public class ReadableOrderProductPopulator extends
 							}
 						}
 					}
-					if(defaultImage!=null) {
+					/*if(defaultImage!=null) {
 						target.setImage(defaultImage.getProductImage());
-					}
+					}*/
 				}
 			}
 		

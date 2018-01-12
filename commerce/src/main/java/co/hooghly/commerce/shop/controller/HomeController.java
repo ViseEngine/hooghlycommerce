@@ -38,7 +38,7 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/shop")
 @Slf4j
 @ConditionalOnProperty(prefix="hooghly.shop.controller", name="enabled")
-public class ShopHomeController {
+public class HomeController {
 
 	private static final String LANDING_PAGE = "LANDING_PAGE";
 	private static final String HOME_LINK_CODE = "HOME";
@@ -60,18 +60,24 @@ public class ShopHomeController {
 	private ImageFilePath imageUtils;
 
 	@GetMapping("")
-	public String displayLanding(MerchantStore store, Language language , Model model, HttpServletRequest request,
-			HttpServletResponse response, Locale locale)  {
+	public String displayLanding(MerchantStore store, Language language , Model model, HttpServletRequest request)  {
 		log.info("Shop landing page for storeveiew - {}", store.getCode());
 
-		
-
 		request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
-
+		
+		// featured items
+		List<ProductRelationship> relationships = productRelationshipService.getByType(store,
+						ProductRelationshipType.FEATURED_ITEM, language);
+		
+		log.info("relationships - {}", relationships.size());
+		
+		model.addAttribute("relationships", relationships);
+		
+		//Get featured products
 		
 
 		/** Rebuild breadcrumb **/
-		BreadcrumbItem item = new BreadcrumbItem();
+		/*BreadcrumbItem item = new BreadcrumbItem();
 		item.setItemType(BreadcrumbItemType.HOME);
 		item.setLabel(messages.getMessage(Constants.HOME_MENU_KEY, locale));
 		item.setUrl(Constants.HOME_URL);
@@ -84,14 +90,14 @@ public class ShopHomeController {
 
 		breadCrumb.setBreadCrumbs(items);
 		request.getSession().setAttribute(Constants.BREADCRUMB, breadCrumb);
-		request.setAttribute(Constants.BREADCRUMB, breadCrumb);
+		request.setAttribute(Constants.BREADCRUMB, breadCrumb);*/
 		
 
 		
 		return "landing";
 	}
 
-	@GetMapping("/shop/featured")
+	/*@GetMapping("/shop/featured")
 	public String findFeaturedProducts(@RequestParam("fragment") String fragment, HttpServletRequest request,
 			Model model) throws Exception {
 		log.info("FRAGMENT  - {}", fragment);
@@ -116,7 +122,7 @@ public class ShopHomeController {
 
 		return fragment;
 
-	}
+	}*/
 
 	@RequestMapping(value = { Constants.SHOP_URI + "/stub.html" }, method = RequestMethod.GET)
 	public String displayHomeStub(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale)

@@ -175,7 +175,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				//itemsTotal = itemsTotal.add(cartItem.getSubTotal());
 				int itemQuantity = cartItem.getQuantity();
 				item.setQuantity(itemQuantity);
-				item.setName(cartItem.getProduct().getProductDescription().getName());
+				//item.setName(cartItem.getProduct().getProductDescription().getName());
 				item.setAmount(amt);
 				//System.out.println(pricingService.getStringAmount(cartItem.getSubTotal(), store));
 				lineItems.add(item);

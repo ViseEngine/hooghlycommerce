@@ -9,7 +9,8 @@ import co.hooghly.commerce.domain.ProductRelationship;
 
 
 public interface ProductRelationshipRepositoryCustom {
-
+	
+	@Deprecated
 	List<ProductRelationship> getByType(MerchantStore store, String type,
 			Language language);
 
