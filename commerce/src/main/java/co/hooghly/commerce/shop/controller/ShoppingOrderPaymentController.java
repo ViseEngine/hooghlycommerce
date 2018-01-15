@@ -203,7 +203,7 @@ public class ShoppingOrderPaymentController extends AbstractController {
 						
 						
 						
-						if(config.getEnvironment().equals(co.hooghly.commerce.business.Constants.PRODUCTION_ENVIRONMENT)) {
+						if(config.getEnvironment().equals(co.hooghly.commerce.constants.Constants.PRODUCTION_ENVIRONMENT)) {
 							StringBuilder url = new StringBuilder().append(coreConfiguration.getProperty("PAYPAL_EXPRESSCHECKOUT_PRODUCTION")).append(urlAppender.toString());
 							ajaxResponse.addEntry("url", url.toString());
 						} else {

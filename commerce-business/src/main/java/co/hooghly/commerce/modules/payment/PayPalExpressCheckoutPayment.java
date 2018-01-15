@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.business.ServiceException;
 import co.hooghly.commerce.business.utils.CoreConfiguration;
@@ -175,7 +175,7 @@ public class PayPalExpressCheckoutPayment implements PaymentModule {
 				//itemsTotal = itemsTotal.add(cartItem.getSubTotal());
 				int itemQuantity = cartItem.getQuantity();
 				item.setQuantity(itemQuantity);
-				item.setName(cartItem.getProduct().getProductDescription().getName());
+				//item.setName(cartItem.getProduct().getProductDescription().getName());
 				item.setAmount(amt);
 				//System.out.println(pricingService.getStringAmount(cartItem.getSubTotal(), store));
 				lineItems.add(item);

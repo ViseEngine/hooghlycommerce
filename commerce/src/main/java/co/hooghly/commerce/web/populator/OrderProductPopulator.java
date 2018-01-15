@@ -87,7 +87,7 @@ public class OrderProductPopulator extends
 			}
 
 			target.setOneTimeCharge(source.getItemPrice());	
-			target.setProductName(source.getProduct().getDescriptions().iterator().next().getName());
+			//target.setProductName(source.getProduct().getDescriptions().iterator().next().getName());
 			target.setProductQuantity(source.getQuantity());
 			target.setSku(source.getProduct().getSku());
 			

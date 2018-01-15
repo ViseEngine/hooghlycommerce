@@ -4,6 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import co.hooghly.commerce.domain.Manufacturer;
+import co.hooghly.commerce.domain.ProductDescription;
 
 
 

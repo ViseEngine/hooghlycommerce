@@ -11,7 +11,7 @@ import co.hooghly.commerce.domain.ProductPriceDescription;
 import co.hooghly.commerce.repository.ProductPriceRepository;
 
 @Service
-public class ProductPriceService extends SalesManagerEntityServiceImpl<Long, ProductPrice> {
+public class ProductPriceService extends AbstractBaseBusinessDelegate<ProductPrice, Long>   {
 
 	public ProductPriceService(ProductPriceRepository productPriceRepository) {
 		super(productPriceRepository);
@@ -20,18 +20,18 @@ public class ProductPriceService extends SalesManagerEntityServiceImpl<Long, Pro
 	public void addDescription(ProductPrice price, ProductPriceDescription description) throws ServiceException {
 		price.getDescriptions().add(description);
 		// description.setPrice(price);
-		update(price);
+		save(price);
 	}
 
 	public void saveOrUpdate(ProductPrice price) throws ServiceException {
 
 		if (price.getId() != null && price.getId() > 0) {
-			this.update(price);
+			save(price);
 		} else {
 
 			Set<ProductPriceDescription> descriptions = price.getDescriptions();
 			price.setDescriptions(new HashSet<ProductPriceDescription>());
-			this.create(price);
+			save(price);
 			for (ProductPriceDescription description : descriptions) {
 				description.setProductPrice(price);
 				this.addDescription(price, description);
@@ -45,8 +45,8 @@ public class ProductPriceService extends SalesManagerEntityServiceImpl<Long, Pro
 
 		// override method, this allows the error that we try to remove a
 		// detached instance
-		price = this.getById(price.getId());
-		super.delete(price);
+		price = this.findOne(price.getId());
+		//super.delete(price);
 
 	}
 

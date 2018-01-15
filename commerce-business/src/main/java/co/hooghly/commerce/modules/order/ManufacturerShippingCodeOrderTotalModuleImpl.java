@@ -9,7 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.domain.Customer;
 import co.hooghly.commerce.domain.FinalPrice;

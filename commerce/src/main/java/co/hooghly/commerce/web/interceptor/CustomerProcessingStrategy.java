@@ -18,11 +18,11 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.util.WebUtils;
 
 import co.hooghly.commerce.business.CustomerService;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.Address;
 import co.hooghly.commerce.domain.Billing;
 import co.hooghly.commerce.domain.Customer;
 import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.MerchantStoreView;
 import co.hooghly.commerce.util.GeoLocationUtils;
 import lombok.extern.slf4j.Slf4j;
 
@@ -43,15 +43,15 @@ public class CustomerProcessingStrategy implements WebInterceptorProcessingStrat
 	@Override
 	public void preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
 		log.info("Processing customer");
-		MerchantStoreView merchantStoreView = (MerchantStoreView) request.getAttribute(MERCHANT_STORE_VIEW);
-		findAndSetAnonymousCustomer(request,  merchantStoreView.getMerchantStore());
-		findCustomer(request, merchantStoreView.getMerchantStore());
+		MerchantStore store = (MerchantStore) WebUtils.getSessionAttribute(request, MERCHANT_STORE);
+		findAndSetAnonymousCustomer(request,  store);
+		findAndSetCustomer(request, store);
 	}
 
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler,
 			ModelAndView modelAndView) {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -76,27 +76,32 @@ public class CustomerProcessingStrategy implements WebInterceptorProcessingStrat
 		request.setAttribute(ANONYMOUS_CUSTOMER, anonymousCustomer);
 	}
 
-	private Customer findCustomer(HttpServletRequest request, MerchantStore store) {
-		Customer customer = (Customer) WebUtils.getSessionAttribute(request, CUSTOMER);
-		if (customer != null) {
-			if (customer.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				request.getSession().removeAttribute(CUSTOMER);
+	private void findAndSetCustomer(HttpServletRequest request, MerchantStore store) {
+		Customer customer = (Customer)request.getSession().getAttribute(Constants.CUSTOMER);
+		if(customer!=null) {
+			if(customer.getMerchantStore().getId().intValue()!=store.getId().intValue()) {
+				request.getSession().removeAttribute(Constants.CUSTOMER);
 			}
-
-			request.setAttribute(CUSTOMER, customer);
-		} else {
-
+			if(!customer.isAnonymous()) {
+	        	if(!request.isUserInRole("AUTH_CUSTOMER")) {
+	        			request.removeAttribute(Constants.CUSTOMER);
+		        }
+			}
+			request.setAttribute(Constants.CUSTOMER, customer);
+		} 
+		
+		if(customer==null) {
+			
 			Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-			if (auth != null) {
-				customer = customerService.getByNick(auth.getName());
-				if (customer != null) {
-					request.setAttribute(CUSTOMER, customer);
-				}
-			}
-
+        	if(auth != null &&
+	        		 request.isUserInRole("AUTH_CUSTOMER")) {
+        		customer = customerService.getByNick(auth.getName());
+        		if(customer!=null) {
+        			request.setAttribute(Constants.CUSTOMER, customer);
+        		}
+	        } 
+			
 		}
-
-		return customer;
 	}
 
 }

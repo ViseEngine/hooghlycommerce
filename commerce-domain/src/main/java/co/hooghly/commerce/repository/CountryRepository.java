@@ -15,6 +15,6 @@ public interface CountryRepository extends JpaRepository <Country, Long> {
 	
 
 	@Query("select c from Country c left join fetch c.descriptions cd where cd.language.id=?1")
-	List<Country> listByLanguage(Integer id);
+	List<Country> listByLanguage(Long id);
 
 }

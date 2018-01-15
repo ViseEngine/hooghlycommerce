@@ -8,7 +8,7 @@ import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang.Validate;
 import org.apache.commons.lang3.StringUtils;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.ConversionException;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.business.utils.AbstractDataPopulator;
@@ -73,7 +73,7 @@ public class ReadableProductPopulator extends
 		try {
 			
 
-			ProductDescription description = source.getProductDescription();
+			
 	
 			target.setId(source.getId());
 			target.setAvailable(source.isAvailable());
@@ -94,7 +94,7 @@ public class ReadableProductPopulator extends
 			if(source.getProductReviewCount()!=null) {
 				target.setRatingCount(source.getProductReviewCount().intValue());
 			}
-			if(description!=null) {
+			/*if(description!=null) {
 				co.hooghly.commerce.web.ui.ProductDescription tragetDescription = new co.hooghly.commerce.web.ui.ProductDescription();
 				tragetDescription.setFriendlyUrl(description.getSeUrl());
 				tragetDescription.setName(description.getName());
@@ -107,7 +107,7 @@ public class ReadableProductPopulator extends
 				tragetDescription.setDescription(description.getDescription());
 				tragetDescription.setHighlights(description.getProductHighlight());
 				target.setDescription(tragetDescription);
-			}
+			}*/
 			
 			/*if(source.getManufacturer()!=null) {
 				ManufacturerDescription manufacturer = source.getManufacturer().getDescriptions().iterator().next(); 
@@ -124,11 +124,11 @@ public class ReadableProductPopulator extends
 			ProductImage image = source.getProductImage();
 			if(image!=null) {
 				ReadableImage rimg = new ReadableImage();
-				rimg.setImageName(image.getProductImage());
+				//rimg.setImageName(image.getProductImage());
 				
 				String contextPath = imageUtils.getContextPath();
 				StringBuilder imagePath = new StringBuilder();
-				imagePath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), image.getProductImage()));
+				//imagePath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), image.getProductImage()));
 
 				rimg.setImageUrl(imagePath.toString());
 				
@@ -142,10 +142,10 @@ public class ReadableProductPopulator extends
 					List<ReadableImage> imageList = new ArrayList<ReadableImage>();
 					for(ProductImage img : images) {
 						ReadableImage prdImage = new ReadableImage();
-						prdImage.setImageName(img.getProductImage());
+						//prdImage.setImageName(img.getProductImage());
 
 						StringBuilder imgPath = new StringBuilder();
-						imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage()));
+						//imgPath.append(contextPath).append(imageUtils.buildProductImageUtils(store, source.getSku(), img.getProductImage()));
 
 						prdImage.setImageUrl(imgPath.toString());
 						prdImage.setId(img.getId());

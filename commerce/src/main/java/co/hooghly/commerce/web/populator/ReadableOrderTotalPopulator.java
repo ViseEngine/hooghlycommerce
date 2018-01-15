@@ -1,6 +1,6 @@
 package co.hooghly.commerce.web.populator;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.ConversionException;
 import co.hooghly.commerce.business.PricingService;
 import co.hooghly.commerce.business.utils.AbstractDataPopulator;
@@ -8,7 +8,7 @@ import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.OrderTotal;
 import co.hooghly.commerce.util.LabelUtils;
-import co.hooghly.commerce.util.LocaleUtils;
+
 import co.hooghly.commerce.web.ui.ReadableOrderTotal;
 
 import org.apache.commons.lang.Validate;
@@ -36,7 +36,7 @@ public class ReadableOrderTotalPopulator extends
 			Validate.notNull(pricingService,"PricingService must be set");
 			Validate.notNull(messages,"LabelUtils must be set");
 			
-			Locale locale = LocaleUtils.getLocale(language);
+			Locale locale = language.computeLocale(store.getCountry());
 		
 			try {
 				

@@ -388,12 +388,12 @@ public class ShippingService  {
 			ShippingOrigin shippingOrigin = shippingOriginService.getByStore(store);
 			if(shippingOrigin == null || !shippingOrigin.isActive()) {
 				shippingOrigin = new ShippingOrigin();
-				shippingOrigin.setAddress(store.getStoreaddress());
+				/*shippingOrigin.setAddress(store.getStoreaddress());
 				shippingOrigin.setCity(store.getStorecity());
 				shippingOrigin.setCountry(store.getCountry());
 				shippingOrigin.setPostalCode(store.getStorepostalcode());
 				shippingOrigin.setState(store.getStorestateprovince());
-				shippingOrigin.setZone(store.getZone());
+				shippingOrigin.setZone(store.getZone());*/
 			}
 			
 			

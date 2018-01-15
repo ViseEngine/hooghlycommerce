@@ -30,7 +30,7 @@ public class LanguagePopulator extends AbstractDataPopulator {
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.debug("1.Loading languages.");
+		log.info("1.Loading languages.");
 		createLanguages();
 	}
 
@@ -41,7 +41,7 @@ public class LanguagePopulator extends AbstractDataPopulator {
 			Language language = new Language();
 			language.setCode(code);
 			language.setName(LANGUAGE_NAME[counter++]);
-			languageService.create(language);
+			languageService.save(language);
 		}
 	}
 }

@@ -32,7 +32,7 @@ import com.itextpdf.text.pdf.PdfDocument;
 import com.itextpdf.text.pdf.PdfTemplate;
 import com.itextpdf.text.pdf.PdfWriter;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.business.CountryService;
 import co.hooghly.commerce.business.ZoneService;
 import co.hooghly.commerce.business.utils.ProductPriceUtils;
@@ -132,7 +132,7 @@ public class ODSInvoiceModule implements InvoiceModule {
 			
 			//3
 			StringBuilder storeAddress = null;
-			if(!StringUtils.isBlank(store.getStoreaddress())) {
+			/*if(!StringUtils.isBlank(store.getStoreaddress())) {
 				storeAddress = new StringBuilder();
 				storeAddress.append(store.getStoreaddress());
 			}
@@ -143,7 +143,7 @@ public class ODSInvoiceModule implements InvoiceModule {
 					storeAddress.append(", ");
 				}
 				storeAddress.append(store.getStorecity());
-			}
+			}*/
 			if(storeAddress!=null) {
 				sheet.setValueAt(storeAddress.toString(), 0, storeAddressCell);
 				storeAddressCell ++;
@@ -162,10 +162,10 @@ public class ODSInvoiceModule implements InvoiceModule {
 				}
 				
 			} else {
-				if(!StringUtils.isBlank(store.getStorestateprovince())) {
+				/*if(!StringUtils.isBlank(store.getStorestateprovince())) {
 					storeProvince = new StringBuilder();
 					storeProvince.append(store.getStorestateprovince());
-				}
+				}*/
 			}
 			if(store.getCountry()!=null) {
 				if(storeProvince==null) {
@@ -188,10 +188,10 @@ public class ODSInvoiceModule implements InvoiceModule {
 			}
 			
 			//5
-			if(!StringUtils.isBlank(store.getStorepostalcode())) {
+			/*if(!StringUtils.isBlank(store.getStorepostalcode())) {
 				sheet.setValueAt(store.getStorepostalcode(), 0, storeAddressCell);
 				storeAddressCell ++;
-			}
+			}*/
 			
 			//6
 			if(!StringUtils.isBlank(store.getStorephone())) {

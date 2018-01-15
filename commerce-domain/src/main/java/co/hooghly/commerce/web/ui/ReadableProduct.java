@@ -3,6 +3,8 @@ package co.hooghly.commerce.web.ui;
 import java.io.Serializable;
 import java.util.List;
 
+import co.hooghly.commerce.domain.ProductDescription;
+
 
 public class ReadableProduct extends ProductEntity implements Serializable {
 

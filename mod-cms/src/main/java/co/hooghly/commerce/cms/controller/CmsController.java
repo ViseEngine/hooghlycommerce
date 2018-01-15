@@ -26,7 +26,7 @@ public class CmsController {
 	private CmsContentService cmsContentService;
 	
 	@GetMapping("/cms/css/{merchantId}/{file:.+}")
-	public ResponseEntity<?> getCss(@PathVariable Integer merchantId, @PathVariable String file,HttpServletResponse response) {
+	public ResponseEntity<?> getCss(@PathVariable Long merchantId, @PathVariable String file,HttpServletResponse response) {
 		log.debug("css request received - {}, {}  ", merchantId, file);
 
 		// check file extension and redirect if required as css files can be
@@ -64,7 +64,7 @@ public class CmsController {
 		
 	}
 	
-	private ResponseEntity<String> findCss(Integer merchantId, String file,HttpServletResponse response) {
+	private ResponseEntity<String> findCss(Long merchantId, String file,HttpServletResponse response) {
 		response.setBufferSize(1024 * 1024); // 1MB buffer
 		response.setContentType("text/stylesheet");
 
@@ -83,7 +83,7 @@ public class CmsController {
 	}
 	
 	
-	public ResponseEntity<byte[]> findFont(Integer merchantId, String file) {
+	public ResponseEntity<byte[]> findFont(Long merchantId, String file) {
 
 		
 		ResponseEntity<byte[]> responseEntity = null;
@@ -101,7 +101,7 @@ public class CmsController {
 	}
 
 	@GetMapping(value = "/cms/js/{merchantId}/{file:.+}")
-	public ResponseEntity<String> getJs(@PathVariable Integer merchantId, @PathVariable String file,
+	public ResponseEntity<String> getJs(@PathVariable Long merchantId, @PathVariable String file,
 			HttpServletResponse response) {
 		log.debug("js request received - {}, {}  ", merchantId, file);
 
@@ -124,11 +124,11 @@ public class CmsController {
 	}
 
 	@GetMapping("/cms/images/{merchantId}/{file:.+}")
-	public ResponseEntity<byte[]> getImage(@PathVariable Integer merchantId, @PathVariable String file) {
+	public ResponseEntity<byte[]> getImage(@PathVariable Long merchantId, @PathVariable String file) {
 		return findImage(merchantId,file);
 	}
 	
-	private ResponseEntity<byte[]> findImage(Integer merchantId,  String file) {
+	private ResponseEntity<byte[]> findImage(Long merchantId,  String file) {
 
 		log.debug("image request received - {}, {}  ", merchantId, file);
 		ResponseEntity<byte[]> responseEntity = null;

@@ -6,6 +6,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+
 @Entity
 @Table(name = "COUNTRY_DESCRIPTION", uniqueConstraints={
 	@UniqueConstraint(columnNames={
@@ -14,6 +17,8 @@ import javax.persistence.UniqueConstraint;
 		})
 	}
 )
+@Data
+@EqualsAndHashCode(callSuper=true)
 public class CountryDescription extends Description {
 	private static final long serialVersionUID = 9048940117896071174L;
 	
@@ -29,12 +34,6 @@ public class CountryDescription extends Description {
 		this.setName(name);
 	}
 	
-	public Country getCountry() {
-		return country;
-	}
-
-	public void setCountry(Country country) {
-		this.country = country;
-	}
+	
 	
 }

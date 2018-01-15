@@ -15,13 +15,13 @@ import co.hooghly.commerce.business.MerchantStoreService;
 import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.domain.Manufacturer;
 import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.MerchantStoreView;
+
 import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(11)
+@Order(10)
 public class ManufacturerPopulator extends AbstractDataPopulator {
 
 	@Value("classpath:demo-data/manufacturer_*.txt")
@@ -43,13 +43,10 @@ public class ManufacturerPopulator extends AbstractDataPopulator {
 	@Override
 	public void runInternal(String... args) throws Exception {
 
-		log.info("11.Populating manufacturer.");
+		log.info("10.Populating manufacturer.");
 
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
-		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst()
-				.orElse(null);
-		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst()
-				.orElse(null);
+		
 
 		for (Resource r : resources) {
 			List<String> contents = getFileContent(r.getURI());
@@ -60,7 +57,7 @@ public class ManufacturerPopulator extends AbstractDataPopulator {
 
 				MessageResource mr = new MessageResource();
 				mr.setDomain("Manufacturer");
-				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
+				//mr.setLocale(storeViewDefaultEn.computeLocale().toString());
 				mr.setMessageKey(items[0]);
 				mr.setMessageText(items[2]);
 
@@ -68,7 +65,7 @@ public class ManufacturerPopulator extends AbstractDataPopulator {
 
 				mr = new MessageResource();
 				mr.setDomain("Manufacturer");
-				mr.setLocale(storeView.computeLocale().toString());
+				//mr.setLocale(storeView.computeLocale().toString());
 				mr.setMessageKey(items[0]);
 				mr.setMessageText(items[3]);
 				

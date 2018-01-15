@@ -4,7 +4,7 @@ import java.util.HashSet;
 import java.util.Locale;
 import java.util.Set;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.domain.ProductAttribute;
 import co.hooghly.commerce.domain.ProductAvailability;
@@ -21,7 +21,7 @@ public class CatalogServiceHelper {
 	 * @param p
 	 * @param language
 	 */
-	public static void setToLanguage(Product p, int language) {
+	public static void setToLanguage(Product p, long language) {
 		
 		
 	Set<ProductAttribute> attributes = p.getAttributes();

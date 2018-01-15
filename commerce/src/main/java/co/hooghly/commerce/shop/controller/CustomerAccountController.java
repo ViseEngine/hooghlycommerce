@@ -22,7 +22,6 @@ import co.hooghly.commerce.facade.OrderFacade;
 import co.hooghly.commerce.util.EmailTemplatesUtils;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.util.LanguageUtils;
-import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.web.populator.ReadableCustomerPopulator;
 import co.hooghly.commerce.web.ui.Address;
 import co.hooghly.commerce.web.ui.AjaxResponse;
@@ -269,7 +268,7 @@ public class CustomerAccountController extends AbstractController {
 		
 		customerService.saveOrUpdate(customer);
 		
-		emailTemplatesUtils.changePasswordNotificationEmail(customer, store, LocaleUtils.getLocale(customer.getDefaultLanguage()), request.getContextPath());
+		emailTemplatesUtils.changePasswordNotificationEmail(customer, store, customer.getDefaultLanguage().computeLocale(), request.getContextPath());
 		
 		model.addAttribute("success", "success");
 

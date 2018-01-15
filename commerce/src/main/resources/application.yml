@@ -1,9 +1,9 @@
 server:
-  port: 8080
+  port: 80
 spring:
   datasource:
-    username: commerce
-    password: commerce
+    username: root
+    password: root
     url: jdbc:mysql://localhost:3306/commerce?createDatabaseIfNotExist=true&nullNamePatternMatchesAll=true&rewriteBatchedStatements=true&cachePrepStmts=true&prepStmtCacheSize=4096&prepStmtCacheSqlLimit=4096&zeroDateTimeBehavior=convertToNull&useSSL=false&useUnicode=yes&characterEncoding=UTF-8
     driver-class-name: com.mysql.jdbc.Driver
     platform: mysql

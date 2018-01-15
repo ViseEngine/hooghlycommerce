@@ -1,9 +1,10 @@
 package co.hooghly.commerce.business;
 
 import java.util.List;
-
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
@@ -89,14 +90,13 @@ public class ProductRelationshipService extends SalesManagerEntityServiceImpl<Lo
 		return productRelationshipRepository.getByType(store, type.name(), product, language);
 
 	}
-
-	public List<ProductRelationship> getByType(MerchantStore store, ProductRelationshipType type, Language language)
-			throws ServiceException {
-		return productRelationshipRepository.getByType(store, type.name(), language);
+	
+	@Transactional(readOnly=true)
+	public List<ProductRelationship> getByType(MerchantStore store, ProductRelationshipType type, Language language) {
+		return productRelationshipRepository.findByStoreAndCode(store, type.name()).collect(Collectors.toList());
 	}
 
-	public List<ProductRelationship> getByType(MerchantStore store, ProductRelationshipType type)
-			throws ServiceException {
+	public List<ProductRelationship> getByType(MerchantStore store, ProductRelationshipType type) {
 
 		return productRelationshipRepository.getByType(store, type.name());
 

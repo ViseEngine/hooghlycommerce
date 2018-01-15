@@ -13,5 +13,5 @@ import co.hooghly.commerce.domain.CmsContent;
 public interface CmsContentRepository extends JpaRepository<CmsContent, Long>{
 	List<CmsContent> findByFolder(String folder);
 	Optional<CmsContent> findByCode(String code);
-	Optional<CmsContent> findByMerchantStoreIdAndAndCode(Integer id, String code);
+	Optional<CmsContent> findByMerchantStoreIdAndAndCode(Long id, String code);
 }

@@ -24,7 +24,7 @@ import co.hooghly.commerce.domain.ShippingConfiguration;
 import co.hooghly.commerce.domain.ShippingOption;
 import co.hooghly.commerce.domain.ShippingOrigin;
 import co.hooghly.commerce.domain.ShippingQuote;
-import co.hooghly.commerce.modules.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.modules.IntegrationException;
 
 

@@ -78,11 +78,6 @@ public class ProductService extends AbstractBaseBusinessDelegate<Product, Long> 
 	
 	public void addProductDescription(Product product, ProductDescription description) throws ServiceException {
 
-		if (product.getDescriptions() == null) {
-			product.setDescriptions(new HashSet<ProductDescription>());
-		}
-
-		product.getDescriptions().add(description);
 		description.setProduct(product);
 		update(product);
 
@@ -111,11 +106,11 @@ public class ProductService extends AbstractBaseBusinessDelegate<Product, Long> 
 
 	
 	public ProductDescription getProductDescription(Product product, Language language) {
-		for (ProductDescription description : product.getDescriptions()) {
+		/*for (ProductDescription description : product.getDescriptions()) {
 			if (description.getLanguage().equals(language)) {
 				return description;
 			}
-		}
+		}*/
 		return null;
 	}
 
@@ -252,7 +247,7 @@ public class ProductService extends AbstractBaseBusinessDelegate<Product, Long> 
 
 		try {
 
-			if (images != null && images.size() > 0) {
+			/*if (images != null && images.size() > 0) {
 				for (ProductImage image : images) {
 					if (image.getImage() != null && (image.getId() == null || image.getId() == 0L)) {
 						image.setProduct(product);
@@ -271,7 +266,7 @@ public class ProductService extends AbstractBaseBusinessDelegate<Product, Long> 
 						newImageIds.add(image.getId());
 					}
 				}
-			}
+			}*/
 
 			// cleanup old images
 			if (originalProductImages != null) {

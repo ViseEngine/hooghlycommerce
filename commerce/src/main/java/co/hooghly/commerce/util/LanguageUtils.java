@@ -21,18 +21,18 @@ import java.util.Locale;
 
 @Component
 @Slf4j
-@Deprecated
 public class LanguageUtils {
 
 	@Inject
 	LanguageService languageService;
-
+	
 	/**
 	 * Determines request language based on store rules
 	 * 
 	 * @param request
 	 * @return
 	 */
+	@Deprecated
 	public Language getRequestLanguage(HttpServletRequest request, HttpServletResponse response) {
 
 		Language language = (Language) WebUtils.getSessionAttribute(request, LANGUAGE);

@@ -28,7 +28,7 @@ public class CustomerOptionValueService extends SalesManagerEntityServiceImpl<Lo
 		this.customerOptionValueRepository = customerOptionValueRepository;
 	}
 
-	public List<CustomerOptionValue> listByStore(MerchantStore store, Language language) throws ServiceException {
+	public List<CustomerOptionValue> listByStore(MerchantStore store, Language language)  {
 
 		return customerOptionValueRepository.findByStore(store.getId(), language.getId());
 	}

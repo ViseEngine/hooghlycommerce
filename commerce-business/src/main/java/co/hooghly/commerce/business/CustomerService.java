@@ -3,8 +3,6 @@ package co.hooghly.commerce.business;
 import java.util.List;
 import java.util.Optional;
 
-import org.apache.commons.lang3.NotImplementedException;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -15,7 +13,7 @@ import co.hooghly.commerce.domain.CustomerCriteria;
 import co.hooghly.commerce.domain.CustomerList;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.modules.GeoLocation;
-//import co.hooghly.commerce.modules.GeoLocation;
+
 import co.hooghly.commerce.repository.CustomerRepository;
 import lombok.extern.slf4j.Slf4j;
 
@@ -37,7 +35,7 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 		this.customerRepository = customerRepository;
 	}
 	
-	public Customer findByMerchantStoreIdAndId(int merchantStoreId, Long id) {
+	public Customer findByMerchantStoreIdAndId(Long merchantStoreId, Long id) {
 		return customerRepository.findByMerchantStoreIdAndId(merchantStoreId, id);
 	}
 	
@@ -53,7 +51,7 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 		return customerRepository.findByNick(nick);
 	}
 
-	public Customer getByNick(String nick, int storeId) {
+	public Customer getByNick(String nick, Long storeId) {
 		return customerRepository.findByNick(nick, storeId);
 	}
 
@@ -93,7 +91,7 @@ public class CustomerService extends SalesManagerEntityServiceImpl<Long, Custome
 
 	}
 	
-	public void deleteByMerchantStoreIdAndId(int merchantStoreId, Long id) {
+	public void deleteByMerchantStoreIdAndId(Long merchantStoreId, Long id) {
 		customerRepository.deleteByMerchantStoreIdAndId(merchantStoreId, id);
 	}
 

@@ -19,7 +19,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import co.hooghly.commerce.business.Constants;
+import co.hooghly.commerce.constants.Constants;
 import co.hooghly.commerce.domain.FinalPrice;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.OrderProduct;

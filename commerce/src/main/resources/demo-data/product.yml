@@ -1,0 +1,18 @@
+products:
+  -
+    sku: TB00001
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 739.99
+    price_desc: Base price
+    product_name: Karbonn Aura Note 
+    title: 4G Black 16GB
+    subtitle: 2GB RAM
+    se-url: /shop/product/karbon-aura-note
+    category: karbon
+    images:
+      - karbonn-aura-note-4g-aura-note-4g-original-imaeu5e6ghtvysfq.jpeg
+      - karbonn-aura-note-4g-aura-note-4g-original-imaeu5e6khpvzexn.jpeg

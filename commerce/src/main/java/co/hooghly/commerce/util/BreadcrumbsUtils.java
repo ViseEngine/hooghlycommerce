@@ -8,7 +8,6 @@ import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.util.LabelUtils;
-import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.BreadcrumbItem;
 import co.hooghly.commerce.web.ui.BreadcrumbItemType;
@@ -43,7 +42,7 @@ public class BreadcrumbsUtils {
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
-		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, LocaleUtils.getLocale(language)));
+		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, language.computeLocale(store.getCountry())));
 		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
@@ -70,7 +69,7 @@ public class BreadcrumbsUtils {
 			for(Category c : categories) {
 				BreadcrumbItem categoryBreadcrump = new BreadcrumbItem();
 				categoryBreadcrump.setItemType(BreadcrumbItemType.CATEGORY);
-				categoryBreadcrump.setLabel(messageSource.getMessage(c.getName(),null,LocaleUtils.getLocale(language)));
+				categoryBreadcrump.setLabel(messageSource.getMessage(c.getName(),null,language.computeLocale(store.getCountry())));
 				categoryBreadcrump.setUrl(filePathUtils.buildCategoryUrl(store, contextPath, c.getSeUrl()));
 				items.add(categoryBreadcrump);
 			}
@@ -94,7 +93,7 @@ public class BreadcrumbsUtils {
 		/** Rebuild breadcrumb **/
 		BreadcrumbItem home = new BreadcrumbItem();
 		home.setItemType(BreadcrumbItemType.HOME);
-		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, LocaleUtils.getLocale(language)));
+		home.setLabel(messageSource.getMessage(Constants.HOME_MENU_KEY, null, language.computeLocale(store.getCountry())));
 		home.setUrl(filePathUtils.buildStoreUri(store, contextPath) + Constants.SHOP_URI);
 
 		Breadcrumb breadCrumb = new Breadcrumb();
@@ -129,8 +128,8 @@ public class BreadcrumbsUtils {
 		
 		BreadcrumbItem productBreadcrump = new BreadcrumbItem();
 		productBreadcrump.setItemType(BreadcrumbItemType.PRODUCT);
-		productBreadcrump.setLabel(productClicked.getProductDescription().getName());
-		productBreadcrump.setUrl(filePathUtils.buildProductUrl(store, contextPath, productClicked.getProductDescription().getSeUrl()));
+		productBreadcrump.setLabel(productClicked.getName());
+		productBreadcrump.setUrl(filePathUtils.buildProductUrl(store, contextPath, productClicked.getSeUrl()));
 		items.add(productBreadcrump);
 		
 		

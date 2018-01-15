@@ -98,7 +98,7 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
 
                     shoppingCartItem.setProductId(item.getProductId());
                     shoppingCartItem.setId(item.getId());
-                    shoppingCartItem.setName(item.getProduct().getProductDescription().getName());
+                    shoppingCartItem.setName(item.getProduct().getName());
 
                     shoppingCartItem.setPrice(pricingService.getDisplayAmount(item.getItemPrice(),store));
                     shoppingCartItem.setQuantity(item.getQuantity());
@@ -109,10 +109,10 @@ public class ShoppingCartDataPopulator extends AbstractDataPopulator<ShoppingCar
                     shoppingCartItem.setProductPrice(item.getItemPrice());
                     shoppingCartItem.setSubTotal(pricingService.getDisplayAmount(item.getSubTotal(), store));
                     ProductImage image = item.getProduct().getProductImage();
-                    if(image!=null && imageUtils!=null) {
+                    /*if(image!=null && imageUtils!=null) {
                         String imagePath = imageUtils.buildProductImageUtils(store, item.getProduct().getSku(), image.getProductImage());
                         shoppingCartItem.setImage(imagePath);
-                    }
+                    }*/
                     Set<co.hooghly.commerce.domain.ShoppingCartAttributeItem> attributes = item.getAttributes();
                     if(attributes!=null) {
                         List<ShoppingCartAttribute> cartAttributes = new ArrayList<ShoppingCartAttribute>();

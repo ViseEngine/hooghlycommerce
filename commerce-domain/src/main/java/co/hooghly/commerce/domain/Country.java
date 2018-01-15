@@ -34,7 +34,7 @@ public class Country extends SalesManagerEntity<Long, Country> {
 	private Long id;
 	
 	@OneToMany(mappedBy = "country", cascade = CascadeType.ALL)
-	private List<CountryDescription> descriptions = new ArrayList<CountryDescription>();
+	private List<CountryDescription> descriptions = new ArrayList<>();
 	
 	@OneToMany(mappedBy = "country")
 	private List<Zone> zones = new ArrayList<Zone>();

@@ -42,7 +42,6 @@ import co.hooghly.commerce.domain.ShoppingCartItem;
 import co.hooghly.commerce.domain.Transaction;
 import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.util.LabelUtils;
-import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.web.populator.CustomerPopulator;
 import co.hooghly.commerce.web.populator.OrderProductPopulator;
 import co.hooghly.commerce.web.populator.PersistableCustomerPopulator;
@@ -269,7 +268,7 @@ public class OrderFacade {
 			modelOrder.setPaymentType(PaymentType.valueOf(order.getPaymentMethodType()));
 			modelOrder.setShippingModuleCode(order.getShippingModule());
 			modelOrder.setCustomerAgreement(order.isCustomerAgreed());
-			modelOrder.setLocale(LocaleUtils.getLocale(store));// set the store
+			modelOrder.setLocale(store.getDefaultLanguage().computeLocale(store.getCountry()));// set the store
 																// locale based
 																// on the
 																// country for
@@ -431,7 +430,7 @@ public class OrderFacade {
 		Billing billing = new Billing();
 		billing.setCountry(store.getCountry());
 		billing.setZone(store.getZone());
-		billing.setState(store.getStorestateprovince());
+		billing.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// billing.setPostalCode(store.getStorepostalcode());
 		customer.setBilling(billing);
@@ -439,7 +438,7 @@ public class OrderFacade {
 		Delivery delivery = new Delivery();
 		delivery.setCountry(store.getCountry());
 		delivery.setZone(store.getZone());
-		delivery.setState(store.getStorestateprovince());
+		delivery.setState(store.getAddress().getStateProvince());
 		/** empty postal code for initial quote **/
 		// delivery.setPostalCode(store.getStorepostalcode());
 		customer.setDelivery(delivery);
@@ -847,7 +846,7 @@ public class OrderFacade {
 		}
 
 		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
-		Locale locale = LocaleUtils.getLocale(language);
+		Locale locale = language.computeLocale();
 		orderPopulator.setLocale(locale);
 
 		List<ReadableOrder> readableOrders = new ArrayList<ReadableOrder>();
@@ -898,7 +897,7 @@ public class OrderFacade {
 		OrderList orderList = orderService.listByStore(store, criteria);
 
 		ReadableOrderPopulator orderPopulator = new ReadableOrderPopulator();
-		Locale locale = LocaleUtils.getLocale(language);
+		Locale locale = language.computeLocale();
 		orderPopulator.setLocale(locale);
 
 		List<Order> orders = orderList.getOrders();

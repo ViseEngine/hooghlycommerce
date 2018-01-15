@@ -1,12 +1,7 @@
 package co.hooghly.commerce.startup;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.charset.StandardCharsets;
 import java.util.List;
-import java.util.stream.Collectors;
 
-import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,15 +17,14 @@ import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.business.ProductTypeService;
 import co.hooghly.commerce.business.ZoneService;
 import co.hooghly.commerce.domain.Category;
-
+import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
-import co.hooghly.commerce.domain.MerchantStoreView;
 import co.hooghly.commerce.domain.MessageResource;
 import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(10)
+@Order(9)
 public class CategoryPopulator extends AbstractDataPopulator {
 
 	@Value("classpath:demo-data/category_*.txt")
@@ -57,43 +51,41 @@ public class CategoryPopulator extends AbstractDataPopulator {
 
 	@Autowired
 	protected MerchantStoreService merchantService;
-	
+
 	@Autowired
 	private MessageResourceService messageResourceService;
-	
+
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("10. Populating categories.");
-		
-		
+		log.info("9. Populating categories.");
+
 		// create a merchant
 		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
-		MerchantStoreView storeViewDefaultEn = store.getStoreViews().stream().filter(i -> i.isDefaultView()).findFirst().orElse(null);
-		MerchantStoreView storeView = store.getStoreViews().stream().filter(i -> !i.isDefaultView()).findFirst().orElse(null);
-		
+
 		for (Resource r : resources) {
 			log.debug("Found resource - {}", r.getFilename());
-			
-			
+
 			List<String> contents = getFileContent(r.getInputStream());
 			int parentSortOder = 0;
 			int childSortOrder = 0;
 			Category parent = null;
 			for (String s : contents) {
-				
+
 				log.debug("Line - {}", s);
 				int i = s.indexOf('|');
 				Category category = new Category();
-				
+
 				String engPart = s.substring(0, i);
-				String hiPart = s.substring(i+1);
-				
+				String hiPart = s.substring(i + 1);
+
+				String[] parts = new String[] { engPart, hiPart };
+
 				String code = StringUtils.lowerCase(StringUtils.replace(StringUtils.trim(engPart), " ", "-"));
-				
+
 				log.debug("Code - {}", code);
-				
+
 				if (StringUtils.startsWith(engPart, " ")) {
-					
+
 					// child entry
 					log.debug("Child category - {}", s);
 					category.setMerchantStore(store);
@@ -101,49 +93,37 @@ public class CategoryPopulator extends AbstractDataPopulator {
 					category.setVisible(true);
 					category.setSortOrder(childSortOrder++);
 					category.setParent(parent);
-					category.setSeUrl("/categories/"+code);
-					category.setName("msg.category."+code);
-					
+					category.setSeUrl("/categories/" + code);
+					category.setName("msg.category." + code);
+
 					categoryService.create(category);
 				} else {
 					category.setMerchantStore(store);
 					category.setCode(code);
 					category.setVisible(true);
 					category.setSortOrder(parentSortOder++);
-					category.setName("msg.category."+code);
-					category.setSeUrl("/categories/"+code);
-					
+					category.setName("msg.category." + code);
+					category.setSeUrl("/categories/" + code);
+
 					categoryService.create(category);
 					parent = category;
 					childSortOrder = 0;
 				}
-				
-				//will create message resources as these are throw-away demo data.
-				MessageResource mr = new MessageResource();
-				mr.setDomain("Category");
-				mr.setLocale(storeViewDefaultEn.computeLocale().toString());
-				mr.setMessageKey(category.getName());
-				mr.setMessageText(engPart);
-				
-				MessageResource mrHi = new MessageResource();
-				mrHi.setDomain("Category");
-				mrHi.setLocale(storeView.computeLocale().toString());
-				mrHi.setMessageKey(category.getName());
-				mrHi.setMessageText(hiPart);
-				
-				messageResourceService.save(mr);
-				messageResourceService.save(mrHi);
-				
+
+				int k = 0;
+				for (Language lang : store.getLanguages()) {
+					MessageResource mr = new MessageResource();
+					mr.setDomain("Category");
+					mr.setLocale(lang.computeLocale(store.getCountry()).toString());
+					mr.setMessageKey(category.getName());
+					mr.setMessageText(parts[k++]);
+
+					messageResourceService.save(mr);
+				}
+
 			}
 		}
 
-
 	}
-
-	
-
-	
-
-	
 
 }

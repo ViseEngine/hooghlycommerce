@@ -81,7 +81,7 @@ public class ZonePopulator extends AbstractDataPopulator {
 
 	public Map<String, Zone> loadZones(String jsonFilePath) throws Exception {
 
-		List<Language> languages = languageService.list();
+		List<Language> languages = languageService.getLanguages();
 
 		List<Country> countries = countryService.list();
 		Map<String, Country> countriesMap = new HashMap<String, Country>();

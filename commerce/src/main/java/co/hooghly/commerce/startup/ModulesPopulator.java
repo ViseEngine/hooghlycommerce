@@ -22,7 +22,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-@Order(6)
+@Order(5)
 public class ModulesPopulator extends AbstractDataPopulator {
 	
 	public ModulesPopulator() {
@@ -34,7 +34,7 @@ public class ModulesPopulator extends AbstractDataPopulator {
 
 	@Override
 	public void runInternal(String... args) throws Exception {
-		log.info("6.Populating integration modules.");
+		log.info("5.Populating integration modules.");
 		createModules();
 
 	}

@@ -15,7 +15,7 @@ import lombok.*;
 @Entity
 @Table(name="PRODUCT_AVAILABILITY")
 @Data
-@EqualsAndHashCode(callSuper = true)
+@EqualsAndHashCode(callSuper = true, exclude={"product"})
 public class ProductAvailability extends AbstractBaseEntity {
 	
 

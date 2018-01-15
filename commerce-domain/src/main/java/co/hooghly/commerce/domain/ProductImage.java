@@ -1,26 +1,17 @@
 package co.hooghly.commerce.domain;
 
-import java.util.*;
-
 import javax.persistence.*;
-import org.apache.commons.lang3.StringUtils;
+import org.hibernate.validator.constraints.NotEmpty;
 
 import lombok.*;
 import lombok.EqualsAndHashCode;
 
 @Data
-@EqualsAndHashCode(callSuper=false)
+@EqualsAndHashCode(callSuper=true, exclude={"product"})
 @Entity
 @Table(name = "PRODUCT_IMAGE")
 public class ProductImage extends AbstractBaseEntity {
-	
-	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "productImage", cascade = CascadeType.ALL)
-	private List<ProductImageDescription> descriptions = new ArrayList<>();
 
-	
-	@Column(name = "PRODUCT_IMAGE")
-	private String productImage;
 	
 	@Column(name = "DEFAULT_IMAGE")
 	private boolean defaultImage = true;
@@ -37,11 +28,6 @@ public class ProductImage extends AbstractBaseEntity {
 	@Column(name = "PRODUCT_IMAGE_URL")
 	private String productImageUrl;
 	
-	/**
-	 * Refers to images through the system. It may also be a video.
-	 */
-	@Column(name = "PRODUCT_IMAGE_URL_LOCAL", unique = true)
-	private String productImageLocalUrl;
 	
 
 	@Column(name = "IMAGE_CROP")
@@ -52,16 +38,21 @@ public class ProductImage extends AbstractBaseEntity {
 	private Product product;
 	
 	
-	@Lob
-    @Column(name="PRODUCT_IMAGE_DATA", nullable=true, columnDefinition="mediumblob")
-    private byte[] image;
+	@Column(name="ALT_TAG", length=100)
+	private String altTag;
+	
+	@NotEmpty
+	@Column(name="NAME", nullable = false, length=120)
+	private String name;
+	
+	@Column(name="TITLE", length=100)
+	private String title;
+	
+	@Column(name="SUB_TITLE", length=100)
+	private String subtitle;
+	
+	@Column(name="DESCRIPTION")
+	private String description;
 	
 	
-	public String getProductImageLocalUrl() {
-		if(StringUtils.isEmpty(productImageLocalUrl)) {
-			setProductImageLocalUrl("/shop/product/image/download/"+id);
-		}
-		
-		return productImageLocalUrl;
-	}
 }
