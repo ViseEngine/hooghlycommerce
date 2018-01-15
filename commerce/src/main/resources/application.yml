@@ -52,6 +52,7 @@ mail:
 
 commerce:
   theme: zap
+  mode: DEV
   
 ## Control controller start stop
 hooghly:

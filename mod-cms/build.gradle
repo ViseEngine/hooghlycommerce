@@ -43,9 +43,4 @@ dependencies {
 	compile project (':commerce-business')
 }
 
-task zapZip(type: Zip) {
-	from 'src/main/resources/zap/'
-	include '**'
-	archiveName 'zap.zip'
-	destinationDir(file('../commerce/src/main/resources'))
- }
+
