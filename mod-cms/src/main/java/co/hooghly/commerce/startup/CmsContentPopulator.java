@@ -1,6 +1,5 @@
 package co.hooghly.commerce.startup;
 
-import java.io.BufferedInputStream;
 import java.io.InputStreamReader;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.Enumeration;
 import java.util.List;
 import java.util.Properties;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipInputStream;
 
 import javax.activation.MimetypesFileTypeMap;
 
@@ -36,8 +34,11 @@ public class CmsContentPopulator {
 	@Autowired
 	private MessageResourceService messageResourceService;
 
-	@Value("classpath:*.zip")
-	private Resource[] resources;
+	@Value("${commerce.mode}")
+	private String mode;
+	
+	@Value("classpath:zap/**/*.*")
+	private Resource [] demoResources;
 
 	@Value("classpath:messages/messages_*.properties")
 	private Resource[] propResources;
@@ -46,49 +47,38 @@ public class CmsContentPopulator {
 
 	public void load(MerchantStore store) {
 		log.debug("Loading default CMS contents");
-		for (Resource r : resources) {
-			log.debug("Loading from ZIP - {}", r.getFilename());
+		log.info("Mode - {}", mode);
+		if(StringUtils.equals("DEV", mode)){
+			log.info("Deleting all CMS contents before refresh");
 
-			if (r.exists())
-				readZipContents(r, store);
+			cmsStaticContentRepository.deleteAll();
 		}
+		
+		for (Resource r : demoResources) {
+			saveContent(r,store);
+		}
+		
+		
 
 		populateMessageResources();
 	}
-
-	protected void readZipContents(Resource r, MerchantStore store) {
-		try (BufferedInputStream bis = new BufferedInputStream(r.getInputStream())) {
-
-			try (ZipInputStream zis = new ZipInputStream(bis)) {
-				ZipEntry ze;
-
-				while ((ze = zis.getNextEntry()) != null) {
-					saveZipContent(ze, zis, store);
-				}
-			}
-		} catch (Exception e) {
-			log.warn("Error loading CMS content ", e.getCause().getMessage());
-		}
-	}
-
-	private void saveZipContent(ZipEntry entry, ZipInputStream zis, MerchantStore store) {
+	
+	private void saveContent(Resource r, MerchantStore store) {
 		try {
-			if (!entry.isDirectory() && !StringUtils.containsAny(entry.getName(), "less", "scss")) {
+			if (!r.getFile().isDirectory() && !StringUtils.containsAny(r.getFilename(), "less", "scss")) {
 
 				CmsContent content = new CmsContent();
 
-				int lastIndx = StringUtils.lastIndexOf(entry.getName(), "/");
-				String code = StringUtils.substring(entry.getName(), lastIndx + 1);
-
-				content.setCode(code);
-				content.setContent(IOUtils.toByteArray(zis));
+			
+				content.setCode(r.getFilename());
+				content.setContent(IOUtils.toByteArray(r.getInputStream()));
 
 				content.setMerchantStore(store);
-				content.setOriginalFileName(entry.getName());
-				content.setFileSize(entry.getSize());
-				content.setLastModified(entry.getTime());
-				content.setFolder(detectFolder(entry.getName()));
-				content.setFileType(detectFileType(entry));
+				content.setOriginalFileName(r.getFilename());
+				content.setFileSize(r.contentLength());
+				content.setLastModified(r.lastModified());
+				content.setFolder(detectFolder(r.getFilename()));
+				
 				content.setTheme(store.getTheme());
 
 				save(content);
@@ -98,6 +88,8 @@ public class CmsContentPopulator {
 		}
 	}
 
+
+	
 	private String detectFolder(String fileName) {
 		String folder = "Undetermined";
 		if (StringUtils.contains(fileName, "js")) {
