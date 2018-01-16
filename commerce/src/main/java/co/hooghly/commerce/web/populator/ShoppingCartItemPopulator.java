@@ -31,7 +31,7 @@ public class ShoppingCartItemPopulator extends
 		Validate.notNull(productAttributeService, "Requires to set productAttributeService");
 		Validate.notNull(shoppingCartService, "Requires to set shoppingCartService");
 		
-		Product product = productService.getById(source.getProduct().getId());
+		/*Product product = productService.findOne(source.getProduct().getId());
 		if(source.getAttributes()!=null) {
 
 			for(co.hooghly.commerce.web.ui.ProductAttribute attr : source.getAttributes()) {
@@ -50,7 +50,9 @@ public class ShoppingCartItemPopulator extends
 			return shoppingCartService.populateShoppingCartItem(product);
 		} catch (ServiceException e) {
 			throw new ConversionException(e);
-		}
+		}*/
+		
+		return null;
 		
 	}
 

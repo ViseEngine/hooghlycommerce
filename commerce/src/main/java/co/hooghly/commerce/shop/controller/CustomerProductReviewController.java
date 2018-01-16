@@ -16,10 +16,9 @@ import co.hooghly.commerce.util.DateUtil;
 import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.populator.PersistableProductReviewPopulator;
-import co.hooghly.commerce.web.populator.ReadableProductPopulator;
 import co.hooghly.commerce.web.populator.ReadableProductReviewPopulator;
 import co.hooghly.commerce.web.ui.PersistableProductReview;
-import co.hooghly.commerce.web.ui.ReadableProduct;
+
 import co.hooghly.commerce.web.ui.ReadableProductReview;
 
 import org.apache.commons.lang3.StringUtils;
@@ -87,7 +86,7 @@ public class CustomerProductReviewController extends AbstractController {
         
         
         //get product
-        Product product = productService.getById(productId);
+        Product product = productService.findOne(productId);
         if(product==null) {
         	return "redirect:" + Constants.SHOP_URI;
         }
@@ -98,13 +97,13 @@ public class CustomerProductReviewController extends AbstractController {
         
         
         //create readable product
-        ReadableProduct readableProduct = new ReadableProduct();
+        /*ReadableProduct readableProduct = new ReadableProduct();
         ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
         readableProductPopulator.setPricingService(pricingService);
         readableProductPopulator.setimageUtils(imageUtils);
         readableProductPopulator.populate(product, readableProduct,  store, language);
         model.addAttribute("product", readableProduct);
-        
+        */
 
         Customer customer =  customerFacade.getCustomerByUserName(request.getRemoteUser(), store);
         
@@ -157,7 +156,7 @@ public class CustomerProductReviewController extends AbstractController {
         }
 
 	    
-	    Product product = productService.getById(review.getProductId());
+	    Product product = productService.findOne(review.getProductId());
 	    if(product==null) {
 	    	return "redirect:" + Constants.SHOP_URI;
 	    }
@@ -168,13 +167,13 @@ public class CustomerProductReviewController extends AbstractController {
 	    }
 	    
 
-	    
+	   /* 
         ReadableProduct readableProduct = new ReadableProduct();
         ReadableProductPopulator readableProductPopulator = new ReadableProductPopulator();
         readableProductPopulator.setPricingService(pricingService);
         readableProductPopulator.setimageUtils(imageUtils);
         readableProductPopulator.populate(product, readableProduct,  store, language);
-        model.addAttribute("product", readableProduct);
+        model.addAttribute("product", readableProduct);*/
 	    
 
 		/** template **/

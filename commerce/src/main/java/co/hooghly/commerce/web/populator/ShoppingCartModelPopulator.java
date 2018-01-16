@@ -192,7 +192,7 @@ public class ShoppingCartModelPopulator
         throws Exception
     {
 
-        Product product = productService.getById( shoppingCartItem.getProductId() );
+        Product product = productService.findOne( shoppingCartItem.getProductId() );
 
         if ( product == null )
         {

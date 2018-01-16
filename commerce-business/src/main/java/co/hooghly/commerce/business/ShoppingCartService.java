@@ -87,7 +87,7 @@ public class ShoppingCartService extends SalesManagerEntityServiceImpl<Long, Sho
 		
 		for (ShoppingCartItem item : cart.getLineItems()) {
 
-			Product p = productService.getById(item.getProduct().getId());
+			Product p = productService.findOne(item.getProduct().getId());
 			if (p.isAvailable()) {
 				availables.add(item);
 			} else {
@@ -345,7 +345,7 @@ public class ShoppingCartService extends SalesManagerEntityServiceImpl<Long, Sho
 		Product product = null;
 
 		Long productId = item.getProductId();
-		product = productService.getById(productId);
+		product = productService.findOne(productId);
 
 		if (product == null) {
 			item.setObsolete(true);
@@ -526,7 +526,7 @@ public class ShoppingCartService extends SalesManagerEntityServiceImpl<Long, Sho
 		if (CollectionUtils.isNotEmpty(sessionCart.getLineItems())) {
 			shoppingCartItemsSet = new HashSet<ShoppingCartItem>();
 			for (ShoppingCartItem shoppingCartItem : sessionCart.getLineItems()) {
-				Product product = productService.getById(shoppingCartItem.getProductId());
+				Product product = productService.findOne(shoppingCartItem.getProductId());
 				if (product == null) {
 					throw new Exception("Item with id " + shoppingCartItem.getProductId() + " does not exist");
 				}

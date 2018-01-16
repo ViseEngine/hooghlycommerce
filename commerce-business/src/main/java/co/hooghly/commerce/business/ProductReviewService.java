@@ -54,7 +54,7 @@ public class ProductReviewService extends
 		//adjust score
 		
 		//refresh product
-		Product product = productService.getById(review.getProduct().getId());
+		Product product = productService.findOne(review.getProduct().getId());
 		
 		//ajust product rating
 		Integer count = 0;
@@ -82,7 +82,7 @@ public class ProductReviewService extends
 		product.setProductReviewCount(count);
 		super.create(review);
 		
-		productService.update(product);
+		productService.save(product);
 		
 	}
 

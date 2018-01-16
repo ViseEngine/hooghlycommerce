@@ -148,7 +148,7 @@ public class ShoppingCartFacade  {
 	private co.hooghly.commerce.domain.ShoppingCartItem createCartItem(final ShoppingCart cartModel,
 			final ShoppingCartItem shoppingCartItem, final MerchantStore store) throws Exception {
 
-		Product product = productService.getById(shoppingCartItem.getProductId());
+		Product product = productService.findOne(shoppingCartItem.getProductId());
 
 		if (product == null) {
 			throw new Exception("Item with id " + shoppingCartItem.getProductId() + " does not exist");

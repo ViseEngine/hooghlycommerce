@@ -15,13 +15,7 @@ public class ProductList implements Serializable {
 	private int productCount;
 	private BigDecimal minPrice;
 	private BigDecimal maxPrice;
-	private List<ReadableProduct> products = new ArrayList<ReadableProduct>();
-	public void setProducts(List<ReadableProduct> products) {
-		this.products = products;
-	}
-	public List<ReadableProduct> getProducts() {
-		return products;
-	}
+	
 	public int getProductCount() {
 		return productCount;
 	}

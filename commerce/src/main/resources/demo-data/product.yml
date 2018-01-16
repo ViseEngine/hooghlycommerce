@@ -6,7 +6,7 @@ products:
     width: 6.0
     manufacturer: karbon
     qty: 100
-    price: 739.99
+    price: 5999.99
     price_desc: Base price
     product_name: Karbonn Aura Note 
     title: 4G Black 16GB
@@ -14,5 +14,94 @@ products:
     se-url: /shop/product/karbon-aura-note
     category: karbon
     images:
-      - karbonn-aura-note-4g-aura-note-4g-original-imaeu5e6ghtvysfq.jpeg
+      - 127847315-70334110-1515785032.png
       - karbonn-aura-note-4g-aura-note-4g-original-imaeu5e6khpvzexn.jpeg
+  -
+    sku: TB00002
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 6999.99
+    price_desc: Base price
+    product_name: Karbonn K9 Smart Eco 
+    title: 1 GB,8 GB
+    subtitle: Black-Champagne
+    se-url: /shop/product/karbonn-k9-smart-eco-1-gb-8-gb-black-champagne
+    category: karbon
+    images:
+      - 133017223-77429567-1515782677.jpg
+      - 133017223-77531540-1515783019.jpg
+  -
+    sku: TB00003
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 7339.99
+    price_desc: Base price
+    product_name: Karbonn K9 Smart 4G
+    title: 1 GB,8 GB
+    subtitle: Black Sandstone
+    se-url: /shop/product/karbonn-k9-smart-4g-1-gb-8-gb-black
+    category: karbon
+    images:
+      - 13163290611512643721.jpg
+      - 13163290611512643721-t.jpg
+      
+  -
+    sku: TB00004
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 8999.99
+    price_desc: Base price
+    product_name: Karbonn Titanium Frames S7
+    title: 5.5 inch FHD IPS
+    subtitle: With Fingerprint Sensor
+    se-url: /shop/product/karbonn-titanium-frames-s7-3-gb-32-gb-black
+    category: karbon
+    images:
+      - 132959376-77185068-1515925180.png
+      - 132959376-77186155-1515408918.png 
+      
+  -
+    sku: TB00005
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 9999.99
+    price_desc: Base price
+    product_name: Karbonn A40 Indian 4g
+    title: 1 GB,8 GB,Black
+    subtitle: With Fingerprint Sensor
+    se-url: /shop/product/karbonn-a40-indian-4g-1-gb-8-gb-black
+    category: karbon
+    images:
+      - 133070440-77500041-1515784022.jpg
+      - 133070440-77500041-1515784022-t.jpg  
+      
+  -
+    sku: TB00006
+    height: 10.0
+    length: 3.0
+    width: 6.0
+    manufacturer: karbon
+    qty: 100
+    price: 15000.99
+    price_desc: Base price
+    product_name: Karbonn Titanium Jumbo 4G
+    title: 2 GB 16 GB Black
+    subtitle: With Fingerprint Sensor
+    se-url: /shop/product/karbonn-titanium-jumbo-4g-2-gb-16-gb-black
+    category: karbon
+    images:
+      - 130816003-74502189-1515782014.png
+      - 130816003-74502189-1515782014-t.png           
+          

@@ -74,7 +74,7 @@ public class PersistableProductReviewPopulator extends
 			target.setCustomer(customer);
 			target.setReviewRating(source.getRating());
 			
-			Product product = productService.getById(source.getProductId());
+			Product product = productService.findOne(source.getProductId());
 			
 			//check if product belongs to store
 			if(product ==null || product.getMerchantStore().getId().intValue()!=store.getId().intValue()) {

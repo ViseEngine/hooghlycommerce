@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import co.hooghly.commerce.business.MerchantStoreService;
 import co.hooghly.commerce.business.PricingService;
@@ -31,7 +30,7 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.BreadcrumbItem;
 import co.hooghly.commerce.web.ui.BreadcrumbItemType;
-import co.hooghly.commerce.web.ui.ReadableProduct;
+
 import lombok.extern.slf4j.Slf4j;
 
 @Controller
@@ -55,13 +54,11 @@ public class HomeController {
 	@Inject
 	private MerchantStoreService merchantService;
 
-	// @Inject
-	// @Qualifier("img")
-	private ImageFilePath imageUtils;
+	
 
 	@GetMapping("")
 	public String displayLanding(MerchantStore store, Language language , Model model, HttpServletRequest request)  {
-		log.info("Shop landing page for storeveiew - {}", store.getCode());
+		log.info("Shop landing page for storeveiew");
 
 		request.setAttribute(Constants.LINK_CODE, HOME_LINK_CODE);
 		
@@ -69,9 +66,17 @@ public class HomeController {
 		List<ProductRelationship> relationships = productRelationshipService.getByType(store,
 						ProductRelationshipType.FEATURED_ITEM, language);
 		
-		log.info("relationships - {}", relationships.size());
+		List<Product> featuredProducts = new ArrayList<>();
+		for(ProductRelationship r : relationships) {
+			Product p = r.getProduct();
+			p.setFinalPrice(pricingService.calculateProductPrice(r.getProduct()));
+			
+			String finalDisplayPrice = pricingService.getDisplayAmount(p.getFinalPrice().getFinalPrice(), store);
+			p.getFinalPrice().setFinalDisplayPrice(finalDisplayPrice);
+			featuredProducts.add(p);
+		}
 		
-		model.addAttribute("relationships", relationships);
+		model.addAttribute("FEATURED_PRODUCTS", featuredProducts);
 		
 		//Get featured products
 		
