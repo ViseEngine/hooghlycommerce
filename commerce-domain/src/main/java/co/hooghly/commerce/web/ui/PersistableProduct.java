@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import co.hooghly.commerce.domain.Manufacturer;
-import co.hooghly.commerce.domain.ProductDescription;
+
 
 
 
@@ -14,7 +14,7 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 1L;
-	private List<ProductDescription> descriptions;//always persist descriptions
+	
 	private List<PersistableProductAttribute> attributes;//persist attribute and save reference
 	private List<PersistableImage> images;//persist images and save reference
 	private List<PersistableProductPrice> productPrices;//to be set when using discounts
@@ -22,13 +22,7 @@ public class PersistableProduct extends ProductEntity implements Serializable {
 	private List<RelatedProduct> relatedProducts;//save reference
 	private Manufacturer manufacturer;
 	
-	public List<ProductDescription> getDescriptions() {
-		return descriptions;
-	}
-	public void setDescriptions(List<ProductDescription> descriptions) {
-		this.descriptions = descriptions;
-	}
-
+	
 	public List<PersistableImage> getImages() {
 		return images;
 	}

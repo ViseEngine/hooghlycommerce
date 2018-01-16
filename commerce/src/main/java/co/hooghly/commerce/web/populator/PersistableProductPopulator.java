@@ -15,7 +15,7 @@ import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.domain.ProductAttribute;
 import co.hooghly.commerce.domain.ProductAvailability;
-import co.hooghly.commerce.domain.ProductDescription;
+
 import co.hooghly.commerce.domain.ProductImage;
 import co.hooghly.commerce.domain.ProductOption;
 import co.hooghly.commerce.domain.ProductOptionValue;
@@ -97,7 +97,7 @@ public class PersistableProductPopulator extends
 			target.setMerchantStore(store);
 			
 			List<Language> languages = new ArrayList<Language>();
-			Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
+			//Set<ProductDescription> descriptions = new HashSet<ProductDescription>();
 			/*if(!CollectionUtils.isEmpty(source.getDescriptions())) {
 				for(co.hooghly.commerce.web.ui.ProductDescription description : source.getDescriptions()) {
 					

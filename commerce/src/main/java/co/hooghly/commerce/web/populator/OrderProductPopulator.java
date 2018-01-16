@@ -66,7 +66,7 @@ public class OrderProductPopulator extends
 
 		
 		try {
-			Product modelProduct = productService.getById(source.getProductId());
+			Product modelProduct = productService.findOne(source.getProductId());
 			if(modelProduct==null) {
 				throw new ConversionException("Cannot get product with id (productId) " + source.getProductId());
 			}

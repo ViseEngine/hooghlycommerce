@@ -14,7 +14,7 @@ import co.hooghly.commerce.domain.ProductImage;
 import co.hooghly.commerce.util.ImageFilePath;
 import co.hooghly.commerce.web.ui.ReadableOrderProduct;
 import co.hooghly.commerce.web.ui.ReadableOrderProductAttribute;
-import co.hooghly.commerce.web.ui.ReadableProduct;
+
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.Validate;
@@ -95,7 +95,7 @@ public class ReadableOrderProductPopulator extends
 				if(product!=null) {
 					
 					
-					
+					/*
 					ReadableProductPopulator populator = new ReadableProductPopulator();
 					populator.setPricingService(pricingService);
 					populator.setimageUtils(imageUtils);
@@ -114,7 +114,7 @@ public class ReadableOrderProductPopulator extends
 								defaultImage = image;
 							}
 						}
-					}
+					}*/
 					/*if(defaultImage!=null) {
 						target.setImage(defaultImage.getProductImage());
 					}*/

@@ -41,7 +41,7 @@ public class DigitalProductService extends SalesManagerEntityServiceImpl<Long, D
 			// inputFile);
 
 			product.setProductVirtual(true);
-			productService.update(product);
+			productService.save(product);
 
 		} catch (Exception e) {
 			throw new ServiceException(e);
@@ -72,7 +72,7 @@ public class DigitalProductService extends SalesManagerEntityServiceImpl<Long, D
 		// productDownloadsFileManager.removeFile(digitalProduct.getProduct().getMerchantStore().getCode(),
 		// FileContentType.PRODUCT, digitalProduct.getProductFileName());
 		digitalProduct.getProduct().setProductVirtual(false);
-		productService.update(digitalProduct.getProduct());
+		productService.save(digitalProduct.getProduct());
 	}
 
 	public void saveOrUpdate(DigitalProduct digitalProduct) throws ServiceException {
@@ -86,7 +86,7 @@ public class DigitalProductService extends SalesManagerEntityServiceImpl<Long, D
 		}
 
 		digitalProduct.getProduct().setProductVirtual(true);
-		productService.update(digitalProduct.getProduct());
+		productService.save(digitalProduct.getProduct());
 
 	}
 

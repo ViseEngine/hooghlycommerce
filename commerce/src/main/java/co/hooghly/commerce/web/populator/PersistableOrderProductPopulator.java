@@ -63,7 +63,7 @@ public class PersistableOrderProductPopulator extends
 
 		
 		try {
-			Product modelProduct = productService.getById(source.getProduct().getId());
+			/*Product modelProduct = productService.findOne(source.getProduct().getId());
 			if(modelProduct==null) {
 				throw new ConversionException("Cannot get product with id (productId) " + source.getProduct().getId());
 			}
@@ -91,12 +91,12 @@ public class PersistableOrderProductPopulator extends
 			OrderProductPrice orderProductPrice = new OrderProductPrice();
 			orderProductPrice.setDefaultPrice(true);
 			orderProductPrice.setProductPrice(source.getPrice());
-			orderProductPrice.setOrderProduct(target);
+			orderProductPrice.setOrderProduct(target);*/
 			
 
 			
 			Set<OrderProductPrice> prices = new HashSet<OrderProductPrice>();
-			prices.add(orderProductPrice);
+			//prices.add(orderProductPrice);
 
 			/** DO NOT SUPPORT MUTIPLE PRICES **/
 /*			//Other prices

@@ -27,35 +27,7 @@ public class Product extends AbstractBaseEntity {
 	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL, mappedBy = "product")
 	private Set<ProductAttribute> attributes = new HashSet<>();
 
-	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product") // cascade
-																							// is
-																							// set
-																							// to
-																							// remove
-																							// because
-																							// product
-																							// save
-																							// requires
-																							// logic
-																							// to
-																							// create
-																							// physical
-																							// image
-																							// first
-																							// and
-																							// then
-																							// save
-																							// the
-																							// image
-																							// id
-																							// in
-																							// the
-																							// database,
-																							// cannot
-																							// be
-																							// done
-																							// in
-																							// cascade
+	@OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.REMOVE, mappedBy = "product")
 	@JsonBackReference
 	private Set<ProductImage> images = new HashSet<>();
 
@@ -178,22 +150,33 @@ public class Product extends AbstractBaseEntity {
 
 	@Column(name = "DESCRIPTION")
 	private String description;
+	
+
 
 	public ProductImage getProductImage() {
-		ProductImage productImage = null;
-		if (this.getImages() != null && this.getImages().size() > 0) {
-			for (ProductImage image : this.getImages()) {
-				productImage = image;
-				if (productImage.isDefaultImage()) {
-					break;
-				}
-			}
-		}
-		return productImage;
-	}
-	
-	public ProductImage getDefaultImage() {
 		return getImages().stream().filter(i -> i.isDefaultImage()).findFirst().get();
 	}
 
+	public Double getProductRating() {
+		double rating = 0.0d;
+		if (getProductReviewAvg() != null) {
+			double avg = getProductReviewAvg().doubleValue();
+			rating = Math.round(avg * 2) / 2.0f;
+
+		}
+		return rating;
+	}
+	
+	public int getRatingCount() {
+		int count = 0;
+		
+		if(getProductReviewCount()!=null) {
+			count = getProductReviewCount().intValue();
+		}
+		
+		return count;
+	}
+	
+	@Transient
+	private FinalPrice finalPrice;
 }

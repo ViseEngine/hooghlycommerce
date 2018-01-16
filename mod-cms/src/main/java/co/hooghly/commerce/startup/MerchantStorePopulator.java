@@ -106,9 +106,7 @@ public class MerchantStorePopulator extends AbstractDataPopulator {
 
 		taxClassService.saveNow(taxclass);
 
-		log.info("6.2 Populating CMS contents - DEMO");
-
-		cmsContentService.load(store);
+		
 
 	}
 }

@@ -19,7 +19,6 @@ import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.util.PageBuilderUtils;
 
 
-import co.hooghly.commerce.web.populator.ReadableProductPopulator;
 import co.hooghly.commerce.web.ui.Breadcrumb;
 import co.hooghly.commerce.web.ui.PageInformation;
 import co.hooghly.commerce.web.ui.ProductList;
@@ -27,7 +26,7 @@ import co.hooghly.commerce.web.ui.QueryFilter;
 import co.hooghly.commerce.web.ui.QueryFilterType;
 import co.hooghly.commerce.web.ui.ReadableCategory;
 //import co.hooghly.commerce.web.ui.ReadableManufacturer;
-import co.hooghly.commerce.web.ui.ReadableProduct;
+
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -496,18 +495,18 @@ public class ShoppingCategoryController {
 
 			ProductList productList = new ProductList();
 
-			ReadableProductPopulator populator = new ReadableProductPopulator();
+			/*ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
-			populator.setimageUtils(imageUtils);
+			populator.setimageUtils(imageUtils);*/
 
 			for (Product product : products) {
 				// create new proxy product
-				ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, lang);
-				productList.getProducts().add(p);
+				//ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, lang);
+				//productList.getProducts().add(p);
 
 			}
 
-			productList.setProductCount(productList.getProducts().size());
+			//productList.setProductCount(productList.getProducts().size());
 			return productList;
 
 		} catch (Exception e) {
@@ -662,22 +661,22 @@ public class ShoppingCategoryController {
 			co.hooghly.commerce.domain.ProductList products = productService.listByStore(merchantStore,
 					lang, productCriteria);
 
-			ReadableProductPopulator populator = new ReadableProductPopulator();
+			/*ReadableProductPopulator populator = new ReadableProductPopulator();
 			populator.setPricingService(pricingService);
 			populator.setimageUtils(imageUtils);
-
+*/
 			ProductList productList = new ProductList();
 			for (Product product : products.getProducts()) {
 
 				// create new proxy product
-				ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, lang);
+				/*ReadableProduct p = populator.populate(product, new ReadableProduct(), merchantStore, lang);
 				productList.getProducts().add(p);
-				prices.add(p.getPrice());
+				prices.add(p.getPrice());*/
 
 			}
 
 			/** order products based on the specified order **/
-			Collections.sort(productList.getProducts(), new Comparator<ReadableProduct>() {
+			/*Collections.sort(productList.getProducts(), new Comparator<ReadableProduct>() {
 
 				@Override
 				public int compare(ReadableProduct o1, ReadableProduct o2) {
@@ -685,7 +684,7 @@ public class ShoppingCategoryController {
 					int order2 = o2.getSortOrder();
 					return order1 - order2;
 				}
-			});
+			});*/
 
 			productList.setProductCount(products.getTotalCount());
 

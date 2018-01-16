@@ -14,10 +14,11 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-
+import org.springframework.core.annotation.Order;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
+import co.hooghly.commerce.business.MerchantStoreService;
 import co.hooghly.commerce.business.MessageResourceService;
 import co.hooghly.commerce.domain.CmsContent;
 import co.hooghly.commerce.domain.MerchantStore;
@@ -27,12 +28,20 @@ import lombok.extern.slf4j.Slf4j;
 
 @Component
 @Slf4j
-public class CmsContentPopulator {
+@Order(20)
+public class CmsContentPopulator extends AbstractDataPopulator{
+	
+	public CmsContentPopulator() {
+		super("CMS");
+	}
 
 	@Autowired
 	private CmsContentRepository cmsStaticContentRepository;
 	@Autowired
 	private MessageResourceService messageResourceService;
+	
+	@Autowired
+	protected MerchantStoreService merchantService;
 
 	@Value("${commerce.mode}")
 	private String mode;
@@ -46,13 +55,8 @@ public class CmsContentPopulator {
 	MimetypesFileTypeMap map = new MimetypesFileTypeMap();
 
 	public void load(MerchantStore store) {
-		log.debug("Loading default CMS contents");
-		log.info("Mode - {}", mode);
-		if(StringUtils.equals("DEV", mode)){
-			log.info("Deleting all CMS contents before refresh");
-
-			cmsStaticContentRepository.deleteAll();
-		}
+		
+		
 		
 		for (Resource r : demoResources) {
 			saveContent(r,store);
@@ -163,6 +167,16 @@ public class CmsContentPopulator {
 			}
 		}
 
+	}
+
+	@Override
+	public void runInternal(String... args) throws Exception {
+		log.info("14.Populating CMS Content");
+		
+		// get a merchant
+		MerchantStore store = merchantService.getMerchantStore(MerchantStore.DEFAULT_STORE);
+		
+		load(store);
 	}
 
 }

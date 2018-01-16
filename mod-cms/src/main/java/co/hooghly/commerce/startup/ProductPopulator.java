@@ -6,7 +6,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.annotation.Order;
@@ -29,7 +28,7 @@ import co.hooghly.commerce.domain.Manufacturer;
 import co.hooghly.commerce.domain.MerchantStore;
 import co.hooghly.commerce.domain.Product;
 import co.hooghly.commerce.domain.ProductAvailability;
-import co.hooghly.commerce.domain.ProductDescription;
+
 import co.hooghly.commerce.domain.ProductImage;
 import co.hooghly.commerce.domain.ProductPrice;
 import co.hooghly.commerce.domain.ProductPriceDescription;
@@ -131,7 +130,7 @@ public class ProductPopulator extends AbstractDataPopulator {
 				ProductPrice dprice = new ProductPrice();
 				dprice.setDefaultPrice(true);
 				dprice.setProductPriceAmount(new BigDecimal((Double) (items.get("price"))));
-
+				
 				dprice.setProductAvailability(availability);
 
 				ProductPriceDescription dpd = new ProductPriceDescription();
@@ -146,7 +145,6 @@ public class ProductPopulator extends AbstractDataPopulator {
 				product.getAvailabilities().add(availability);
 
 				// Product description
-				ProductDescription description = new ProductDescription();
 				product.setName((String) items.get("product_name"));
 				product.setTitle((String) items.get("title"));
 				product.setSubtitle((String) items.get("subtitle"));

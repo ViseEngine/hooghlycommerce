@@ -10,7 +10,7 @@ import co.hooghly.commerce.domain.Language;
 import co.hooghly.commerce.domain.MerchantStore;
 
 
-
+@Deprecated
 public abstract class AbstractDataPopulator<Source,Target> implements DataPopulator<Source, Target>
 {
 

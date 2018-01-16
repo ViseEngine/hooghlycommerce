@@ -18,75 +18,45 @@ import lombok.extern.slf4j.Slf4j;
 
 /**
  * Contains all the logic required to calculate product price
- 
  *
+ * 
  */
 @Service
 @Slf4j
-public class PricingService  {
-	
-	
+public class PricingService {
 
 	@Autowired
 	private ProductPriceUtils priceUtil;
-	
-	
-	public FinalPrice calculateProductPrice(Product product) throws ServiceException {
+
+	public FinalPrice calculateProductPrice(Product product) {
 		return priceUtil.getFinalPrice(product);
 	}
-	
-	
-	public FinalPrice calculateProductPrice(Product product, Customer customer) throws ServiceException {
+
+	public FinalPrice calculateProductPrice(Product product, Customer customer) {
 		/** TODO add rules for price calculation **/
 		return priceUtil.getFinalPrice(product);
 	}
-	
-	
-	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes) throws ServiceException {
+
+	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes) {
 		return priceUtil.getFinalProductPrice(product, attributes);
 	}
-	
-	
-	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes, Customer customer) throws ServiceException {
+
+	public FinalPrice calculateProductPrice(Product product, List<ProductAttribute> attributes, Customer customer) {
 		/** TODO add rules for price calculation **/
 		return priceUtil.getFinalProductPrice(product, attributes);
 	}
 
-	
-	public String getDisplayAmount(BigDecimal amount, MerchantStore store) throws ServiceException {
-		try {
-			String price= priceUtil.getStoreFormatedAmountWithCurrency(store,amount);
-			return price;
-		} catch (Exception e) {
-			log.error("An error occured when trying to format an amount " + amount.toString());
-			throw new ServiceException(e);
-		}
-	}
-	
-	
-	public String getDisplayAmount(BigDecimal amount, Locale locale,
-			Currency currency, MerchantStore store) throws ServiceException {
-		try {
-			String price= priceUtil.getFormatedAmountWithCurrency(locale, currency, amount);
-			return price;
-		} catch (Exception e) {
-			log.error("An error occured when trying to format an amunt " + amount.toString() + " using locale " + locale.toString() + " and currency " + currency.toString());
-			throw new ServiceException(e);
-		}
+	public String getDisplayAmount(BigDecimal amount, MerchantStore store) {
+		return priceUtil.getStoreFormatedAmountWithCurrency(store, amount);
 	}
 
-	
-	public String getStringAmount(BigDecimal amount, MerchantStore store)
-			throws ServiceException {
-		try {
-			String price = priceUtil.getAdminFormatedAmount(store, amount);
-			return price;
-		} catch (Exception e) {
-			log.error("An error occured when trying to format an amount " + amount.toString());
-			throw new ServiceException(e);
-		}
+	public String getDisplayAmount(BigDecimal amount, Locale locale, Currency currency, MerchantStore store) {
+		return priceUtil.getFormatedAmountWithCurrency(locale, currency, amount);
 	}
 
+	public String getStringAmount(BigDecimal amount, MerchantStore store) {
+		return priceUtil.getAdminFormatedAmount(store, amount);
 
-	
+	}
+
 }

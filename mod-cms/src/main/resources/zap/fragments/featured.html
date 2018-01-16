@@ -2,15 +2,14 @@
 	<div class="container">
 		<div class="row section-separator">
 			<div class="section-title">
-				<h2>Featured Product</h2>
+				<h2 th:text="#{msg.product.featured}"></h2>
 				<span class="xt-title-bg"></span>
 			</div>
 			<div class="xt-each-feature">
-				<div class="col-md-4 col-sm-4" th:each="r : ${relationships}">
+				<div class="col-md-4 col-sm-4" th:each="p : ${FEATURED_PRODUCTS}">
 					<div class="xt-feature">
 						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} + '/' +  ${r.product.defaultImage.name}}" alt=""
-								class="img-responsive" /> 
+							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} + '/' +  ${p.productImage.name}}" alt="" class="img-responsive" /> 
 								<!-- 
 								<span class="product-tag xt-uppercase">sale!</span>
 								
@@ -18,222 +17,44 @@
 						</div>
 						<div class="product-info">
 							<div class="product-title">
-								<span class="category xt-uppercase" th:text="${r.product.name}">Sweater</span> <span
-									class="name xt-semibold" th:text="${r.product.title}">Red Color</span>
+								<span class="category xt-uppercase" th:text="${p.name}"></span> 
+								<span class="name xt-semibold" th:text="${p.title}"></span>
 							</div>
 							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
+								<span class="old-price" th:text="${p.finalPrice.finalDisplayPrice}"> </span>
+								<!-- 
+								<span class="old-price"><del>$280</del></span> 
+								<span class="new-price xt-semibold">$260</span>
+								 -->
 							</div>
 							<div class="xt-featured-caption">
 								<div class="product-title">
-									<span class="category xt-uppercase" th:text="${r.product.name}">Sweater</span> <span
-										class="name xt-semibold" th:text="${r.product.name}">Red Color</span>
+									<span class="category xt-uppercase" th:text="${p.name}"></span> 
+									<span class="name xt-semibold" th:text="${p.title}"></span>
 								</div>
 								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
+									<span class="old-price" th:text="${p.finalPrice.finalDisplayPrice}"> </span>
+									<!-- 
+									<span class="old-price"><del>$280</del></span> 
+									<span class="new-price xt-semibold">$260</span>
+								 	-->
 								</div>
 								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
+									<a href="" class="btn btn-fill" th:text="#{msg.shoppingcart.addtocart}"></a>
 									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
 										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
+										<!-- 
+										<li><a href=""><i class="fa fa-search"></i></a></li>
+										
 										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
+										 -->
 									</ul>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<!-- 
-				<div class="col-md-4 col-sm-4">
-					<div class="xt-feature">
-						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/1.jpg'}" alt=""
-								class="img-responsive" /> <span
-								class="product-tag xt-uppercase">sale!</span>
-						</div>
-						<div class="product-info">
-							<div class="product-title">
-								<span class="category xt-uppercase">T-Shirt</span> <span
-									class="name xt-semibold">2017 Model</span>
-							</div>
-							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
-							</div>
-							<div class="xt-featured-caption">
-								<div class="product-title">
-									<span class="category xt-uppercase">T-Shirt</span> <span
-										class="name xt-semibold">2017 Model</span>
-								</div>
-								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
-								</div>
-								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
-									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
-										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-4">
-					<div class="xt-feature">
-						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/3.jpg'}" alt=""
-								class="img-responsive" /> <span
-								class="product-tag xt-uppercase">sale!</span>
-						</div>
-						<div class="product-info">
-							<div class="product-title">
-								<span class="category xt-uppercase">New Look</span> <span
-									class="name xt-semibold">2018 Model Coming Soon</span>
-							</div>
-							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
-							</div>
-							<div class="xt-featured-caption">
-								<div class="product-title">
-									<span class="category xt-uppercase">New Look</span> <span
-										class="name xt-semibold">2018 Model Coming Soon</span>
-								</div>
-								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
-								</div>
-								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
-									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
-										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-4">
-					<div class="xt-feature">
-						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/4.jpg'}" alt=""
-								class="img-responsive" /> <span
-								class="product-tag xt-uppercase">sale!</span>
-						</div>
-						<div class="product-info">
-							<div class="product-title">
-								<span class="category xt-uppercase">Lipstick</span> <span
-									class="name xt-semibold">Imported From U.S.</span>
-							</div>
-							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
-							</div>
-							<div class="xt-featured-caption">
-								<div class="product-title">
-									<span class="category xt-uppercase">Lipstick</span> <span
-										class="name xt-semibold">Imported From U.S.</span>
-								</div>
-								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
-								</div>
-								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
-									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
-										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-4">
-					<div class="xt-feature">
-						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/b2.jpg'}" alt=""
-								class="img-responsive" /> <span
-								class="product-tag xt-uppercase">sale!</span>
-						</div>
-						<div class="product-info">
-							<div class="product-title">
-								<span class="category xt-uppercase">Shirt</span> <span
-									class="name xt-semibold">Exclusive Design</span>
-							</div>
-							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
-							</div>
-							<div class="xt-featured-caption">
-								<div class="product-title">
-									<span class="category xt-uppercase">Shirt</span> <span
-										class="name xt-semibold">Exclusive Design</span>
-								</div>
-								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
-								</div>
-								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
-									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
-										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-				<div class="col-md-4 col-sm-4">
-					<div class="xt-feature">
-						<div class="product-img">
-							<img th:src="@{'/cms/images/' + ${MERCHANT_STORE.id} +'/b1.jpg'}" alt=""
-								class="img-responsive" /> <span
-								class="product-tag xt-uppercase">sale!</span>
-						</div>
-						<div class="product-info">
-							<div class="product-title">
-								<span class="category xt-uppercase">Tops</span> <span
-									class="name xt-semibold">Spring Collection</span>
-							</div>
-							<div class="price-tag pull-right">
-								<span class="old-price"><del>$280</del></span> <span
-									class="new-price xt-semibold">$260</span>
-							</div>
-							<div class="xt-featured-caption">
-								<div class="product-title">
-									<span class="category xt-uppercase">Tops</span> <span
-										class="name xt-semibold">Spring Collection</span>
-								</div>
-								<div class="price-tag pull-right">
-									<span class="old-price"><del>$280</del></span> <span
-										class="new-price xt-semibold">$260</span>
-								</div>
-								<div class="add-cart">
-									<a href="" class="btn btn-fill">Add to cart</a>
-									<ul class="reaction">
-										<li><a href=""><i class="fa fa-search"></i></a></li>
-										<li><a href=""><i class="fa fa-heart-o"></i></a></li>
-										<li><a href=""><i class="fa fa-bar-chart-o"></i></a></li>
-									</ul>
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-				 -->
+				
 		</div>
 	</div>
 </section>

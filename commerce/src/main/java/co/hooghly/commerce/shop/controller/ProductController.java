@@ -254,7 +254,7 @@ public class ProductController {
 		MerchantStore store = (MerchantStore) request.getAttribute(Constants.MERCHANT_STORE);
 		Language language = (Language) request.getAttribute("LANGUAGE");
 
-		Product product = productService.getById(productId);
+		Product product = productService.findOne(productId);
 
 		@SuppressWarnings("unchecked")
 		List<Long> ids = new ArrayList<Long>(Arrays.asList(attributeIds));
