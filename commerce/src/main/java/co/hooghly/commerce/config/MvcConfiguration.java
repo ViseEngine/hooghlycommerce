@@ -25,7 +25,7 @@ import org.springframework.web.util.UrlPathHelper;
 import co.hooghly.commerce.util.LabelUtils;
 import co.hooghly.commerce.web.argument.CustomerMethodArgumentResolver;
 import co.hooghly.commerce.web.argument.MerchantStoreMethodArgumentResolver;
-import co.hooghly.commerce.web.interceptor.AdminInterceptor;
+
 import co.hooghly.commerce.cms.interceptor.CmsInterceptor;
 import co.hooghly.commerce.web.interceptor.StoreInterceptor;
 
@@ -44,10 +44,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		return BeanUtils.instantiate(CmsInterceptor.class);
 	}
 
-	@Bean
-	public AdminInterceptor adminInterceptor() {
-		return BeanUtils.instantiate(AdminInterceptor.class);
-	}
+
 
 	// Changes the locale when a 'locale' request parameter is sent; e.g.
 	// /?locale=de
@@ -114,7 +111,7 @@ public class MvcConfiguration extends WebMvcConfigurerAdapter {
 		registry.addInterceptor(deviceResolverHandlerInterceptor());
 		registry.addInterceptor(storeFilter()).addPathPatterns("/shop/**", "/customer/**");
 		registry.addInterceptor(cmsInterceptor()).addPathPatterns("/shop/**");
-		registry.addInterceptor(adminInterceptor()).addPathPatterns("/admin/**");
+		
 	}
 
 	@Override

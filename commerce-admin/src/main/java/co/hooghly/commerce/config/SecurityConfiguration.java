@@ -14,13 +14,11 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.core.userdetails.UserDetailsService;
 
 @Configuration
-@Order(2)
-public class ShopSecurityConfiguration extends WebSecurityConfigurerAdapter {
+@Order(1)
+public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Autowired
 	private UserDetailsService userDetailsService;
-	
-	
 	
 	@Bean
 	public PasswordEncoder passwordEncoder() {
@@ -29,22 +27,23 @@ public class ShopSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.csrf().disable().
-		authorizeRequests()
-			.antMatchers("/shop/customer/**","/shop/**","/webjars/**","/order/**").permitAll()
-			.antMatchers("/shop/customer/secure/**").hasRole("CUSTOMER")
+		http.csrf().disable().authorizeRequests()
+			.antMatchers("/nonsecure/**","/webjars/**","/order/**").permitAll()
+			.antMatchers("/secure/**").hasRole("ADMIN")
 			.and().formLogin()
 			.passwordParameter("password").usernameParameter("username")
-			.loginProcessingUrl("/shop/customer/authenticate")
-			.failureUrl("/shop/customer/login?error=SEC-0001")
-			.loginPage("/shop/customer/login")
-			.defaultSuccessUrl("/shop/customer/home")
+			.loginProcessingUrl("/secure/authenticate")
+			.failureUrl("/nonsecure/login?error=SEC-0001")
+			.loginPage("/nonsecure/login")
+			.defaultSuccessUrl("/secure/home")
 			.and()
 			.logout().invalidateHttpSession(true)
-			.logoutUrl("/shop/customer/logout")
-			.logoutSuccessUrl("/shop/customer/login");
+			.logoutUrl("/nonsecure/logout")
+			.logoutSuccessUrl("/nonsecure/login");
 				
 	}
+
+	
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {

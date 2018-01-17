@@ -1,0 +1,49 @@
+buildscript {
+	ext {
+		springBootVersion = '1.5.9.RELEASE'
+	}
+	repositories {
+		mavenCentral()
+	}
+	dependencies {
+		classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+	}
+}
+
+apply plugin: 'application'
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'org.springframework.boot'
+
+group = 'co.hooghly.commerce'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = 1.8
+
+repositories {
+	mavenCentral()
+}
+
+configurations.all {
+	exclude group: 'org.jboss.slf4j', module: 'slf4j-jboss-logging'
+}
+
+ext["thymeleaf.version"] = "3.0.9.RELEASE"
+ext['thymeleaf-layout-dialect.version'] = '2.2.2'
+
+dependencies {
+	compile('org.springframework.boot:spring-boot-starter-cache')
+	compile('org.springframework.boot:spring-boot-starter-security')
+	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-web')
+	runtime('org.springframework.boot:spring-boot-devtools')
+	runtime('mysql:mysql-connector-java')
+	compileOnly('org.springframework.boot:spring-boot-configuration-processor')
+	compileOnly('org.projectlombok:lombok')
+	testCompile('org.springframework.boot:spring-boot-starter-test')
+	testCompile('org.springframework.security:spring-security-test')
+	
+	compile project (':commerce-business')
+	
+	compile project (':commerce-domain')
+	compile project (':mod-email-starter')
+}
