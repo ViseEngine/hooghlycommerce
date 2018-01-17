@@ -1,4 +1,4 @@
-package co.hooghly.commerce.admin.controller;
+package co.hooghly.commerce.controller;
 
 
 import co.hooghly.commerce.business.CountryService;
@@ -27,7 +27,7 @@ import co.hooghly.commerce.modules.email.Email;
 //import co.hooghly.commerce.util.LocaleUtils;
 import co.hooghly.commerce.util.UserUtils;
 import co.hooghly.commerce.web.ui.AjaxResponse;
-
+import lombok.extern.slf4j.Slf4j;
 
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
@@ -56,9 +56,10 @@ import javax.validation.Valid;
 import java.util.*;
 
 @Controller
+@Slf4j
 public class MerchantStoreController {
 	
-	private static final Logger LOGGER = LoggerFactory.getLogger(MerchantStoreController.class);
+	
 	
 	@Autowired
 	private MerchantStoreService merchantStoreService;
@@ -97,19 +98,19 @@ public class MerchantStoreController {
 	private final static String NEW_STORE_TMPL = "email_template_new_store.ftl";
 	
 	
-	@GetMapping("/admin/secure/store")
+	@GetMapping("/secure/store")
 	public String displayStores(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 
-		model.addAttribute("stores",merchantStoreService.list());
+		model.addAttribute("stores",merchantStoreService.findAll());
 		
-		return "admin/stores";
+		return "stores";
 	}
 	
-	@GetMapping("/admin/secure/store/{id}")
-	public String displayMerchantStore(@PathVariable("id") Integer id, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
+	@GetMapping("/store/{id}")
+	public String displayMerchantStore(@PathVariable("id") Long id, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
-		setMenu(model,request);
-		MerchantStore store = merchantStoreService.getById(id);
+		
+		MerchantStore store = merchantStoreService.findOne(id);
 		return displayMerchantStore(store, model, request, response, locale);
 	}
 	
@@ -117,17 +118,13 @@ public class MerchantStoreController {
 	@RequestMapping(value="/admin/store/storeCreate.html", method=RequestMethod.GET)
 	public String displayMerchantStoreCreate(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
-		
-		
-		setMenu(model,request);
-
 		MerchantStore store = new MerchantStore();
 		
 		MerchantStore sessionStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		store.setCurrency(sessionStore.getCurrency());
 		store.setCountry(sessionStore.getCountry());
 		store.setZone(sessionStore.getZone());
-		store.setStorestateprovince(sessionStore.getStorestateprovince());
+		//store.setStorestateprovince(sessionStore.getStorestateprovince());
 		store.setLanguages(sessionStore.getLanguages());
 		store.setDomainName(sessionStore.getDomainName());
 		
@@ -140,7 +137,7 @@ public class MerchantStoreController {
 	private String displayMerchantStore(MerchantStore store, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
 		
-		setMenu(model,request);
+		
 		Language language = (Language)request.getAttribute("LANGUAGE");
 		List<Language> languages = languageService.getLanguages();
 		List<Currency> currencies = currencyService.list();
@@ -182,7 +179,7 @@ public class MerchantStoreController {
 	@RequestMapping(value="/admin/store/store.html", method=RequestMethod.GET)
 	public String displayMerchantStore(Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
-		setMenu(model,request);
+		
 		MerchantStore store = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 		return displayMerchantStore(store, model, request, response, locale);
 	}
@@ -192,7 +189,7 @@ public class MerchantStoreController {
 	@RequestMapping(value="/admin/store/save.html", method=RequestMethod.POST)
 	public String saveMerchantStore(@Valid @ModelAttribute("store") MerchantStore store, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
-		setMenu(model,request);
+		
 		MerchantStore sessionStore = (MerchantStore)request.getAttribute(Constants.ADMIN_STORE);
 
 		if(store.getId()!=null) {
@@ -240,12 +237,12 @@ public class MerchantStoreController {
 		Country c = store.getCountry();
 		List<Zone> zonesList = zoneService.getZones(c, language);
 		
-		if((zonesList==null || zonesList.size()==0) && StringUtils.isBlank(store.getStorestateprovince())) {
+		/*if((zonesList==null || zonesList.size()==0) && StringUtils.isBlank(store.getStorestateprovince())) {
 			
 			ObjectError error = new ObjectError("zone.code",messageSource.getMessage("merchant.zone.invalid", null, locale));
 			result.addError(error);
 			
-		}
+		}*/
 
 		if (result.hasErrors()) {
 			return "admin-store";
@@ -274,7 +271,7 @@ public class MerchantStoreController {
 		}
 		
 		Language defaultLanguage = store.getDefaultLanguage();
-		defaultLanguage = languageService.getById(defaultLanguage.getId());
+		//defaultLanguage = languageService.getById(defaultLanguage.getId());
 		if(defaultLanguage!=null) {
 			store.setDefaultLanguage(defaultLanguage);
 		}
@@ -372,7 +369,7 @@ public class MerchantStoreController {
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
 		} catch (Exception e) {
-			LOGGER.error("Error while getting user", e);
+			log.error("Error while getting user", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}
@@ -397,8 +394,8 @@ public class MerchantStoreController {
 		
 		try {
 			
-			Integer storeId = Integer.parseInt(sMerchantStoreId);
-			MerchantStore store = merchantStoreService.getById(storeId);
+			Long storeId = Long.parseLong(sMerchantStoreId);
+			MerchantStore store = merchantStoreService.findOne(storeId);
 			
 			User user = userService.getByUserName(request.getRemoteUser());
 			
@@ -420,14 +417,14 @@ public class MerchantStoreController {
 				return new ResponseEntity<String>(returnString,httpHeaders,HttpStatus.OK);
 			}
 			
-			merchantStoreService.delete(store);
+			//merchantStoreService.delete(store);
 			
 			resp.setStatus(AjaxResponse.RESPONSE_OPERATION_COMPLETED);
 
 		
 		
 		} catch (Exception e) {
-			LOGGER.error("Error while deleting product price", e);
+			log.error("Error while deleting product price", e);
 			resp.setStatus(AjaxResponse.RESPONSE_STATUS_FAIURE);
 			resp.setErrorMessage(e);
 		}
@@ -438,22 +435,6 @@ public class MerchantStoreController {
 		
 	}
 	
-	private void setMenu(Model model, HttpServletRequest request) throws Exception {
-		
-		//display menu
-		Map<String,String> activeMenus = new HashMap<String,String>();
-		activeMenus.put("store", "store");
-		activeMenus.put("storeDetails", "storeDetails");
 
-		
-		@SuppressWarnings("unchecked")
-		Map<String, Menu> menus = (Map<String, Menu>)request.getAttribute("MENUMAP");
-		
-		Menu currentMenu = (Menu)menus.get("store");
-		model.addAttribute("currentMenu",currentMenu);
-		model.addAttribute("activeMenus",activeMenus);
-		//
-		
-	}
 
 }

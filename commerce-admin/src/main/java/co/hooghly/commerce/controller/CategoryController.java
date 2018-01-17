@@ -46,6 +46,8 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/secure")
 public class CategoryController {
 
+	private static final String CATEGORIES = "categories";
+
 	@Autowired
 	LanguageService languageService;
 
@@ -56,90 +58,16 @@ public class CategoryController {
 	CountryService countryService;
 
 	// category list
-	@GetMapping(value = "categories")
+	@GetMapping(value = CATEGORIES)
 	public String displayCategories() {
 
-		return "categories";
+		return CATEGORIES;
 	}
 
-	@PostMapping("")
-	public String saveCategory(@Valid Category category, BindingResult result, Model model,
-			HttpServletRequest request) {
-
-		Language language = (Language) request.getAttribute("LANGUAGE");
-
-		MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
-
-		if (category.getId() != null && category.getId() > 0) { // edit entry
-
-			// get from DB
-			Category currentCategory = categoryService.findOne(category.getId());
-
-			if (currentCategory == null
-					|| currentCategory.getMerchantStore().getId().intValue() != store.getId().intValue()) {
-				return "catalogue-categories";
-			}
-
-		}
-
-		Map<String, Language> langs = languageService.getLanguagesMap();
-
-		/*
-		 * List<CategoryDescription> descriptions = category.getDescriptions();
-		 * if (descriptions != null) {
-		 * 
-		 * for (CategoryDescription description : descriptions) {
-		 * 
-		 * String code = description.getLanguage().getCode(); Language l =
-		 * langs.get(code); description.setLanguage(l);
-		 * description.setCategory(category);
-		 * 
-		 * }
-		 * 
-		 * }
-		 */
-		// save to DB
-		category.setMerchantStore(store);
-		// }
-
-		if (result.hasErrors()) {
-			return "catalogue-categories-category";
-		}
-
-		// check parent
-		if (category.getParent() != null) {
-			if (category.getParent().getId() == -1) {// this is a root category
-				category.setParent(null);
-				category.setLineage("/");
-				category.setDepth(0);
-			}
-		}
-
-		category.getAuditSection().setModifiedBy(request.getRemoteUser());
-		categoryService.save(category);
-
-		// ajust lineage and depth
-		if (category.getParent() != null && category.getParent().getId() != -1) {
-
-			Category parent = new Category();
-			parent.setId(category.getParent().getId());
-			parent.setMerchantStore(store);
-
-			categoryService.addChild(parent, category);
-
-		}
-
-		// get parent categories
-		List<Category> categories = categoryService.listByStore(store, language);
-		model.addAttribute("categories", categories);
-
-		model.addAttribute("success", "success");
-		return "catalogue-categories-category";
-	}
+	
 
 	@GetMapping(value = "/category/list")
-	public @ResponseBody ResponseEntity<List<Map>> list(
-			@RequestParam(name = "parent", defaultValue = "0") Long parentId, HttpServletRequest request) {
+	public @ResponseBody ResponseEntity<List<Map>> list(@RequestParam(name = "parent", defaultValue = "0") Long parentId, HttpServletRequest request) {
 
 		log.info("Parent id - {}", parentId);
 		Language language = (Language) request.getAttribute("LANGUAGE");
@@ -272,7 +200,7 @@ public class CategoryController {
 
 		List<Category> categories = categoryService.listByStore(store, language);
 
-		model.addAttribute("categories", categories);
+		model.addAttribute(CATEGORIES, categories);
 
 		return "catalogue-categories-hierarchy";
 	}
@@ -440,6 +368,81 @@ public class CategoryController {
 		String returnString = resp.toJSONString();
 
 		return new ResponseEntity<String>(returnString, httpHeaders, HttpStatus.OK);
+	}
+	
+	@PostMapping("")
+	public String saveCategory(@Valid Category category, BindingResult result, Model model,
+			HttpServletRequest request) {
+
+		Language language = (Language) request.getAttribute("LANGUAGE");
+
+		MerchantStore store = (MerchantStore) request.getAttribute(Constants.ADMIN_STORE);
+
+		if (category.getId() != null && category.getId() > 0) { // edit entry
+
+			// get from DB
+			Category currentCategory = categoryService.findOne(category.getId());
+
+			if (currentCategory == null
+					|| currentCategory.getMerchantStore().getId().intValue() != store.getId().intValue()) {
+				return "catalogue-categories";
+			}
+
+		}
+
+		Map<String, Language> langs = languageService.getLanguagesMap();
+
+		/*
+		 * List<CategoryDescription> descriptions = category.getDescriptions();
+		 * if (descriptions != null) {
+		 * 
+		 * for (CategoryDescription description : descriptions) {
+		 * 
+		 * String code = description.getLanguage().getCode(); Language l =
+		 * langs.get(code); description.setLanguage(l);
+		 * description.setCategory(category);
+		 * 
+		 * }
+		 * 
+		 * }
+		 */
+		// save to DB
+		category.setMerchantStore(store);
+		// }
+
+		if (result.hasErrors()) {
+			return "catalogue-categories-category";
+		}
+
+		// check parent
+		if (category.getParent() != null) {
+			if (category.getParent().getId() == -1) {// this is a root category
+				category.setParent(null);
+				category.setLineage("/");
+				category.setDepth(0);
+			}
+		}
+
+		category.getAuditSection().setModifiedBy(request.getRemoteUser());
+		categoryService.save(category);
+
+		// ajust lineage and depth
+		if (category.getParent() != null && category.getParent().getId() != -1) {
+
+			Category parent = new Category();
+			parent.setId(category.getParent().getId());
+			parent.setMerchantStore(store);
+
+			categoryService.addChild(parent, category);
+
+		}
+
+		// get parent categories
+		List<Category> categories = categoryService.listByStore(store, language);
+		model.addAttribute(CATEGORIES, categories);
+
+		model.addAttribute("success", "success");
+		return "catalogue-categories-category";
 	}
 
 }

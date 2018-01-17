@@ -15,7 +15,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public abstract class AbstractBaseBusinessDelegate<T extends AbstractBaseEntity, Id extends Serializable> {
-	
+
 	private JpaRepository<T, Id> repository;
 
 	@Autowired
@@ -36,7 +36,12 @@ public abstract class AbstractBaseBusinessDelegate<T extends AbstractBaseEntity,
 	public T findOne(Id id) {
 		return repository.findOne(id);
 	}
-
+	
+	@Transactional(readOnly = true)
+	public List<T> findAll() {
+		return repository.findAll();
+	}
+	
 	@Transactional
 	public List<T> save(List<T> ts) {
 		return repository.save(ts);
@@ -45,18 +50,16 @@ public abstract class AbstractBaseBusinessDelegate<T extends AbstractBaseEntity,
 	@Transactional
 	public T save(T t) {
 		return repository.save(t);
-		
-		
-	}
 
-	
+	}
 
 	@Transactional
 	public void delete(Id id) {
 		repository.delete(id);
 	}
-
 	
+	
+
 	@Transactional
 	public void deleteAll(Id[] ids, String parentId) {
 		// Since we are getting unique id of the entity we do not require to use

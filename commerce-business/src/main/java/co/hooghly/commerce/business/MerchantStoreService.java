@@ -47,18 +47,17 @@ public class MerchantStoreService extends AbstractBaseBusinessDelegate<MerchantS
 		this.merchantRepository = merchantRepository;
 	}
 
-	public MerchantStore getMerchantStore(String merchantStoreCode) throws ServiceException {
+	public MerchantStore getMerchantStore(String merchantStoreCode)  {
 		return merchantRepository.findByCode(merchantStoreCode);
 	}
 
-	public void saveOrUpdate(MerchantStore store) throws ServiceException {
+	public void saveOrUpdate(MerchantStore store)  {
 
 		super.save(store);
 
 	}
 
-	public MerchantStore getByCode(String code) throws ServiceException {
-
+	public MerchantStore getByCode(String code)  {
 		return merchantRepository.findByCode(code);
 	}
 
