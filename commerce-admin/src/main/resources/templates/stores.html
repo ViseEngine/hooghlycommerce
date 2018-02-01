@@ -124,7 +124,7 @@
                         <div class="card-header">
                             <h3 class="mb-5 my-10">Add New Store</h3>
                         </div>
-                        <div class="card-body" th:with="languages=${@languageService.findAll()}">
+                        <div class="card-body" th:with="countries=${@countryService.getAll()} , languages=${@languageService.findAll()} " >
                             <form class="form-horizontal" role="form" autocomplete="off" method="post" th:action="@{/admin/store/save.html}">
                             
                             <div class="form-group row">
@@ -145,15 +145,28 @@
 													<input type="text" class="form-control"  name="storeEmailAddress" required="" />
 												</div>
 											</div>
+											
                                <div class="form-group row">
                                 <label class="col-sm-3 form-control-label">Language</label>
                                <div class="col-sm-9">
     							<select class="form-control" name="defaultLanguage" id="defaultLanguage">
-    								<option  th:each="language : ${languages}" th:value="${language.id}" th:text="${language.name}"></option>
+    								<option  th:each="language : ${languages}" th:value="${language.id}" th:text="${language.name}"
+    								
+    							></option>
     							</select>
 								</div>
 								</div>
-                                                            
+                                      
+                                      
+                                <div class="form-group row" >
+                                <label class="col-sm-3 form-control-label">Country</label>
+                               	<div class="col-sm-9">
+    							<select class="form-control" name="country" id="country">
+    								<option  th:each="country : ${countries}" th:value="${country.id}" th:text="${country.descriptions[0].name}"></option>
+    							</select>
+								</div>
+								</div>
+								                      
                                <div class="row">
                                     <div class="col-sm-2">
                                     </div>

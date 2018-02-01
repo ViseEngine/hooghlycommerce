@@ -185,7 +185,7 @@ public class MerchantStoreController {
 	}
 	
 
-	@PreAuthorize("hasRole('STORE')")
+	//@PreAuthorize("hasRole('STORE')")
 	@RequestMapping(value="/admin/store/save.html", method=RequestMethod.POST)
 	public String saveMerchantStore(@Valid @ModelAttribute("store") MerchantStore store, BindingResult result, Model model, HttpServletRequest request, HttpServletResponse response, Locale locale) throws Exception {
 		
@@ -211,17 +211,22 @@ public class MerchantStoreController {
 		
 		List<Currency> currencies = currencyService.list();
 		
+		List<Country> con =  countryService.getAll();
 		
-		Language language = (Language)request.getAttribute("LANGUAGE");
+		
+		Language language = /*(Language)request.getAttribute("LANGUAGE");*/ store.getDefaultLanguage();
 		List<Language> languages = languageService.getLanguages();
 		
 		//get countries
 		List<Country> countries = countryService.getCountries(language);
 		
 		List<Weight> weights = new ArrayList<Weight>();
+		try {
 		weights.add(new Weight("LB",messageSource.getMessage("label.generic.weightunit.LB", null, locale)));
 		weights.add(new Weight("KG",messageSource.getMessage("label.generic.weightunit.KG", null, locale)));
-		
+		}catch(Exception e) {
+			e.printStackTrace();
+		}
 		List<Size> sizes = new ArrayList<Size>();
 		sizes.add(new Size("CM",messageSource.getMessage("label.generic.sizeunit.CM", null, locale)));
 		sizes.add(new Size("IN",messageSource.getMessage("label.generic.sizeunit.IN", null, locale)));

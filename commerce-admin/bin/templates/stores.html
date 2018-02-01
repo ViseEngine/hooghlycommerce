@@ -107,8 +107,86 @@
                     <div class="card-close">
                       <div class="dropdown">
                         <button type="button" id="closeCard" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" class="dropdown-toggle"><i class="fa fa-ellipsis-v"></i></button>
-                        <div aria-labelledby="closeCard" class="dropdown-menu has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-gear"></i>Edit</a></div>
+                         <div aria-labelledby="closeCard" class="dropdown-menu has-shadow"><a href="#" class="dropdown-item remove"> <i class="fa fa-times"></i>Close</a><a href="#" class="dropdown-item edit"> <i class="fa fa-pencil fa-fw"></i>Edit</a>
+                         <a href="#myModal" class="dropdown-item add" data-toggle="modal" data-target="#exampleModalCenter"> <i class="fa fa-plus"></i>Add Store</a>
+                         
+                         </div>
                       </div>
+                     
+<!-- Modal -->
+<div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+ <div class="container d-flex align-items-center">
+         <div class="row">
+        <div class="col-md-100">
+                <div class="row">
+                <div class="col-md-30 mx-auto">
+                    <div class="card border-secondary">
+                        <div class="card-header">
+                            <h3 class="mb-5 my-10">Add New Store</h3>
+                        </div>
+                        <div class="card-body" th:with="countries=${@countryService.getAll()} , languages=${@languageService.findAll()} " >
+                            <form class="form-horizontal" role="form" autocomplete="off" method="post" th:action="@{/admin/store/save.html}">
+                            
+                            <div class="form-group row">
+												<label class="col-sm-3 form-control-label">Code</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control" name="code" required=""/>
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Name</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="storename" required="" />
+												</div>
+											</div>
+											<div class="form-group row">
+												<label class="col-sm-3 form-control-label">Email</label>
+												<div class="col-sm-9">
+													<input type="text" class="form-control"  name="storeEmailAddress" required="" />
+												</div>
+											</div>
+											
+                               <div class="form-group row">
+                                <label class="col-sm-3 form-control-label">Language</label>
+                               <div class="col-sm-9">
+    							<select class="form-control" name="defaultLanguage" id="defaultLanguage">
+    								<option  th:each="language : ${languages}" th:value="${language.id}" th:text="${language.name}"
+    								
+    							></option>
+    							</select>
+								</div>
+								</div>
+                                      
+                                      
+                                <div class="form-group row" >
+                                <label class="col-sm-3 form-control-label">Country</label>
+                               	<div class="col-sm-9">
+    							<select class="form-control" name="country" id="country">
+    								<option  th:each="country : ${countries}" th:value="${country.id}" th:text="${country.descriptions[0].name}"></option>
+    							</select>
+								</div>
+								</div>
+								                      
+                               <div class="row">
+                                    <div class="col-sm-2">
+                                    </div>
+                                    <div class="col-sm-10">
+                                        <button type="submit" class="btn btn-primary btn-sm">
+                                            Save</button>
+                                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+             
+                                    </div>
+                                </div>
+                            
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+</div> 
                     </div>
                     <div class="card-header d-flex align-items-center">
                       <h3 class="h4">All Stores</h3>
@@ -130,7 +208,7 @@
                             <td th:text="${s.storename}">Otto</td>
                             <td th:text="${s.storeEmailAddress}">@mdo</td>
                           </tr>
-                          
+                                                    
                         </tbody>
                       </table>
                     </div>
@@ -142,8 +220,7 @@
               </div>
             </div>
           </section>
-          
-          
+        
           <!-- Page Footer-->
           <footer class="main-footer">
             <div class="container-fluid">

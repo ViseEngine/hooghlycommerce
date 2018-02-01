@@ -35,6 +35,10 @@ public class CountryService extends SalesManagerEntityServiceImpl<Long, Country>
 		return countryRepository.findByIsoCode(code);
 	}
 
+	public List<Country> getAll() {
+		return countryRepository.listAll();
+	}
+	
 	public void addCountryDescription(Country country, CountryDescription description) {
 		country.getDescriptions().add(description);
 		description.setCountry(country);
